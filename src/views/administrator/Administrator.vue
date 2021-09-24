@@ -23,6 +23,7 @@ export default {
       { title: 'Anuncios', icon: 'mdi-new-box', path: '/administrator/announcements' },
       { title: 'Técnicos', icon: 'mdi-account-hard-hat', path: '/administrator/technicians' },
       { title: 'Reportes', icon: 'mdi-clipboard-list-outline', path: '/administrator/reports' },
+      { title: 'Productos', icon: 'mdi-television', path: '/administrator/products' },
       { title: 'Configuración', icon: 'mdi-screwdriver', path: '/' }
     ]
   }),

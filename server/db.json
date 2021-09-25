@@ -1,5 +1,5 @@
 {
-  "appliance-brands": [
+  "applianceBrands": [
     {
       "id": "1",
       "name": "Samsung",
@@ -21,62 +21,62 @@
       "imagePath": "lg-logo.png"
     }
   ],
-  "appliance-models": [
+  "applianceModels": [
     {
-      "id": 1,
-      "name": "Refrigerador French Door IBACI RF220 Inox Look, 547 L (110 V)",
+      "id": "1",
+      "name": "Refrigerador French Door IBACI Inox Look, 547 L (110 V)",
       "model": "RF220FCTAS8/AP",
-      "imagePath": "../../../src/assets/img/appliance-models/refrigerator-samsung.png",
-      "appliance-brandId": "1"
+      "imagePath": "refrigerator-samsung.jpg",
+      "applianceBrandId": "1"
     },
     {
-      "id": 2,
-      "name": "Estufa a Gas NX60T8115SS/AP con Diseño Deslizable",
+      "id": "2",
+      "name": "Estufa a Gas con Diseño Deslizable",
       "model": "NX60T8115SS/AP",
-      "imagePath": "../../../src/assets/img/appliance-models/stove-samsung.png",
-      "appliance-brandId": "1"
+      "imagePath": "stove-samsung.jpg",
+      "applianceBrandId": "1"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Lavadora Automatica 14,5 Kg",
       "model": "DWF-145GMG",
-      "imagePath": "../../../src/assets/img/appliance-models/washing-machine-daewoo.png",
-      "appliance-brandId": "2"
+      "imagePath": "washing-machine-daewoo.jpg",
+      "applianceBrandId": "2"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Horno Microondas 28 Litros",
       "model": "KOR-28MD",
-      "imagePath": "../../../src/assets/img/appliance-models/microwave-daewoo.png",
-      "appliance-brandId": "2"
+      "imagePath": "microwave-daewoo.jpg",
+      "applianceBrandId": "2"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Lavadora Electrolux Fuzzy Logic 10.5 kg",
       "model": "EWIV10D2OSGSG",
-      "imagePath": "../../../src/assets/img/appliance-models/washing-machine-electrolux.png",
-      "appliance-brandId": "3"
+      "imagePath": "washing-machine-electrolux.jpg",
+      "applianceBrandId": "3"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Aspiradora de Polvo y Agua",
       "model": "GT30N",
-      "imagePath": "../../../src/assets/img/appliance-models/vaccum-daewoo.png",
-      "appliance-brandId": "3"
+      "imagePath": "vaccum-electrolux.jpg",
+      "applianceBrandId": "3"
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Refrigeradora Bottom Freezer 336L, Múltiple Flujo de aire, Control de humedad y conectividad Wi-Fi",
       "model": "GB37WGT",
-      "imagePath": "../../../src/assets/img/appliance-models/refrigerator-lg.png",
-      "appliance-brandId": "4"
+      "imagePath": "refrigerator-lg.jpg",
+      "applianceBrandId": "4"
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Secadora 9 Kg, carga frontal con Dual Inverter Heat Pump, EcoHybrid y conectividad Wi-Fi",
       "model": "DF9WVC2S6",
-      "imagePath": "../../../src/assets/img/appliance-models/drying-machine-lg.png",
-      "appliance-brandId": "4"
+      "imagePath": "drying-machine-lg.jpg",
+      "applianceBrandId": "4"
     }
   ]
 }

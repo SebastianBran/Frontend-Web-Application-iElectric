@@ -21,6 +21,14 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
+                <v-text-field
+                    label="Modelo*"
+                    required
+                    outlined
+                    v-model="item.model"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
                 <v-file-input
                     accept="image/*"
                     label="File input"
@@ -37,7 +45,7 @@
           <v-btn
               color="blue darken-1"
               text
-              @click="closeDialog"
+              @click="closeDialogModel"
           >
             Cerrar
           </v-btn>
@@ -45,7 +53,7 @@
               v-if="edit"
               color="red darken-1"
               text
-              @click="dialogDelete = true"
+              @click="dialogModelDelete = true"
           >
             Eliminar
           </v-btn>
@@ -65,7 +73,7 @@
     <!-- Delete Bran Dialog -->
     <v-row>
       <v-dialog
-          v-model="dialogDelete"
+          v-model="dialogModelDelete"
           persistent
           max-width="290"
       >
@@ -79,14 +87,14 @@
             <v-btn
                 color="blue darken-1"
                 text
-                @click="dialogDelete = false"
+                @click="dialogModelDelete = false"
             >
               Cancelar
             </v-btn>
             <v-btn
                 color="red darken-1"
                 text
-                @click="deleteBrand"
+                @click="deleteModel"
             >
               Eliminar
             </v-btn>
@@ -101,33 +109,35 @@
 import { v4 as uuidv4 } from "uuid";
 
 export default {
-  name: "Appliance-dialog",
+  name: "Appliance-models-dialog",
   props: {
     dialog: Boolean,
     edit: Boolean,
     title: String,
-    item: Object
+    item: Object,
+    idBrandModel: String
   },
   data() {
     return {
-      dialogDelete: false
+      dialogModelDelete: false
     }
   },
   methods: {
-    closeDialog() {
-      this.$emit("close-dialog");
+    closeDialogModel() {
+      this.$emit("close-dialog-model");
     },
     saveInformation() {
       if (!this.edit) {
         this.item.id = uuidv4();
         this.item.imagePath = "image.png";
+        this.item.applianceBrandId = this.idBrandModel;
       }
 
-      this.$emit("brand-information", this.item);
+      this.$emit("model-information", this.item);
     },
-    deleteBrand() {
-      this.$emit("delete-brand", this.item.id);
-      this.dialogDelete = false;
+    deleteModel() {
+      this.$emit("delete-model", this.item.id);
+      this.dialogModelDelete = false;
     }
   }
 }

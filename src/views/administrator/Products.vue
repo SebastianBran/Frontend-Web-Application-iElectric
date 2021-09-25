@@ -13,16 +13,6 @@
         Crear
       </v-btn>
 
-      <ApplianceDialog
-          v-bind:dialog="dialog"
-          v-bind:edit="editBrand"
-          v-bind:title="editBrand ? 'Editar' : 'Nueva Marca'"
-          v-bind:item="applianceBrandItem"
-          v-on:close-dialog="closeAppliancesBrandDialog"
-          v-on:brand-information="saveInformationBrandDialog"
-          v-on:delete-brand="deleteBrand"
-      />
-
       <v-col cols="12" sm="6" class="ml-auto">
         <v-text-field
             outlined
@@ -58,12 +48,16 @@
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </v-app-bar>
-
-              <v-img
-                  v-bind:src="require(`../../../src/assets/img/appliance-logos/${appliance.imagePath}`)"
-                  aspect-ratio="1.5"
-              ></v-img>
-
+              <v-card
+                  fluid
+                  flat
+                  elevation="0"
+                  :to="`products/${appliance.id}/models`">
+                <v-img
+                    v-bind:src="require(`../../../src/assets/img/appliance-logos/${appliance.imagePath}`)"
+                    aspect-ratio="1.5"
+                ></v-img>
+              </v-card>
               <v-card-title>
                 {{ appliance.name }}
               </v-card-title>
@@ -72,6 +66,16 @@
         </v-col>
       </v-row>
     </v-item-group>
+
+    <ApplianceDialog
+        v-bind:dialog="dialog"
+        v-bind:edit="editBrand"
+        v-bind:title="editBrand ? 'Editar' : 'Nueva Marca'"
+        v-bind:item="applianceBrandItem"
+        v-on:close-dialog="closeAppliancesBrandDialog"
+        v-on:brand-information="saveInformationBrandDialog"
+        v-on:delete-brand="deleteBrand"
+    />
   </v-container>
 </template>
 
@@ -81,12 +85,14 @@ import ApplianceDialog from "../../components/administrator/Appliance-dialog";
 
 export default {
   name: "Products",
-  data: () => ({
-    appliances: [],
-    dialog: false,
-    editBrand: false,
-    applianceBrandItem: {},
-  }),
+  data() {
+    return {
+      appliances: [],
+      dialog: false,
+      editBrand: false,
+      applianceBrandItem: {}
+    }
+  },
   components: {
     ApplianceDialog
   },
@@ -116,33 +122,35 @@ export default {
     closeAppliancesBrandDialog() {
       this.dialog = false;
     },
+    updateApplianceBrand(brandInformation) {
+      AppliancesApiService.update(brandInformation.id, brandInformation)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+    },
+    createApplianceBrand(brandInformation) {
+      AppliancesApiService.create(brandInformation)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+    },
     async saveInformationBrandDialog(brandInformation) {
       if (this.editBrand) {
-        await AppliancesApiService.update(brandInformation.id, brandInformation)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(e => {
-            console.log(e);
-          });
+        await this.updateApplianceBrand(brandInformation);
       }
       else {
-        await AppliancesApiService.create(brandInformation)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(e => {
-            console.log(e);
-          });
+        await this.createApplianceBrand(brandInformation);
       }
       this.retrieveAppliances();
       this.closeAppliancesBrandDialog();
     },
     async deleteBrand(id) {
-      await AppliancesApiService.getModels(id)
-          .then(response => {
-            console.log(response.data);
-          });
       await AppliancesApiService.delete(id)
           .then(response => {
             console.log(response);

@@ -104,7 +104,12 @@ const routes = [
       {
         path: 'products',
         name: 'Products',
-        component: () => import('../views/administrator/Products.vue')
+        component: () => import('../views/administrator/Products.vue'),
+      },
+      {
+        path: 'products/:productId/models',
+        name: 'Models',
+        component: () => import('../components/administrator/Appliance-models.vue')
       }
     ]
   }

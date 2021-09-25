@@ -2,27 +2,27 @@ import http from './http-common'
 
 class AppliancesApiService {
     getAll() {
-        return http.get('/appliance-brands');
+        return http.get('/applianceBrands');
     }
 
     getById(id) {
-        return http.get(`/appliance-brands/${ id }`);
+        return http.get(`/applianceBrands/${ id }`);
     }
 
     getModels(id) {
-        return http.get(`/appliance-brands/${ id }/appliance-models`);
+        return http.get(`/applianceBrands/${ id }/applianceModels`);
     }
 
     create(data) {
-        return http.post('/appliance-brands', data);
+        return http.post('/applianceBrands', data);
     }
 
     update(id, data) {
-        return http.put(`/appliance-brands/${ id }`, data);
+        return http.put(`/applianceBrands/${ id }`, data);
     }
 
     delete(id) {
-        return http.delete(`/appliance-brands/${ id }`);
+        return http.delete(`/applianceBrands/${ id }`);
     }
 }
 

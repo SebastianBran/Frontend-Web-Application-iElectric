@@ -78,5 +78,104 @@
       "imagePath": "drying-machine-lg.jpg",
       "applianceBrandId": "4"
     }
+  ],
+  "technicians": [
+    {
+      "id": "1",
+      "names": "Juan Fernando",
+      "lastnames": "Ramirez Rojas",
+      "cellphoneNumber": "999123456",
+      "address": "Urb. Thiago Terán # 452",
+      "email": "jmanzanares@aguilera.com",
+      "birthday": "11/9/1990"
+    },
+    {
+      "id": "2",
+      "names": "Ricardo",
+      "lastnames": "Farías Aragón",
+      "cellphoneNumber": "958870344",
+      "address": "Jr. Alonso Gallegos # 05 Piso 0",
+      "email": "maya.mario@gmail.com",
+      "birthday": "22/4/1994"
+    },
+    {
+      "id": "3",
+      "names": "Alverto Jorge",
+      "lastnames": "Águilar Guzmán",
+      "cellphoneNumber": "937506140",
+      "address": "Av. Mario Vallejo # 65591 Piso 43",
+      "email": "cortes.valentino@toledo.com",
+      "birthday": "18/10/1987"
+    }
+  ],
+  "reports": [
+    {
+      "id": "1",
+      "Observation": "Circuito quemado",
+      "diagnosis": "Se quemó un circuito interno de el refrigerador.",
+      "repairDescription": "Soldé el circuito quemado",
+      "date": "25/9/2021",
+      "imagePath": "image.png",
+      "appointmentId": "1",
+      "technicianId": "1"
+    },
+    {
+      "id": "2",
+      "observation": "Cable desconectado",
+      "diagnosis": "Se desconecto un cable interno de la lavadora, posiblemente por el movimiento de la misma.",
+      "repairDescription": "Desarme la lavadora para llegar a los circuitos internos y reconecté el cable.",
+      "date": "25/9/2021",
+      "imagePath": "image.png",
+      "appointmentId": "2",
+      "technicianId": "1"
+    },
+    {
+      "id": "3",
+      "observation": "Botones de programación no funcionaban",
+      "diagnosis": "Los botones del microondas no funcionaban, eso se originó por un corto-circuito interno.",
+      "repairDescription": "Reemplacé y soldé el circuito interno",
+      "date": "25/9/2021",
+      "imagePath": "image.png",
+      "appointmentId": "3",
+      "technicianId": "2"
+    },
+    {
+      "id": "4",
+      "observation": "Motor de licuadora no funcionaba",
+      "diagnosis": "El motor de la licuadora dejo de funcionar por desgaste",
+      "repairDescription": "Necesita repuesto",
+      "date": "25/9/2021",
+      "imagePath": "image.png",
+      "appointmentId": "4",
+      "technicianId": "2"
+    },
+    {
+      "id": "5",
+      "observation": "Olla arrocera no calentaba",
+      "diagnosis": "Se quemó la resistencia interna de la olla arrocera",
+      "repairDescription": "Necesita repuesto",
+      "date": "25/9/2021",
+      "imagePath": "image.png",
+      "appointmentId": "5",
+      "technicianId": "3"
+    }
+  ],
+  "spareRequests": [
+    {
+      "id": "1",
+      "description:": "Repuesto de motor para licuadora",
+      "technicianId": "2",
+      "date": "25/6/2021",
+      "imagePath": "image.png",
+      "appointmentId": "4"
+    },
+    {
+      "id": "2",
+      "description:": "Repuesto de resistencia para olla arrocera",
+      "technicianId": "3",
+      "date": "25/6/2021",
+      "imagePath": "image.png",
+      "appointmentId": "5"
+    }
   ]
 }

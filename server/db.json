@@ -10,6 +10,38 @@
       "address": "av. Los manzanos 123",
       "districtid": 1,
       "email": "jhon.doe@mail.com"
+    },
+    {
+      "id": 2,
+      "telephone1": 44566546,
+      "telephone2": 11323315,
+      "telephone3": 24966333,
+      "name": "Juan",
+      "lastName": "Lopez",
+      "address": "av. Los manzanos 123",
+      "districtid": 1,
+      "email": "jhon.doe@mail.com"
+    },
+    {
+      "id": 3,
+      "telephone1": 56415556,
+      "telephone2": 45699997,
+      "telephone3": 99554714,
+      "name": "Jose",
+      "lastName": "Samches",
+      "address": "av. Los manzanos 123",
+      "districtid": 1,
+      "email": "jhon.doe@mail.com"
+    }
+  ],
+  "marcs": [
+    {
+      "id": 1,
+      "name": "Electrolux"
+    },
+    {
+      "id": 2,
+      "name": "Mabe"
     }
   ],
   "appliances": [
@@ -19,7 +51,7 @@
       "model": "RS800",
       "series": "1333557",
       "clientId": 1,
-      "photoUrl": "none",
+      "photoUrl": "https://www.efe.com.pe/wcsstore/efe_cat_as/646x1000/ERT18G2HNW_1.jpg",
       "description": "refrigeradora blanca marca electrolux",
       "purchaseDate": 2019,
       "marcId": 1
@@ -30,7 +62,7 @@
       "model": "L8009",
       "series": "4546667",
       "clientId": 1,
-      "photoUrl": "none",
+      "photoUrl": "https://www.efe.com.pe/wcsstore/efe_cat_as/646x1000/LMA100GXI0_111.jpg",
       "description": "Lavadora-secadora marca Mabe",
       "purchaseDate": 2020,
       "marcId": 2
@@ -41,10 +73,21 @@
       "model": "I8005",
       "series": "445666",
       "clientId": 1,
-      "photoUrl": "none",
+      "photoUrl": "https://wongfood.vteximg.com.br/arquivos/ids/397146-512-512/LG-Lavadora-17-Kg-WT17BSS6H-TurboWash-3D-10-33944104.jpg?v=637433052208600000",
       "description": "Cocina blanca marca Electrolux",
       "purchaseDate": 2021,
       "marcId": 1
+    },
+    {
+      "id": 4,
+      "name": "Congeladora",
+      "model": "456456",
+      "series": "446G6",
+      "clientId": 2,
+      "photoUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScNm4U7jWQgFyiwa4-nsupsCrkgKTZssCIXQ&usqp=CAU",
+      "description": "Congeladora negra delux marca Mabe",
+      "purchaseDate": 2021,
+      "marcId": 2
     }
   ]
 }

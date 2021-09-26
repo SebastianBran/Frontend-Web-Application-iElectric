@@ -8,6 +8,10 @@ class AppliancesApiService{
     getById(id){
         return http.get(`/appliances/${id}`);
     }
+
+    getAppliances(id){
+        return http.get(`/clients/${ id }/appliances`);
+    }
 }
 
 export default new AppliancesApiService();

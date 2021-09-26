@@ -111,7 +111,7 @@
   "reports": [
     {
       "id": "1",
-      "Observation": "Circuito quemado",
+      "observation": "Circuito quemado",
       "diagnosis": "Se quemó un circuito interno de el refrigerador.",
       "repairDescription": "Soldé el circuito quemado",
       "date": "25/9/2021",

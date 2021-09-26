@@ -12,6 +12,16 @@
       "email": "jhon.doe@mail.com"
     }
   ],
+  "marcs": [
+    {
+      "id": 1,
+      "name": "Electrolux"
+    },
+    {
+      "id": 2,
+      "name": "Mabe"
+    }
+  ],
   "appliances": [
     {
       "id": 1,

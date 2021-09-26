@@ -1,3 +1,6 @@
+:root{
+  --date_atention-text:"5"
+}
 <template>
   <v-container>
     <v-app-bar
@@ -6,11 +9,9 @@
         flat
         height="90px"
     >
-    <label
-          color="accent"
-      >
-        <n>Reserva Pendiente</n>
-      </label>
+    <v-card-title>
+               <n>  Reserva de reparacion :</n>
+              </v-card-title>
       <v-col cols="12" sm="6" class="ml-auto">
         <v-text-field
             outlined
@@ -59,6 +60,21 @@
               <v-card-title>
                 {{ appliance.name }}
               </v-card-title>
+              <v-card-title>
+              {{ appliance.status }}
+              </v-card-title>
+              <v-card-title>
+               <n>  Fecha de reserva :</n>
+              </v-card-title>
+              <v-card-title>
+              {{ appliance.date_reserve }}
+              </v-card-title>
+            <v-card-title>
+               <n>  Fecha de atencion :</n>
+              </v-card-title>
+              <v-card-title>
+              {{ appliance.date_atention }}
+              </v-card-title>
             </v-card>
           </v-item>
         </v-col>
@@ -69,8 +85,9 @@
         v-bind:dialog="dialog"
         v-bind:edit="editBrand"
         v-bind:title="editBrand ? 'Reserva' : 'Nueva Marca'"
-        v-bind:item="ApplianceItem"
+        v-bind:item="applianceBrandItem"
         v-on:close-dialog="closeAppliancesBrandDialog"
+        v-on:brand-information="saveInformationBrandDialog"
         v-on:delete-brand="deleteBrand"
     />
   </v-container>
@@ -98,7 +115,10 @@ export default {
       return {
         id: appliance.id,
         name: appliance.name,
-        imagePath: appliance.imagePath
+        imagePath: appliance.imagePath,
+        status: appliance.status,
+        date_reserve: appliance.date_reserve,
+        date_atention: appliance.date_atention
       }
     },
     retrieveAppliances() {

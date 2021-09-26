@@ -30,6 +30,11 @@ const routes = [
         component: () => import('../views/client/Plan.vue')
       },
       {
+        path: 'reservation',
+        name: 'reservation',
+        component: () => import('../views/client/Reservation.vue')
+      },
+      {
         path: 'notifications',
         name: 'Notifications-client',
         component: () => import('../views/client/Notifications.vue')

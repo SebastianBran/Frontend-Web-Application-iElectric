@@ -69,7 +69,7 @@
             <v-btn
                 color="red darken-1"
                 text
-                @click="deleteBrand"
+                @click="deleteReserve"
             >
               Cancelar
             </v-btn>
@@ -141,7 +141,7 @@ export default {
 
       this.$emit("brand-information", this.item);
     },
-    deleteBrand() {
+    deleteReserve() {
       this.$emit("delete-brand", this.item.id);
       this.dialogDelete = false;
     },

@@ -60,21 +60,21 @@
               <v-card-title>
                 {{ appliance.name }}
               </v-card-title>
-              <v-card-title>
-              {{ appliance.status }}
-              </v-card-title>
-              <v-card-title>
-               <n>  Fecha de reserva :</n>
-              </v-card-title>
-              <v-card-title>
-              {{ appliance.date_reserve }}
-              </v-card-title>
-            <v-card-title>
-               <n>  Fecha de atencion :</n>
-              </v-card-title>
-              <v-card-title>
-              {{ appliance.date_atention }}
-              </v-card-title>
+              <v-lable>
+              <n style="padding:16px; color:gray;"> {{ appliance.status }}</n><br>
+              </v-lable>
+              <v-lable >
+               <n style="padding:16px; color:gray;"> Fecha de reserva :</n><br>
+              </v-lable>
+              <v-lable>
+              <n style="padding:16px; color:gray;"> {{ appliance.date_reserve }}</n><br>
+              </v-lable>
+            <v-lable>
+               <n style="padding:16px; color:gray;"> Fecha de atencion :</n><br>
+              </v-lable>
+              <v-lable>
+              <n style="padding:16px; color:gray;"> {{ appliance.date_atention }}</n><br>
+              </v-lable>
             </v-card>
           </v-item>
         </v-col>
@@ -83,12 +83,12 @@
 
     <ReserveDialog
         v-bind:dialog="dialog"
-        v-bind:edit="editBrand"
-        v-bind:title="editBrand ? 'Reserva' : 'Nueva Marca'"
-        v-bind:item="applianceBrandItem"
-        v-on:close-dialog="closeAppliancesBrandDialog"
-        v-on:brand-information="saveInformationBrandDialog"
-        v-on:delete-brand="deleteBrand"
+        v-bind:edit="editReserve"
+        v-bind:title="editReserve ? 'Reserva' : 'Nueva Marca'"
+        v-bind:item="applianceReserveItem"
+        v-on:close-dialog="closeAppliancesReserveDialog"
+        v-on:brand-information="saveInformationReserveDialog"
+        v-on:delete-brand="deleteReserve"
     />
   </v-container>
 </template>
@@ -98,13 +98,13 @@ import ReserveApiService from "../../core/services/reserve-api-service";
 import ReserveDialog from "../../components/client/reserve-dialog";
 
 export default {
-  name: "Products",
+  name: "Reservation",
   data() {
     return {
       appliances: [],
       dialog: false,
-      editBrand: false,
-      applianceBrandItem: {}
+      editReserve: false,
+      applianceReserveItem: {}
     }
   },
   components: {
@@ -132,11 +132,11 @@ export default {
         });
     },
     openAppliancesBrandDialog(item) {
-      this.applianceBrandItem = Object.assign({}, item);
+      this.applianceReserveItem = Object.assign({}, item);
       this.dialog = true;
-      this.editBrand = !!item.id;
+      this.editReserve = !!item.id;
     },
-    closeAppliancesBrandDialog() {
+    closeAppliancesReserveDialog() {
       this.dialog = false;
     },
     updateApplianceBrand(brandInformation) {
@@ -157,17 +157,17 @@ export default {
             console.log(e);
           });
     },
-    async saveInformationBrandDialog(brandInformation) {
-      if (this.editBrand) {
+    async saveInformationReserveDialog(brandInformation) {
+      if (this.editReserve) {
         await this.updateApplianceBrand(brandInformation);
       }
       else {
         await this.createApplianceBrand(brandInformation);
       }
       this.retrieveAppliances();
-      this.closeAppliancesBrandDialog();
+      this.closeAppliancesReserveDialog();
     },
-    async deleteBrand(id) {
+    async deleteReserve(id) {
       await ReserveApiService.delete(id)
           .then(response => {
             console.log(response);
@@ -176,7 +176,7 @@ export default {
             console.log(e);
           });
       this.retrieveAppliances();
-      this.closeAppliancesBrandDialog();
+      this.closeAppliancesReserveDialog();
     }
   },
   mounted() {

@@ -1,15 +1,23 @@
 <template>
-  <div></div>
+  <div id="nav">
+    <router-link to="/client">Client</router-link> |
+    <router-link to="/technician">Technician</router-link> |
+    <router-link to="/administrator">Administrator</router-link>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
-
-
 
 export default {
   name: 'Home',
   components: {
+
   }
 }
 </script>
+
+<style scoped>
+  #nav {
+    padding: 30px;
+  }
+</style>

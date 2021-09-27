@@ -20,6 +20,7 @@ export default {
       { title: 'Inicio', icon: 'mdi-home-outline', path: '/client' },
       { title: 'Electrodomésticos', icon: 'mdi-stove', path: '/client/appliance' },
       { title: 'Mi plan', icon: 'mdi-clipboard-list-outline', path: '/client/plan' },
+      { title: 'Mi reserva', icon: 'mdi-clipboard-list-outline', path: '/client/reservation' },
       { title: 'Notificaciones', icon: 'mdi-email-outline', path: '/client/notifications' },
       { title: 'Perfil', icon: 'mdi-account-outline', path: '/client/profile' },
       { title: 'Configuración', icon: 'mdi-screwdriver', path: '/' }

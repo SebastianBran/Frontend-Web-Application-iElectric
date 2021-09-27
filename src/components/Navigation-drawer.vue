@@ -32,7 +32,7 @@
     <template v-slot:append>
       <div class="pa-2">
         <v-btn block class="accent" to="/">
-          Cerrar sesión
+          Logout
         </v-btn>
       </div>
     </template>

@@ -17,13 +17,13 @@ export default {
   name: "Client.vue",
   data: () => ({
     itemsNavigation: [
-      { title: 'Inicio', icon: 'mdi-home-outline', path: '/client' },
-      { title: 'Electrodomésticos', icon: 'mdi-stove', path: '/client/appliance' },
-      { title: 'Mi plan', icon: 'mdi-clipboard-list-outline', path: '/client/plan' },
-      { title: 'Mi reserva', icon: 'mdi-clipboard-list-outline', path: '/client/reservation' },
-      { title: 'Notificaciones', icon: 'mdi-email-outline', path: '/client/notifications' },
-      { title: 'Perfil', icon: 'mdi-account-outline', path: '/client/profile' },
-      { title: 'Configuración', icon: 'mdi-screwdriver', path: '/' }
+      { title: 'Home', icon: 'mdi-home-outline', path: '/client' },
+      { title: 'Appliances', icon: 'mdi-stove', path: '/client/appliance' },
+      { title: 'My plan', icon: 'mdi-clipboard-list-outline', path: '/client/plan' },
+      { title: 'My reservations', icon: 'mdi-clipboard-list-outline', path: '/client/reservation' },
+      { title: 'Notifications', icon: 'mdi-email-outline', path: '/client/notifications' },
+      { title: 'Profile', icon: 'mdi-account-outline', path: '/client/profile' },
+      { title: 'Configuration', icon: 'mdi-screwdriver', path: '/' }
     ]
   }),
   components: {

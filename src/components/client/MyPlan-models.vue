@@ -16,7 +16,7 @@
         <v-list-item three-line>
             <v-list-item-content>
                 <div class="text-overline mb-4">
-                Plan Actual
+                Actually plan
                 </div>
                 <v-list-item-title class="text-h5 mb-1 text-capitalize">
                 {{plan.name}}: {{plan.amount}} 
@@ -43,7 +43,7 @@
                 text
                 @click="deletePlan"
             >
-                Cancelar
+                Cancel
             </v-btn>
         </v-card-actions>
 

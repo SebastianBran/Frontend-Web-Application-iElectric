@@ -17,11 +17,11 @@ export default {
   name: "Technician.vue",
   data: () => ({
     itemsNavigation: [
-      { title: 'Mi ruta', icon: 'mdi-map-legend', path: '/technician' },
-      { title: 'Reportes', icon: 'mdi-clipboard-list-outline', path: '/technician/reports' },
-      { title: 'Notificaciones', icon: 'mdi-email-outline', path: '/technician/notifications' },
-      { title: 'Perfil', icon: 'mdi-account-hard-hat', path: '/technician/profile' },
-      { title: 'Configuración', icon: 'mdi-screwdriver', path: '/' }
+      { title: 'My route', icon: 'mdi-map-legend', path: '/technician' },
+      { title: 'Reports', icon: 'mdi-clipboard-list-outline', path: '/technician/reports' },
+      { title: 'Notifications', icon: 'mdi-email-outline', path: '/technician/notifications' },
+      { title: 'Profile', icon: 'mdi-account-hard-hat', path: '/technician/profile' },
+      { title: 'Configuration', icon: 'mdi-screwdriver', path: '/' }
     ]
   }),
   components: {

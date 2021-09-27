@@ -24,56 +24,56 @@
   "applianceModels": [
     {
       "id": "1",
-      "name": "Refrigerador French Door IBACI Inox Look, 547 L (110 V)",
+      "name": "Refrigerator French Door IBACI Inox Look, 547 L (110 V)",
       "model": "RF220FCTAS8/AP",
       "imagePath": "refrigerator-samsung.jpg",
       "applianceBrandId": "1"
     },
     {
       "id": "2",
-      "name": "Estufa a Gas con Diseño Deslizable",
+      "name": "Sliding Design Gas Cooker",
       "model": "NX60T8115SS/AP",
       "imagePath": "stove-samsung.jpg",
       "applianceBrandId": "1"
     },
     {
       "id": "3",
-      "name": "Lavadora Automatica 14,5 Kg",
+      "name": "Automatic washing-machine 14,5 Kg",
       "model": "DWF-145GMG",
       "imagePath": "washing-machine-daewoo.jpg",
       "applianceBrandId": "2"
     },
     {
       "id": "4",
-      "name": "Horno Microondas 28 Litros",
+      "name": "28 Liter Microwave Oven",
       "model": "KOR-28MD",
       "imagePath": "microwave-daewoo.jpg",
       "applianceBrandId": "2"
     },
     {
       "id": "5",
-      "name": "Lavadora Electrolux Fuzzy Logic 10.5 kg",
+      "name": "Washing-machine Electrolux Fuzzy Logic 10.5 kg",
       "model": "EWIV10D2OSGSG",
       "imagePath": "washing-machine-electrolux.jpg",
       "applianceBrandId": "3"
     },
     {
       "id": "6",
-      "name": "Aspiradora de Polvo y Agua",
+      "name": "Dust and Water Vacuum",
       "model": "GT30N",
       "imagePath": "vaccum-electrolux.jpg",
       "applianceBrandId": "3"
     },
     {
       "id": "7",
-      "name": "Refrigeradora Bottom Freezer 336L, Múltiple Flujo de aire, Control de humedad y conectividad Wi-Fi",
+      "name": "Refrigerator Bottom Freezer 336L, Multiple Airflow, Humidity Control and Wi-Fi Connectivity",
       "model": "GB37WGT",
       "imagePath": "refrigerator-lg.jpg",
       "applianceBrandId": "4"
     },
     {
       "id": "8",
-      "name": "Secadora 9 Kg, carga frontal con Dual Inverter Heat Pump, EcoHybrid y conectividad Wi-Fi",
+      "name": "Drying machine 9 Kg, front loading with Dual Inverter Heat Pump, EcoHybrid and Wi-Fi connectivity",
       "model": "DF9WVC2S6",
       "imagePath": "drying-machine-lg.jpg",
       "applianceBrandId": "4"
@@ -111,9 +111,9 @@
   "reports": [
     {
       "id": "1",
-      "observation": "Circuito quemado",
-      "diagnosis": "Se quemó un circuito interno de el refrigerador.",
-      "repairDescription": "Soldé el circuito quemado",
+      "observation": "Circuit burned",
+      "diagnosis": "An internal circuit of the refrigerator has burned.",
+      "repairDescription": "I soldered the burned circuit",
       "date": "25/9/2021",
       "imagePath": "image.png",
       "appointmentId": "1",
@@ -121,9 +121,9 @@
     },
     {
       "id": "2",
-      "observation": "Cable desconectado",
-      "diagnosis": "Se desconecto un cable interno de la lavadora, posiblemente por el movimiento de la misma.",
-      "repairDescription": "Desarme la lavadora para llegar a los circuitos internos y reconecté el cable.",
+      "observation": "Cable disconnected",
+      "diagnosis": "An internal cable was disconnected from the washing machine, possibly due to movement of the washing machine.",
+      "repairDescription": "I took the washer apart to get to the internal circuits and reconnected the cable.",
       "date": "25/9/2021",
       "imagePath": "image.png",
       "appointmentId": "2",
@@ -131,9 +131,9 @@
     },
     {
       "id": "3",
-      "observation": "Botones de programación no funcionaban",
-      "diagnosis": "Los botones del microondas no funcionaban, eso se originó por un corto-circuito interno.",
-      "repairDescription": "Reemplacé y soldé el circuito interno",
+      "observation": "Program buttons did not work",
+      "diagnosis": "The buttons on the microwave were not working, this was caused by an internal short-circuit.",
+      "repairDescription": "I replaced and soldered the internal circuit",
       "date": "25/9/2021",
       "imagePath": "image.png",
       "appointmentId": "3",
@@ -141,9 +141,9 @@
     },
     {
       "id": "4",
-      "observation": "Motor de licuadora no funcionaba",
-      "diagnosis": "El motor de la licuadora dejo de funcionar por desgaste",
-      "repairDescription": "Necesita repuesto",
+      "observation": "Blender motor did not work",
+      "diagnosis": "The blender motor stopped working due to wear",
+      "repairDescription": "Need replacement",
       "date": "25/9/2021",
       "imagePath": "image.png",
       "appointmentId": "4",
@@ -151,9 +151,9 @@
     },
     {
       "id": "5",
-      "observation": "Olla arrocera no calentaba",
-      "diagnosis": "Se quemó la resistencia interna de la olla arrocera",
-      "repairDescription": "Necesita repuesto",
+      "observation": "Rice cooker did not heat",
+      "diagnosis": "The internal resistance of the rice cooker has burned out",
+      "repairDescription": "Need replacement",
       "date": "25/9/2021",
       "imagePath": "image.png",
       "appointmentId": "5",
@@ -163,7 +163,7 @@
   "spareRequests": [
     {
       "id": "1",
-      "description:": "Repuesto de motor para licuadora",
+      "description:": "Blender motor spare part",
       "technicianId": "2",
       "date": "25/6/2021",
       "imagePath": "image.png",
@@ -171,7 +171,7 @@
     },
     {
       "id": "2",
-      "description:": "Repuesto de resistencia para olla arrocera",
+      "description:": "Replacement resistance for rice cooker",
       "technicianId": "3",
       "date": "25/6/2021",
       "imagePath": "image.png",
@@ -182,21 +182,21 @@
     {
       "id": "1",
       "name": "basic",
-      "description": "En este plan se acepta 1 producto",
+      "description": "This plan only accepts 1 appliance",
       "numArtefacts": "1",
       "amount": "15"
     },
     {
       "id": "2",
       "name": "regular",
-      "description": "En este plan se aceptan 3 productos",
+      "description": "This plan only accepts 3 appliance",
       "numArtefacts": "3",
       "amount": "40"
     },
     {
       "id": "3",
       "name": "pro",
-      "description": "En este plan se aceptan 5 productos",
+      "description": "This plan only accepts 5 appliance",
       "numArtefacts": "5",
       "amount": "70"
     }
@@ -279,27 +279,27 @@
   "reserveModels": [
     {
       "id": "1",
-      "name": "Refrigerador French Door IBACI Inox Look, 547 L (110 V)",
+      "name": "Refrigerator French Door IBACI Inox Look, 547 L (110 V)",
       "imagePath": "refrigerator-samsung.jpg",
-      "status": "Estado:Pendiente",
+      "status": "Status: Pending",
       "date_reserve": "5/09/2021",
       "date_atention": "6/10/2021"
     },
     {
       "id": "4",
-      "name": "Horno Microondas 28 Litros",
+      "name": "28 Liter Microwave Oven",
       "imagePath": "microwave-daewoo.jpg",
-      "status": "Estado:Pendiente",
+      "status": "Status: Pending",
       "date_reserve": "5/09/2021",
       "date_atention": "6/10/2021"
     },
     {
       "id": "6",
-      "name": "Aspiradora de Polvo y Agua",
+      "name": "Dust and Water Vacuum",
       "model": "GT30N",
       "imagePath": "vaccum-electrolux.jpg",
       "applianceBrandsId": "3",
-      "status": "Estado:Pendiente",
+      "status": "Status: Pending",
       "date_reserve": "21/09/2021",
       "date_atention": "27/09/2021"
     }

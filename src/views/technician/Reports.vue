@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-card-title class="mb-6">
-      Mis Reportes
+      My reports
     </v-card-title>
     <v-card
         v-for="(report,index) in reports"
@@ -32,37 +32,37 @@
     >
       <v-card>
         <v-card-title>
-          <span class="text-h5"> Reporte </span>
+          <span class="text-h5"> Report </span>
         </v-card-title>
 
         <v-card-text>
           <v-container>
             <v-row>
-              <span class="text-h6">Nombre del técnico</span>
+              <span class="text-h6">Name of technician</span>
             </v-row>
             <v-row class="mb-3">
               <span> {{ editItem.fullName }}</span>
             </v-row>
             <v-row>
-              <span class="text-h6">Observación</span>
+              <span class="text-h6">Observation</span>
             </v-row>
             <v-row class="mb-3">
               <span> {{ editItem.observation }}</span>
             </v-row>
             <v-row>
-              <span class="text-h6">Diagnostico</span>
+              <span class="text-h6">Diagnostic</span>
             </v-row>
             <v-row class="mb-3">
               <span> {{ editItem.diagnosis }}</span>
             </v-row>
             <v-row>
-              <span class="text-h6">Descripción de reparación</span>
+              <span class="text-h6">Description of reparation</span>
             </v-row>
             <v-row class="mb-3">
               <span> {{ editItem.repairDescription }}</span>
             </v-row>
             <v-row>
-              <span class="text-h6">Fecha</span>
+              <span class="text-h6">Date</span>
             </v-row>
             <v-row class="mb-3">
               <span> {{ editItem.date }}</span>
@@ -77,7 +77,7 @@
               color="primary"
               @click="openReport = false"
           >
-            cerrar
+            Close
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -91,12 +91,6 @@ export default {
   name: "Reports",
   data() {
     return {
-      headers: [
-        { text: 'Nombre de técnico', align: 'start', sortable: false, value: 'fullName' },
-        { text: 'Observación', value: 'observation', sortable: false },
-        { text: 'Fecha', value: 'date' },
-        { text: 'Acciones', value: 'actions', sortable: false }
-      ],
       technicians: [],
       reports: [],
       search: '',

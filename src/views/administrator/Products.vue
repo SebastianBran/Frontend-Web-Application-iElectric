@@ -10,7 +10,7 @@
           color="accent"
           @click="openAppliancesBrandDialog({})"
       >
-        Crear
+        Add
       </v-btn>
 
       <v-col cols="12" sm="6" class="ml-auto">
@@ -19,7 +19,7 @@
             dense
             class="mt-4"
             append-icon="mdi-magnify"
-            label="Buscar"
+            label="Search"
         >
         </v-text-field>
       </v-col>
@@ -70,7 +70,7 @@
     <ApplianceDialog
         v-bind:dialog="dialog"
         v-bind:edit="editBrand"
-        v-bind:title="editBrand ? 'Editar' : 'Nueva Marca'"
+        v-bind:title="editBrand ? 'Edit' : 'New Brand'"
         v-bind:item="applianceBrandItem"
         v-on:close-dialog="closeAppliancesBrandDialog"
         v-on:brand-information="saveInformationBrandDialog"

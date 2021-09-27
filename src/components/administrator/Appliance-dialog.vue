@@ -14,7 +14,7 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                    label="Nombre*"
+                    label="Name*"
                     required
                     outlined
                     v-model="item.name"
@@ -39,7 +39,7 @@
               text
               @click="closeDialog"
           >
-            Cerrar
+            Close
           </v-btn>
           <v-btn
               v-if="edit"
@@ -47,14 +47,14 @@
               text
               @click="dialogDelete = true"
           >
-            Eliminar
+            Delete
           </v-btn>
           <v-btn
               color="blue darken-1"
               text
               @click="saveInformation"
           >
-            Guardar
+            Save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -71,9 +71,9 @@
       >
         <v-card>
           <v-card-title class="text-h5">
-            Eliminar marca
+            Delete brand
           </v-card-title>
-          <v-card-text>¿Está seguro de eliminar la marca?</v-card-text>
+          <v-card-text>Are you sure to remove the brand?</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
@@ -81,14 +81,14 @@
                 text
                 @click="dialogDelete = false"
             >
-              Cancelar
+              Cancel
             </v-btn>
             <v-btn
                 color="red darken-1"
                 text
                 @click="deleteBrand"
             >
-              Eliminar
+              Delete
             </v-btn>
           </v-card-actions>
         </v-card>

@@ -26,7 +26,7 @@
                     @click="saveInformation"
                 >
             
-                    Escoger Plan
+                    Choose plan
                 </v-btn>
             </v-card-actions>
         </v-card>

@@ -10,7 +10,7 @@
         height="90px"
     >
     <v-card-title>
-               <n>  Reserva de reparacion :</n>
+               <n>Repair reserves</n>
               </v-card-title>
       <v-col cols="12" sm="6" class="ml-auto">
         <v-text-field
@@ -18,7 +18,7 @@
             dense
             class="mt-4"
             append-icon="mdi-magnify"
-            label="Buscar"
+            label="Search"
         >
         </v-text-field>
       </v-col>
@@ -64,13 +64,13 @@
               <n style="padding:16px; color:gray;"> {{ appliance.status }}</n><br>
               </v-lable>
               <v-lable >
-               <n style="padding:16px; color:gray;"> Fecha de reserva :</n><br>
+               <n style="padding:16px; color:gray;"> Reserve data :</n><br>
               </v-lable>
               <v-lable>
               <n style="padding:16px; color:gray;"> {{ appliance.date_reserve }}</n><br>
               </v-lable>
             <v-lable>
-               <n style="padding:16px; color:gray;"> Fecha de atencion :</n><br>
+               <n style="padding:16px; color:gray;"> Attention date :</n><br>
               </v-lable>
               <v-lable>
               <n style="padding:16px; color:gray;"> {{ appliance.date_atention }}</n><br>
@@ -84,7 +84,7 @@
     <ReserveDialog
         v-bind:dialog="dialog"
         v-bind:edit="editReserve"
-        v-bind:title="editReserve ? 'Reserva' : 'Nueva Marca'"
+        v-bind:title="editReserve ? 'Reserve' : 'New Brand'"
         v-bind:item="applianceReserveItem"
         v-on:close-dialog="closeAppliancesReserveDialog"
         v-on:brand-information="saveInformationReserveDialog"

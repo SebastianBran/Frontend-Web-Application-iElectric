@@ -6,7 +6,7 @@
         class="mb-6"
     >
       <v-app-bar-title>
-        Mis electrodomésticos
+        My Appliances
       </v-app-bar-title>
 
       <v-spacer></v-spacer>
@@ -15,7 +15,7 @@
           color="accent"
           @click="openClientApplianceDialog({})"
       >
-        Añadir
+        Add
       </v-btn>
     </v-app-bar>
 

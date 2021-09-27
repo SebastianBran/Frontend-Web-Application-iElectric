@@ -12,7 +12,7 @@
         </v-card-title>
         <v-col cols="12">
                 <v-text-field
-                    label="Fecha de atencion*"
+                    label="Date of attention*"
                     required
                     outlined
                     v-model="item.date_atention"
@@ -25,14 +25,14 @@
               text
               @click="closeDialog"
           >
-            Cerrar
+            Close
           </v-btn>
           <v-btn
               color="green darken-1"
               text
               @click="Dialogpost= true"
           >
-            Posponer
+            Postpone
           </v-btn>
           <v-btn
               v-if="edit"
@@ -40,7 +40,7 @@
               text
               @click="dialogDelete = true"
           >
-            Cancelar
+            Cancel
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -54,9 +54,9 @@
       >
         <v-card>
           <v-card-title class="text-h5">
-            Cancelar reserva
+            Cancel reserve
           </v-card-title>
-          <v-card-text>¿Está seguro de cancelar la reserva?</v-card-text>
+          <v-card-text>Are you sure to cancel the reservation?</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
@@ -64,14 +64,14 @@
                 text
                 @click="dialogDelete = false"
             >
-              Cerrar
+              Close
             </v-btn>
             <v-btn
                 color="red darken-1"
                 text
                 @click="deleteReserve"
             >
-              Cancelar
+              Cancel
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -86,9 +86,9 @@
       >
         <v-card>
           <v-card-title class="text-h5">
-            Posponer reserva
+            Postpone reserve
           </v-card-title>
-          <v-card-text>¿Está seguro de posponer la reserva?</v-card-text>
+          <v-card-text>Are you sure to postpone the reservation?</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
@@ -96,14 +96,14 @@
                 text
                 @click="Dialogpost = false"
             >
-              Cerrar
+              Close
             </v-btn>
             <v-btn
                 color="red darken-1"
                 text
                 @click="postreserve"
             >
-              Posponer
+              Postpone
             </v-btn>
           </v-card-actions>
         </v-card>

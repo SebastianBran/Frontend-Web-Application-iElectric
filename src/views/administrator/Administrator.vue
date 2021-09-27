@@ -18,14 +18,14 @@ export default {
   data() {
     return {
       itemsNavigation: [
-        {title: 'Negocio', icon: 'mdi-chart-line', path: '/administrator'},
-        {title: 'Solicitud de Repuestos', icon: 'mdi-email-outline', path: '/administrator/spare-parts-requests'},
-        {title: 'Estadísticas Técnicos', icon: 'mdi-chart-box-outline', path: '/administrator/technicians-statics'},
-        {title: 'Anuncios', icon: 'mdi-new-box', path: '/administrator/announcements'},
-        {title: 'Técnicos', icon: 'mdi-account-hard-hat', path: '/administrator/technicians'},
-        {title: 'Reportes', icon: 'mdi-clipboard-list-outline', path: '/administrator/reports'},
-        {title: 'Productos', icon: 'mdi-television', path: '/administrator/products'},
-        {title: 'Configuración', icon: 'mdi-screwdriver', path: '/'}
+        {title: 'Business', icon: 'mdi-chart-line', path: '/administrator'},
+        {title: 'Spare requests', icon: 'mdi-email-outline', path: '/administrator/spare-parts-requests'},
+        {title: 'Technicians statics', icon: 'mdi-chart-box-outline', path: '/administrator/technicians-statics'},
+        {title: 'Announcements', icon: 'mdi-new-box', path: '/administrator/announcements'},
+        {title: 'Technicians', icon: 'mdi-account-hard-hat', path: '/administrator/technicians'},
+        {title: 'Reports', icon: 'mdi-clipboard-list-outline', path: '/administrator/reports'},
+        {title: 'Products', icon: 'mdi-television', path: '/administrator/products'},
+        {title: 'Configuration', icon: 'mdi-screwdriver', path: '/'}
       ]
     }
   },

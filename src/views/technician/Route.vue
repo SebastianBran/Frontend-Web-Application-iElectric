@@ -1,7 +1,7 @@
 <template>
   <v-card flat>
     <v-card-title class="mb-6">
-      Mi ruta
+      My route
     </v-card-title>
     <v-timeline dense>
       <v-timeline-item
@@ -37,25 +37,25 @@
     >
       <v-card>
         <v-card-title>
-          <span class="text-h5"> Cita </span>
+          <span class="text-h5"> Date </span>
         </v-card-title>
 
         <v-card-text>
           <v-container>
             <v-row>
-              <span class="text-h6">Direccion</span>
+              <span class="text-h6">Direction</span>
             </v-row>
             <v-row class="mb-3">
               <span> {{ editItem.address}}</span>
             </v-row>
             <v-row>
-              <span class="text-h6">Fecha</span>
+              <span class="text-h6">Date</span>
             </v-row>
             <v-row class="mb-3">
               <span> {{ editItem.date }}</span>
             </v-row>
             <v-row>
-              <span class="text-h6">Hora</span>
+              <span class="text-h6">Hour</span>
             </v-row>
             <v-row class="mb-3">
               <span> {{ editItem.hour }}</span>
@@ -70,7 +70,7 @@
               color="primary"
               @click="openReport = false"
           >
-            cerrar
+            Close
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -87,11 +87,6 @@ export default {
   name: "Routes",
   data() {
     return {
-      headers: [
-        { text: 'Direccion del cliente', align: 'start', sortable: false, value: 'address' },
-        { text: 'Hora', value: 'hour'},
-        { text: 'Fecha', value: 'date' }
-      ],
       technicians: [],
       appointments: [],
       search: '',

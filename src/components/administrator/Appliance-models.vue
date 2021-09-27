@@ -15,7 +15,7 @@
           class="ml-3"
           @click="openApplianceModelsDialog({})"
       >
-        Crear
+        Add
       </v-btn>
 
       <v-col cols="12" sm="6" class="ml-auto">
@@ -24,7 +24,7 @@
             dense
             class="mt-4"
             append-icon="mdi-magnify"
-            label="Buscar"
+            label="Search"
         >
         </v-text-field>
       </v-col>
@@ -79,7 +79,7 @@
     <ApplianceModelsDialog
         v-bind:dialog="dialog"
         v-bind:edit="editModel"
-        v-bind:title="editModel ? 'Editar' : 'Nuevo modelo'"
+        v-bind:title="editModel ? 'Edit' : 'New model'"
         v-bind:item="applianceModelItem"
         v-bind:idBrandModel="productId"
         v-on:close-dialog-model="closeAppliancesModelsDialog"

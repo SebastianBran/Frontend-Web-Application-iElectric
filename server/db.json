@@ -93,7 +93,7 @@
       "model": "GT30N",
       "imagePath": "vaccum-electrolux.jpg",
       "applianceBrandsId": "3"
-    },
+    }
   ],
   "technicians": [
     {
@@ -192,6 +192,52 @@
       "date": "25/6/2021",
       "imagePath": "image.png",
       "appointmentId": "5"
+    }
+  ],
+  "plans": [
+    {
+      "id": "1",
+      "name": "basic",
+      "description": "En este plan se acepta 1 producto",
+      "numArtefacts": "1",
+      "amount": "15"
+    },
+    {
+      "id": "2",
+      "name": "regular",
+      "description": "En este plan se aceptan 3 productos",
+      "numArtefacts": "3",
+      "amount": "40"
+    },
+    {
+      "id": "3",
+      "name": "pro",
+      "description": "En este plan se aceptan 5 productos",
+      "numArtefacts": "5",
+      "amount": "70"
+    }
+  ],
+  "myPlans": [
+    {
+      "id": "1",
+      "categoryPlan": "1",
+      "clientId": "1",
+      "active": true,
+      "subscriptionDate": ""
+    },
+    {
+      "id": "2",
+      "categoryPlan": "2",
+      "clientId": "2",
+      "active": true,
+      "subscriptionDate": ""
+    },
+    {
+      "id": "3",
+      "categoryPlan": "3",
+      "clientId": "3",
+      "active": true,
+      "subscriptionDate": ""
     }
   ]
 }

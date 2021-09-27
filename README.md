@@ -1,4 +1,4 @@
-# frontend-web-application-ielectric
+# registro-electrodomestico
 
 ## Project setup
 ```

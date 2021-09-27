@@ -1,3 +1,6 @@
+:root{
+  --date_atention-text:"5"
+}
 <template>
   <v-container>
     <v-app-bar
@@ -6,11 +9,9 @@
         flat
         height="90px"
     >
-    <label
-          color="accent"
-      >
-        <n>Reserva Pendiente</n>
-      </label>
+    <v-card-title>
+               <n>  Reserva de reparacion :</n>
+              </v-card-title>
       <v-col cols="12" sm="6" class="ml-auto">
         <v-text-field
             outlined
@@ -59,6 +60,21 @@
               <v-card-title>
                 {{ appliance.name }}
               </v-card-title>
+              <v-lable>
+              <n style="padding:16px; color:gray;"> {{ appliance.status }}</n><br>
+              </v-lable>
+              <v-lable >
+               <n style="padding:16px; color:gray;"> Fecha de reserva :</n><br>
+              </v-lable>
+              <v-lable>
+              <n style="padding:16px; color:gray;"> {{ appliance.date_reserve }}</n><br>
+              </v-lable>
+            <v-lable>
+               <n style="padding:16px; color:gray;"> Fecha de atencion :</n><br>
+              </v-lable>
+              <v-lable>
+              <n style="padding:16px; color:gray;"> {{ appliance.date_atention }}</n><br>
+              </v-lable>
             </v-card>
           </v-item>
         </v-col>
@@ -67,11 +83,12 @@
 
     <ReserveDialog
         v-bind:dialog="dialog"
-        v-bind:edit="editBrand"
-        v-bind:title="editBrand ? 'Reserva' : 'Nueva Marca'"
-        v-bind:item="ApplianceItem"
-        v-on:close-dialog="closeAppliancesBrandDialog"
-        v-on:delete-brand="deleteBrand"
+        v-bind:edit="editReserve"
+        v-bind:title="editReserve ? 'Reserva' : 'Nueva Marca'"
+        v-bind:item="applianceReserveItem"
+        v-on:close-dialog="closeAppliancesReserveDialog"
+        v-on:brand-information="saveInformationReserveDialog"
+        v-on:delete-brand="deleteReserve"
     />
   </v-container>
 </template>
@@ -81,13 +98,13 @@ import ReserveApiService from "../../core/services/reserve-api-service";
 import ReserveDialog from "../../components/client/reserve-dialog";
 
 export default {
-  name: "Products",
+  name: "Reservation",
   data() {
     return {
       appliances: [],
       dialog: false,
-      editBrand: false,
-      applianceBrandItem: {}
+      editReserve: false,
+      applianceReserveItem: {}
     }
   },
   components: {
@@ -98,7 +115,10 @@ export default {
       return {
         id: appliance.id,
         name: appliance.name,
-        imagePath: appliance.imagePath
+        imagePath: appliance.imagePath,
+        status: appliance.status,
+        date_reserve: appliance.date_reserve,
+        date_atention: appliance.date_atention
       }
     },
     retrieveAppliances() {
@@ -112,11 +132,11 @@ export default {
         });
     },
     openAppliancesBrandDialog(item) {
-      this.applianceBrandItem = Object.assign({}, item);
+      this.applianceReserveItem = Object.assign({}, item);
       this.dialog = true;
-      this.editBrand = !!item.id;
+      this.editReserve = !!item.id;
     },
-    closeAppliancesBrandDialog() {
+    closeAppliancesReserveDialog() {
       this.dialog = false;
     },
     updateApplianceBrand(brandInformation) {
@@ -137,17 +157,17 @@ export default {
             console.log(e);
           });
     },
-    async saveInformationBrandDialog(brandInformation) {
-      if (this.editBrand) {
+    async saveInformationReserveDialog(brandInformation) {
+      if (this.editReserve) {
         await this.updateApplianceBrand(brandInformation);
       }
       else {
         await this.createApplianceBrand(brandInformation);
       }
       this.retrieveAppliances();
-      this.closeAppliancesBrandDialog();
+      this.closeAppliancesReserveDialog();
     },
-    async deleteBrand(id) {
+    async deleteReserve(id) {
       await ReserveApiService.delete(id)
           .then(response => {
             console.log(response);
@@ -156,7 +176,7 @@ export default {
             console.log(e);
           });
       this.retrieveAppliances();
-      this.closeAppliancesBrandDialog();
+      this.closeAppliancesReserveDialog();
     }
   },
   mounted() {

@@ -239,5 +239,85 @@
       "active": true,
       "subscriptionDate": ""
     }
+  ],
+  "clients": [
+    {
+      "id": "1",
+      "cellphoneNumber": "987654321",
+      "names": "Jhon Juan",
+      "lastNames": "Doe Marcial",
+      "address": "av. Los manzanos 123",
+      "email": "jhon.doe@mail.com"
+    },
+    {
+      "id": "2",
+      "cellphoneNumber": "987433213",
+      "names": "Juan Pedro",
+      "lastNames": "Lopez Gonzales",
+      "address": "av. Brazil 1055",
+      "email": "juanloe@mail.com"
+    },
+    {
+      "id": "3",
+      "cellphoneNumber": "987743212",
+      "name": "Jose Fernando",
+      "lastName": "Sanchez Cerro",
+      "address": "av. Palomas 345",
+      "email": "josesan@mail.com"
+    }
+  ],
+  "appliances": [
+    {
+      "id": "1",
+      "applianceModelId": "1",
+      "clientId": "1",
+      "purchaseDate": 2019
+    },
+    {
+      "id": "2",
+      "applianceModelId": "3",
+      "clientId": "1",
+      "purchaseDate": 2020
+    },
+    {
+      "id": "3",
+      "applianceModelId": "5",
+      "clientId": "2",
+      "purchaseDate": 2018
+    },
+    {
+      "id": "4",
+      "applianceModelId": "6",
+      "clientId": "3",
+      "purchaseDate": 2019
+    }
+  ],
+  "reserveModels": [
+    {
+      "id": "1",
+      "name": "Refrigerador French Door IBACI Inox Look, 547 L (110 V)",
+      "imagePath": "refrigerator-samsung.jpg",
+      "status": "Estado:Pendiente",
+      "date_reserve": "5/09/2021",
+      "date_atention": "6/10/2021"
+    },
+    {
+      "id": "4",
+      "name": "Horno Microondas 28 Litros",
+      "imagePath": "microwave-daewoo.jpg",
+      "status": "Estado:Pendiente",
+      "date_reserve": "5/09/2021",
+      "date_atention": "6/10/2021"
+    },
+    {
+      "id": "6",
+      "name": "Aspiradora de Polvo y Agua",
+      "model": "GT30N",
+      "imagePath": "vaccum-electrolux.jpg",
+      "applianceBrandsId": "3",
+      "status": "Estado:Pendiente",
+      "date_reserve": "21/09/2021",
+      "date_atention": "27/09/2021"
+    }
   ]
 }

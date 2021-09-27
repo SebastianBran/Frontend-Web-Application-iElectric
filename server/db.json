@@ -79,22 +79,6 @@
       "applianceBrandId": "4"
     }
   ],
-  "reserveModels": [
-    {
-      "id": "1",
-      "name": "Refrigerador French Door IBACI Inox Look, 547 L (110 V)",
-      "model": "RF220FCTAS8/AP",
-      "imagePath": "refrigerator-samsung.jpg",
-      "applianceBrandsId": "1"
-    },
-    {
-      "id": "6",
-      "name": "Aspiradora de Polvo y Agua",
-      "model": "GT30N",
-      "imagePath": "vaccum-electrolux.jpg",
-      "applianceBrandsId": "3"
-    }
-  ],
   "technicians": [
     {
       "id": "1",

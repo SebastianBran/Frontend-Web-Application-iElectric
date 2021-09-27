@@ -303,5 +303,52 @@
       "date_reserve": "21/09/2021",
       "date_atention": "27/09/2021"
     }
+  ],
+  "appointments":[
+    {
+      "id": "1",
+      "address": "3201 Maple Lane",
+      "date": "26/09/21",
+      "hour": "02:19",
+      "clientId": "4",
+      "technicianId": "1",
+      "applianceId": "5"
+    },
+    {
+      "id": "2",
+      "address": "9247 E. Manor Station Dr.Amqui",
+      "date": "26/09/21",
+      "hour": "09:42",
+      "clientId": "2",
+      "technicianId": "1",
+      "applianceId": "8"
+    },
+    {
+      "id": "3",
+      "address": "Riverview StreetRiverview",
+      "date": "26/09/21",
+      "hour": "11:59",
+      "clientId": "1",
+      "technicianId": "1",
+      "applianceModelId": "2"
+    },
+    {
+      "id": "4",
+      "address": "843 Mayflower Ave.Meadow Lake",
+      "date": "26/09/21",
+      "hour": "14:39",
+      "clientId": "6",
+      "technicianId": "1",
+      "applianceModelId": ""
+    },
+    {
+      "id": "5",
+      "address": "7396 Cedar Ave.Ladysmith",
+      "date": "26/09/21",
+      "hour": "17:09",
+      "clientId": "5",
+      "technicianId": "1",
+      "applianceModelId": "4"
+    }
   ]
 }

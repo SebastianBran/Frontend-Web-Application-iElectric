@@ -11,7 +11,7 @@
                 {{item.name}}
             </v-card-title>
             <v-card-subtitle class="text-center">
-                {{item.amount}}
+                S/ {{item.amount}}
             </v-card-subtitle >
                 <v-divider class="mx-4"></v-divider>
             <v-card-subtitle class="text-center">

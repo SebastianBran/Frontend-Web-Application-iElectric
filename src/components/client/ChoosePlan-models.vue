@@ -60,7 +60,7 @@ export default{
             })
         },
         saveInformationPlan(modelPlan){
-            console.log(modelPlan)
+            //console.log(modelPlan)
             MyPlansApiService.create(modelPlan)
             .then(response => {
                 console.log(response)

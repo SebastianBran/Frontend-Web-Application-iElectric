@@ -1,14 +1,35 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import FreeViews from '../views/FreeViews/FreeViews.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: FreeViews,
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: () => import('../views/FreeViews/Home.vue')
+      },
+      {
+        path: '/about',
+        name: 'About',
+        component: () => import('../views/FreeViews/About.vue')
+      },
+      {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/FreeViews/Login.vue')
+      },
+      {
+        path: '/register',
+        name: 'Register',
+        component: () => import('../views/FreeViews/Register.vue')
+      }
+    ]
   },
   {
     path: '/client',

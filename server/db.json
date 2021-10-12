@@ -141,9 +141,46 @@
       "imagePath": "image.png",
       "appointmentId": "3",
       "technicianId": "2"
+    },
+    {
+      "id": "4",
+      "observation": "Blender motor did not work",
+      "diagnosis": "The blender motor stopped working due to wear",
+      "repairDescription": "Need replacement",
+      "date": "25/9/2021",
+      "imagePath": "image.png",
+      "appointmentId": "4",
+      "technicianId": "2"
+    },
+    {
+      "id": "5",
+      "observation": "Rice cooker did not heat",
+      "diagnosis": "The internal resistance of the rice cooker has burned out",
+      "repairDescription": "Need replacement",
+      "date": "25/9/2021",
+      "imagePath": "image.png",
+      "appointmentId": "5",
+      "technicianId": "3"
     }
   ],
-  "spareRequests": [],
+  "spareRequests": [
+    {
+      "id": "1",
+      "description:": "Blender motor spare part",
+      "technicianId": "2",
+      "date": "25/6/2021",
+      "imagePath": "image.png",
+      "appointmentId": "4"
+    },
+    {
+      "id": "2",
+      "description:": "Replacement resistance for rice cooker",
+      "technicianId": "3",
+      "date": "25/6/2021",
+      "imagePath": "image.png",
+      "appointmentId": "5"
+    }
+  ],
   "plans": [
     {
       "id": "1",

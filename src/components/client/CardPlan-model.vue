@@ -2,10 +2,9 @@
     <v-col 
         cols
     >
-        <v-card
+        <v-card v-if="item !== undefined"
             color="#385F73"
             dark
-            
         >
             <v-card-title class="text-center text-capitalize">
                 {{item.name}}
@@ -50,7 +49,7 @@ export default {
             this.subscription.categoryPlan = this.item.id
             this.subscription.active = true  ,
             this.subscription. subscriptionDate = "",
-            console.log(this.subscription)            
+            //console.log(this.subscription)
             this.$emit("model-choose-plan", this.subscription)
         }
         

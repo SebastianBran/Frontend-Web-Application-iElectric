@@ -6,7 +6,7 @@
     >
         <v-card>
             <v-card-title>
-                <span>Cambiar de Plan</span>
+                <span>Change the Plan</span>
                 <v-spacer></v-spacer>
                 <v-menu
                 bottomx
@@ -76,7 +76,7 @@ export default {
             this.subscription.categoryPlan = this.item.id
             this.subscription.active = true  ,
             this.subscription. subscriptionDate = "",
-            console.log(this.subscription)        
+            //console.log(this.subscription)
             this.$emit("edit-plan")
         }
     },

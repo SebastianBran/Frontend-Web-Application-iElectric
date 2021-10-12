@@ -87,6 +87,7 @@
       "cellphoneNumber": "999123456",
       "address": "Urb. Thiago Terán # 452",
       "email": "jmanzanares@aguilera.com",
+      "password": "juanfer",
       "birthday": "11/9/1990"
     },
     {
@@ -96,6 +97,7 @@
       "cellphoneNumber": "958870344",
       "address": "Jr. Alonso Gallegos # 05 Piso 0",
       "email": "maya.mario@gmail.com",
+      "password": "mayamar",
       "birthday": "22/4/1994"
     },
     {
@@ -105,6 +107,7 @@
       "cellphoneNumber": "937506140",
       "address": "Av. Mario Vallejo # 65591 Piso 43",
       "email": "cortes.valentino@toledo.com",
+      "password": "alveragui",
       "birthday": "18/10/1987"
     }
   ],
@@ -231,7 +234,8 @@
       "names": "Jhon Juan",
       "lastNames": "Doe Marcial",
       "address": "av. Los manzanos 123",
-      "email": "jhon.doe@mail.com"
+      "email": "jhon.doe@mail.com",
+      "password": "jhonjuan"
     },
     {
       "id": "2",
@@ -239,7 +243,8 @@
       "names": "Juan Pedro",
       "lastNames": "Lopez Gonzales",
       "address": "av. Brazil 1055",
-      "email": "juanloe@mail.com"
+      "email": "juanloe@mail.com",
+      "password": "juanloe"
     },
     {
       "id": "3",
@@ -247,7 +252,8 @@
       "name": "Jose Fernando",
       "lastName": "Sanchez Cerro",
       "address": "av. Palomas 345",
-      "email": "josesan@mail.com"
+      "email": "josesan@mail.com",
+      "password": "josefernan"
     }
   ],
   "appliances": [
@@ -276,79 +282,56 @@
       "purchaseDate": 2019
     }
   ],
-  "reserveModels": [
-    {
-      "id": "1",
-      "name": "Refrigerator French Door IBACI Inox Look, 547 L (110 V)",
-      "imagePath": "refrigerator-samsung.jpg",
-      "status": "Status: Pending",
-      "date_reserve": "5/09/2021",
-      "date_atention": "6/10/2021"
-    },
-    {
-      "id": "4",
-      "name": "28 Liter Microwave Oven",
-      "imagePath": "microwave-daewoo.jpg",
-      "status": "Status: Pending",
-      "date_reserve": "5/09/2021",
-      "date_atention": "6/10/2021"
-    },
-    {
-      "id": "6",
-      "name": "Dust and Water Vacuum",
-      "model": "GT30N",
-      "imagePath": "vaccum-electrolux.jpg",
-      "applianceBrandsId": "3",
-      "status": "Status: Pending",
-      "date_reserve": "21/09/2021",
-      "date_atention": "27/09/2021"
-    }
-  ],
   "appointments": [
     {
       "id": "1",
-      "address": "3201 Maple Lane",
-      "date": "26/09/21",
+      "dateReserve": "19/10/2021",
+      "dateAttention": "20/10/2021",
       "hour": "02:19",
-      "clientId": "4",
+      "clientId": "1",
       "technicianId": "1",
-      "applianceId": "5"
+      "applianceId": "1",
+      "done": false
     },
     {
       "id": "2",
-      "address": "9247 E. Manor Station Dr.Amqui",
-      "date": "26/09/21",
+      "dateReserve": "19/10/2021",
+      "dateAttention": "20/10/2021",
       "hour": "09:42",
-      "clientId": "2",
+      "clientId": "1",
       "technicianId": "1",
-      "applianceId": "8"
+      "applianceId": "2",
+      "done": false
     },
     {
       "id": "3",
-      "address": "Riverview StreetRiverview",
-      "date": "26/09/21",
+      "dateReserve": "19/10/2021",
+      "dateAttention": "20/10/2021",
       "hour": "11:59",
-      "clientId": "1",
-      "technicianId": "1",
-      "applianceModelId": "2"
+      "clientId": "2",
+      "technicianId": "2",
+      "applianceModelId": "3",
+      "done": false
+    }
+  ],
+  "administrators": [
+    {
+      "id": "1",
+      "cellphoneNumber": "999888777",
+      "name": "Andres Pedro",
+      "lastName": "Bayona Fernandez",
+      "address": "av. Zarumilla 555",
+      "email": "andresbay@mail.com",
+      "password": "andresbayo"
     },
     {
-      "id": "4",
-      "address": "843 Mayflower Ave.Meadow Lake",
-      "date": "26/09/21",
-      "hour": "14:39",
-      "clientId": "6",
-      "technicianId": "1",
-      "applianceModelId": ""
-    },
-    {
-      "id": "5",
-      "address": "7396 Cedar Ave.Ladysmith",
-      "date": "26/09/21",
-      "hour": "17:09",
-      "clientId": "5",
-      "technicianId": "1",
-      "applianceModelId": "4"
+      "id": "2",
+      "cellphoneNumber": "978565421",
+      "name": "Mariana Kelly",
+      "lastName": "Soto Aponte",
+      "address": "av. Faucet 214",
+      "email": "marianakey@mail.com",
+      "password": "marianakey"
     }
   ]
 }

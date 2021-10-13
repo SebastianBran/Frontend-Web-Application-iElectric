@@ -9,6 +9,10 @@ class AppliancesApiService {
         return http.get(`/technicians/${ id }`);
     }
 
+    getByEmailAndPassword(email, password) {
+        return http.get(`/technicians?email=${ email }&password=${ password }`);
+    }
+
     getReports(id) {
         return http.get(`/technicians/${ id }/reports`);
     }

@@ -86,7 +86,7 @@
       "lastnames": "Ramirez Rojas",
       "cellphoneNumber": "999123456",
       "address": "Urb. Thiago Terán # 452",
-      "email": "jmanzanares@aguilera.com",
+      "email": "jmanzanares@gmail.com",
       "password": "juanfer",
       "birthday": "11/9/1990"
     },
@@ -106,7 +106,7 @@
       "lastnames": "Águilar Guzmán",
       "cellphoneNumber": "937506140",
       "address": "Av. Mario Vallejo # 65591 Piso 43",
-      "email": "cortes.valentino@toledo.com",
+      "email": "cortes.valentino@gmail.com",
       "password": "alveragui",
       "birthday": "18/10/1987"
     }
@@ -241,7 +241,7 @@
       "names": "Jhon Juan",
       "lastNames": "Doe Marcial",
       "address": "av. Los manzanos 123",
-      "email": "jhon.doe@mail.com",
+      "email": "jhon.doe@gmail.com",
       "password": "jhonjuan"
     },
     {
@@ -250,7 +250,7 @@
       "names": "Juan Pedro",
       "lastNames": "Lopez Gonzales",
       "address": "av. Brazil 1055",
-      "email": "juanloe@mail.com",
+      "email": "juanloe@gmail.com",
       "password": "juanloe"
     },
     {
@@ -259,7 +259,7 @@
       "name": "Jose Fernando",
       "lastName": "Sanchez Cerro",
       "address": "av. Palomas 345",
-      "email": "josesan@mail.com",
+      "email": "josesan@gmail.com",
       "password": "josefernan"
     }
   ],
@@ -328,7 +328,7 @@
       "name": "Andres Pedro",
       "lastName": "Bayona Fernandez",
       "address": "av. Zarumilla 555",
-      "email": "andresbay@mail.com",
+      "email": "andresbay@gmail.com",
       "password": "andresbayo"
     },
     {
@@ -337,7 +337,7 @@
       "name": "Mariana Kelly",
       "lastName": "Soto Aponte",
       "address": "av. Faucet 214",
-      "email": "marianakey@mail.com",
+      "email": "marianakey@gmail.com",
       "password": "marianakey"
     }
   ]

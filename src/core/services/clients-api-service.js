@@ -9,6 +9,10 @@ class ClientsApiService {
         return http.get(`/clients/${ id }`);
     }
 
+    getByEmailAndPassword(email, password) {
+        return http.get(`/clients?email=${ email }&password=${ password }`);
+    }
+
     getAppliances(id) {
         return http.get(`/clients/${ id }/appliances`);
     }

@@ -51,6 +51,20 @@
             Login
           </v-btn>
         </div>
+
+        <div class="flex-column my-5">
+          <v-divider></v-divider>
+          <p class="text-center grey--text">Or</p>
+        </div>
+
+        <div class="mb-5">
+          <GoogleLogin :params="params" :renderParams="renderParams" v-bind:onSuccess="onSignInWithGoogle"></GoogleLogin>
+        </div>
+
+        <p
+            class="mb-4 red--text text-center"
+            :class="wrongGoogleAccount ? 'd-block' : 'd-none'"
+        >Wrong google account</p>
       </v-form>
     </v-container>
   </v-container>
@@ -60,9 +74,13 @@
 import ClientsApiService from '../../core/services/clients-api-service';
 import TechniciansApiService from '../../core/services/technicians-api-service';
 import AdministratorsApiService from '../../core/services/administrators-api-service';
+import GoogleLogin from 'vue-google-login';
 
 export default {
   name: "Login",
+  components: {
+    GoogleLogin
+  },
   data() {
     return {
       showPassword: false,
@@ -78,7 +96,16 @@ export default {
           return pattern.test(v) || 'Invalid e-mail.'
         }
       },
-      wrongEmailOrPassword: false
+      wrongEmailOrPassword: false,
+      wrongGoogleAccount: false,
+      params: {
+        client_id: "982010749502-rf1ibbd19ouesia0udlg2nmbh6bga7f5.apps.googleusercontent.com"
+      },
+      renderParams: {
+        width: 250,
+        height: 50,
+        longtitle: true
+      }
     }
   },
   methods: {
@@ -134,6 +161,27 @@ export default {
       else {
         this.submit();
       }
+    },
+    async onSignInWithGoogle(googleUser) {
+      let profile = googleUser.getBasicProfile();
+
+      /*console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+      console.log('Full Name: ' + profile.getName());
+      console.log('Given Name: ' + profile.getGivenName());
+      console.log('Family Name: ' + profile.getFamilyName());
+      console.log("Image URL: " + profile.getImageUrl());
+      console.log("Email: " + profile.getEmail());*/
+
+      await ClientsApiService.getById(profile.getId().toString())
+        .then(response => {
+          console.log(response.data);
+          this.$router.push("/client");
+          this.submit();
+        })
+        .catch(e => {
+          console.log(e);
+          this.wrongGoogleAccount = true;
+        });
     }
   }
 }

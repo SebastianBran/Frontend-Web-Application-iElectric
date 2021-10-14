@@ -57,14 +57,31 @@
           <p class="text-center grey--text">Or</p>
         </div>
 
-        <div class="mb-5">
-          <GoogleLogin :params="params" :renderParams="renderParams" v-bind:onSuccess="onSignInWithGoogle"></GoogleLogin>
+        <div class="mb-5 d-flex">
+          <GoogleLogin
+              class="button"
+              :params="params"
+              :renderParams="renderParams"
+              v-bind:onSuccess="onSignInWithGoogle"
+          ></GoogleLogin>
+          <button
+              class="button facebook-button"
+              type="button"
+              @click="logInWithFacebook"
+          >
+            <v-icon color="white">mdi-facebook</v-icon>
+            Signed in with Facebook
+          </button>
         </div>
 
         <p
             class="mb-4 red--text text-center"
             :class="wrongGoogleAccount ? 'd-block' : 'd-none'"
-        >Wrong google account</p>
+        >Wrong Google account</p>
+        <p
+            class="mb-4 red--text text-center"
+            :class="wrongFacebookAccount ? 'd-block' : 'd-none'"
+        >Wrong Facebook account</p>
       </v-form>
     </v-container>
   </v-container>
@@ -98,6 +115,7 @@ export default {
       },
       wrongEmailOrPassword: false,
       wrongGoogleAccount: false,
+      wrongFacebookAccount: false,
       params: {
         client_id: "982010749502-rf1ibbd19ouesia0udlg2nmbh6bga7f5.apps.googleusercontent.com"
       },
@@ -165,16 +183,10 @@ export default {
     async onSignInWithGoogle(googleUser) {
       let profile = googleUser.getBasicProfile();
 
-      /*console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-      console.log('Full Name: ' + profile.getName());
-      console.log('Given Name: ' + profile.getGivenName());
-      console.log('Family Name: ' + profile.getFamilyName());
-      console.log("Image URL: " + profile.getImageUrl());
-      console.log("Email: " + profile.getEmail());*/
-
       await ClientsApiService.getById(profile.getId().toString())
         .then(response => {
           console.log(response.data);
+          localStorage.setItem('userId', response.data[0].id.toString());
           this.$router.push("/client");
           this.submit();
         })
@@ -182,6 +194,57 @@ export default {
           console.log(e);
           this.wrongGoogleAccount = true;
         });
+    },
+    async showWrongFacebookAccount() {
+      this.wrongFacebookAccount = true;
+      console.log(this.wrongFacebookAccount);
+    },
+    async logInWithFacebook() {
+      await this.loadFacebookSDK(document, "script", "facebook-jssdk");
+      await this.initFacebook();
+
+      await window.FB.login(async function (response) {
+        if (response.authResponse) {
+          console.log(response.authResponse.userID);
+          await ClientsApiService.getById(response.authResponse.userID.toString())
+              .then(response => {
+                console.log(response.data);
+                localStorage.setItem('userId', response.data[0].id.toString());
+                this.$router.push("/client");
+                this.submit();
+              })
+              .catch(e => {
+                console.log(e);
+              });
+        } else {
+          console.log("User cancelled login or did not fully authorize.");
+        }
+      },
+      {
+        scope: ['user_likes', 'email'],
+        return_scopes: true
+      });
+
+      return false;
+    },
+    async initFacebook() {
+      window.fbAsyncInit = function() {
+        window.FB.init({
+          appId: "239546461479131",
+          cookie: true,
+          version: "v13.0"
+        });
+      };
+    },
+    async loadFacebookSDK(d, s, id) {
+      let js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {
+        return;
+      }
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
     }
   }
 }
@@ -190,5 +253,20 @@ export default {
 <style scoped>
   .container {
     max-width: 1200px;
+  }
+
+  .button {
+    width: 50%;
+  }
+
+  .facebook-button {
+    border-radius: 1px;
+    background-color: #3b5998;
+    color: white;
+    box-shadow: 0px 1px 3px 2px #cbcbcb;
+  }
+
+  .facebook-button:hover {
+    box-shadow: 0px 0px 4px 2px #69ace3;
   }
 </style>

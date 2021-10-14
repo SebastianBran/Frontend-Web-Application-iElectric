@@ -87,8 +87,9 @@
       "cellphoneNumber": "999123456",
       "address": "Urb. Thiago Terán # 452",
       "email": "jmanzanares@gmail.com",
+      "birthday": "1990-09-11",
       "password": "juanfer",
-      "birthday": "11/9/1990"
+      "lastTimeConnected": "2021-10-11"
     },
     {
       "id": "2",
@@ -98,7 +99,8 @@
       "address": "Jr. Alonso Gallegos # 05 Piso 0",
       "email": "maya.mario@gmail.com",
       "password": "mayamar",
-      "birthday": "22/4/1994"
+      "birthday": "1994-04-22",
+      "lastTimeConnected": "2021-10-01"
     },
     {
       "id": "3",
@@ -108,7 +110,8 @@
       "address": "Av. Mario Vallejo # 65591 Piso 43",
       "email": "cortes.valentino@gmail.com",
       "password": "alveragui",
-      "birthday": "18/10/1987"
+      "birthday": "1987-10-18",
+      "lastTimeConnected": "2021-10-05"
     }
   ],
   "reports": [
@@ -141,46 +144,9 @@
       "imagePath": "image.png",
       "appointmentId": "3",
       "technicianId": "2"
-    },
-    {
-      "id": "4",
-      "observation": "Blender motor did not work",
-      "diagnosis": "The blender motor stopped working due to wear",
-      "repairDescription": "Need replacement",
-      "date": "25/9/2021",
-      "imagePath": "image.png",
-      "appointmentId": "4",
-      "technicianId": "2"
-    },
-    {
-      "id": "5",
-      "observation": "Rice cooker did not heat",
-      "diagnosis": "The internal resistance of the rice cooker has burned out",
-      "repairDescription": "Need replacement",
-      "date": "25/9/2021",
-      "imagePath": "image.png",
-      "appointmentId": "5",
-      "technicianId": "3"
     }
   ],
-  "spareRequests": [
-    {
-      "id": "1",
-      "description:": "Blender motor spare part",
-      "technicianId": "2",
-      "date": "25/6/2021",
-      "imagePath": "image.png",
-      "appointmentId": "4"
-    },
-    {
-      "id": "2",
-      "description:": "Replacement resistance for rice cooker",
-      "technicianId": "3",
-      "date": "25/6/2021",
-      "imagePath": "image.png",
-      "appointmentId": "5"
-    }
-  ],
+  "spareRequests": [],
   "plans": [
     {
       "id": "1",
@@ -223,13 +189,6 @@
       "id": "3",
       "categoryPlan": "3",
       "clientId": "3",
-      "active": true,
-      "subscriptionDate": ""
-    },
-    {
-      "id": "5abbdf5a-df7d-47c9-bc99-bde5b77660bf",
-      "clientId": "5",
-      "categoryPlan": "1",
       "active": true,
       "subscriptionDate": ""
     }

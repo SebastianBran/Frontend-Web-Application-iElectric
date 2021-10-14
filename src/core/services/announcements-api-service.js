@@ -10,11 +10,15 @@ class AnnouncementsApiService {
     }
 
     getByType(type) {
-        return http.get(`/administrators?type=${ type }`);
+        return http.get(`/announcements?type=${ type }`);
     }
 
     getBySection(section) {
-        return http.get(`/administrators?section=${ section }`);
+        return http.get(`/announcements?section=${ section }`);
+    }
+
+    getByTitle(title) {
+        return http.get(`/announcements?title_like=${ title }`);
     }
 
     create(data) {

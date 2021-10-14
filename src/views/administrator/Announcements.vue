@@ -2,6 +2,39 @@
   <v-container>
     <h1 class="mb-2">Announcements</h1>
 
+    <!-- Search - START -->
+    <v-app-bar
+        class="mb-6"
+        color="white"
+        flat
+        height="90px"
+    >
+      <v-col cols="12" sm="6" class="ml-auto">
+        <v-text-field
+            v-model="search"
+            outlined
+            dense
+            class="mt-4"
+            append-icon="mdi-magnify"
+            label="Search"
+            @click:append="searchAnnouncement(search)"
+        ></v-text-field>
+      </v-col>
+    </v-app-bar>
+
+    <v-chip
+        v-if="bySearch"
+        class="ma-2"
+        close
+        color="red"
+        text-color="white"
+        @click:close="clearSearch"
+        small
+    >
+      Clear
+    </v-chip>
+    <!-- Search - END -->
+
     <!-- List - START -->
     <v-list>
       <template v-for="(announcement, index) in announcements">
@@ -147,6 +180,8 @@ export default {
   name: "Announcements",
   data() {
     return {
+      search: '',
+      bySearch: false,
       announcements: [],
       openEdit: false,
       editItem: {
@@ -220,6 +255,21 @@ export default {
       this.editItem = Object.assign({}, item);
       this.editItem.visible = !this.editItem.visible
       this.updateAnnouncement(this.editItem.id, this.editItem)
+    },
+    async searchAnnouncement(title) {
+      await AnnouncementsApiService.getByTitle(title)
+      .then(response => {
+        this.announcements = response.data.map(this.getAnnouncement);
+        this.bySearch = true
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    },
+    clearSearch() {
+      this.retrieveAnnouncements()
+      this.search = ''
+      this.bySearch = false
     }
   },
   mounted() {

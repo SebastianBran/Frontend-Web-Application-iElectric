@@ -146,7 +146,24 @@
       "technicianId": "2"
     }
   ],
-  "spareRequests": [],
+  "spareRequests": [
+    {
+      "id": "1",
+      "description:": "Blender motor spare part",
+      "technicianId": "2",
+      "date": "25/6/2021",
+      "imagePath": "image.png",
+      "appointmentId": "4"
+    },
+    {
+      "id": "2",
+      "description:": "Replacement resistance for rice cooker",
+      "technicianId": "3",
+      "date": "25/6/2021",
+      "imagePath": "image.png",
+      "appointmentId": "5"
+    }
+  ],
   "plans": [
     {
       "id": "1",

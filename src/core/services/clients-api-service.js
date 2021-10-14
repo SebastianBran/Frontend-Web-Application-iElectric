@@ -13,6 +13,10 @@ class ClientsApiService {
         return http.get(`/clients?email=${ email }&password=${ password }`);
     }
 
+    getByEmail(email) {
+        return http.get(`/clients?email=${ email }`);
+    }
+
     getAppliances(id) {
         return http.get(`/clients/${ id }/appliances`);
     }

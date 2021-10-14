@@ -16,6 +16,7 @@
           ref="form"
           v-model="form.isValid"
       >
+        <!-- login with email and password start -->
         <p
             class="mb-4 red--text"
             :class="wrongEmailOrPassword ? 'd-block' : 'd-none'"
@@ -37,6 +38,7 @@
             outlined
             @click:append="showPassword = !showPassword"
         ></v-text-field>
+        <!-- login with email and password end -->
 
         <div class="d-flex">
           <a>I forgot my password</a>
@@ -57,6 +59,7 @@
           <p class="text-center grey--text">Or</p>
         </div>
 
+        <!-- login with social networks start-->
         <div class="mb-5 d-flex">
           <GoogleLogin
               class="button"
@@ -73,6 +76,11 @@
             Signed in with Facebook
           </button>
         </div>
+        <!-- login with social networks  end-->
+
+        <p>
+          You don't have an account? <a href="/register">Sign up</a>
+        </p>
 
         <p
             class="mb-4 red--text text-center"
@@ -133,6 +141,7 @@ export default {
     async login() {
       let noLogin = true;
 
+      //check if the user is a client
       await ClientsApiService.getByEmailAndPassword(this.form.email, this.form.password)
         .then(response => {
           if (response.data.length !== 0) {
@@ -145,6 +154,7 @@ export default {
           console.log(e);
         });
 
+      //check if the user is a technician
       if (noLogin) {
         await TechniciansApiService.getByEmailAndPassword(this.form.email, this.form.password)
           .then(response => {
@@ -159,6 +169,7 @@ export default {
           });
       }
 
+      //check if the user is a administrator
       if (noLogin) {
         await AdministratorsApiService.getByEmailAndPassword(this.form.email, this.form.password)
           .then(response => {
@@ -180,6 +191,7 @@ export default {
         this.submit();
       }
     },
+    //login with google account
     async onSignInWithGoogle(googleUser) {
       let profile = googleUser.getBasicProfile();
 
@@ -195,10 +207,7 @@ export default {
           this.wrongGoogleAccount = true;
         });
     },
-    async showWrongFacebookAccount() {
-      this.wrongFacebookAccount = true;
-      console.log(this.wrongFacebookAccount);
-    },
+    //login with facebook account start
     async logInWithFacebook() {
       await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
@@ -246,6 +255,7 @@ export default {
       js.src = "https://connect.facebook.net/en_US/sdk.js";
       fjs.parentNode.insertBefore(js, fjs);
     }
+    //login with facebook account end
   }
 }
 </script>

@@ -16,29 +16,47 @@
           ></v-img>
           
           <div id="title-name-div">
-            <v-card-title id="name"><b>{{}}</b></v-card-title>
+            <v-card-title id="name"><b>{{profileItem.names +" "+ profileItem.lastNames}}</b></v-card-title>
           </div>
 
           <div id="info">
             <v-card-text class="data-info">Cellphone:
-              <v-card-text class="data-info">{{}}</v-card-text>
-            </v-card-text>
-            <v-spacer class="space"></v-spacer>
-            <v-card-text class="data-info">Email:
-              <v-card-text class="data-info"> {{}}</v-card-text>
+              <v-card-text class="data-info">{{profileItem.cellphoneNumber}}</v-card-text>
             </v-card-text>
             <v-spacer class="space"></v-spacer>
             <v-card-text class="data-info">Adress:
-              <v-card-text class="data-info">{{}}</v-card-text>
+              <v-card-text class="data-info">{{profileItem.address}}</v-card-text>
             </v-card-text>
            <v-btn 
-           class="btn-edit" 
+           class="btn-edit1" 
            color="primary"
-           @click="openAppliancesBrandDialog({})"
+           @click="openClientProfileDialog({})"
            > Edit <span class="material-icons"></span> </v-btn>
            
           </div>
 
+        </v-card>
+      </div>
+      
+      <nav id="my">Account</nav>
+      <div id="div-sesion">
+        <v-card class="profilecard2" color="rgba(3,64,120,0.19)">
+          <div id="info">
+            
+            <v-card-text class="data-info">Email:
+              <v-card-text class="data-info"> {{profileItem.email}}</v-card-text>
+            </v-card-text>
+            <v-spacer class="space"></v-spacer>
+            <v-card-text class="data-info">Password:
+              <v-card-text class="data-info">{{profileItem.password}}</v-card-text>
+            </v-card-text>
+           <v-btn 
+           class="btn-edit2" 
+           color="primary"
+           @click="openClientSesionDialog({})"
+           > Edit <span class="material-icons"></span> </v-btn>
+           
+          </div>
         </v-card>
       </div>
       <ClientProfileDialog
@@ -48,6 +66,16 @@
       v-bind:item="profileItem"
       v-on:close-dialog="closeClientProfileDialog"
       v-on:client-profile-information="saveInformationClientDialog"
+      v-on:delete-client-profile="deleteProfile"
+      />
+      <ClientSesionDialog
+      v-bind:dialog="dialog2"
+      v-bind:edit="editSesion"
+      v-bind:title="editSesion ? 'Editar' : 'Nueva cuenta'"
+      v-bind:item="profileItem"
+      v-on:close-dialog="closeClientSesionDialog"
+      v-on:client-sesion-information="saveInformationsesionClientDialog"
+      v-on:delete-client-sesion="deleteSesion"
       />
     </v-container>
   </v-card>
@@ -56,33 +84,36 @@
 <script>
 import ClientsApiService from "../../core/services/clients-api-service";
 import ClientProfileDialog from "../../components/client/Client-profile-dialog";
+import ClientSesionDialog from "../../components/client/Client-sesion-dialog";
 
 export default {
   name: "Profile",
    data() {
     return {
-      clientprofile: {},
       dialog: false,
+      dialog2: false,
       editProfile: false,
+      editSesion: false,
       profileItem: {},
-      currentClientId: "1",
     }
   },
   components: {
-    ClientProfileDialog
+    ClientProfileDialog,
+    ClientSesionDialog
   },
    methods: {
-    getclientId(clients) {
+    getId(clients) {
       return {
         id: clients.id,
         names: clients.names,
-        lastName: clients.lastName,
+        lastNames: clients.lastNames,
         cellphoneNumber: clients.cellphoneNumber,
         address: clients.address,
-        email: clients.email
+        email: clients.email,
+        password: clients.password
       }
     },
-    openAppliancesBrandDialog(item) {
+    openClientProfileDialog(item) {
       this.profileItem = Object.assign({}, item);
       this.dialog = true;
       this.editProfile = !!item.id;
@@ -90,69 +121,95 @@ export default {
     closeClientProfileDialog() {
       this.dialog = false;
     },
+    openClientSesionDialog(item) {
+      this.profileItem = Object.assign({}, item);
+      this.dialog2 = true;
+      this.editSesion = !!item.id;
+    },
+    closeClientSesionDialog() {
+      this.dialog2 = false;
+    },
     async retrieveClient() {
-      let clientId = localStorage.getItem("clientId");
-      await ClientsApiService.getAll(this.currentClientId)
+      let clientId = localStorage.getItem("userId");
+      await ClientsApiService.getById(clientId)
         .then(response => {
-          clientId = response.data.map(this.getclientsId);
+         this.profileItem = response.data
+        })
+        .catch(e => {
+          console.log(e);
+        });   
+    },
+    updateProfile(clientInformation) {
+      ClientsApiService.update(clientInformation.id, clientInformation)
+        .then(response => {
+         console.log(response);
         })
         .catch(e => {
           console.log(e);
         });
-
-      this.profileItem = [];
-      for (let id of clientId) {
-        await ClientsApiService.getById(id.clientId)
-          .then(response => {
-            let clientsId = "";
-            
-
-            response.data.id = id.id;
-            this.clients = this.clients
-                .concat(Object.assign({ names: clientsId, purchaseDate: id.purchaseDate, clientId: id.clientId }, response.data));
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      }
     },
-    updateProfile(clientsInformation) {
+    updateSesion(clientInformation) {
       const clients = {
-        id: clientsInformation.id,
-        purchaseDate: parseInt(clientsInformation.purchaseDate)
+        id: clientInformation.id,
+        email: clientInformation.email,
+        password: clientInformation.password
       }
-
       ClientsApiService.update(clients.id, clients)
         .then(response => {
-          console.log(response);
+         this.sesionItem = response.data
         })
         .catch(e => {
           console.log(e);
         });
     },
-       createProfile(clientsInformation) {
-      const clients = {
-        id: clientsInformation.id,
-        purchaseDate: parseInt(clientsInformation.purchaseDate)
-      }
-
-      ClientsApiService.create(clients)
+    createSesion(clientInformation) {
+      ClientsApiService.create(clientInformation)
           .then(response => {
-            console.log(response);
+            this.sesionItem = response.data
           })
           .catch(e => {
             console.log(e);
           });
     },
-    async saveInformationClientDialog(clientsInformation) {
+    createProfile(clientInformation) {
+      ClientsApiService.create(clientInformation)
+          .then(response => {
+            this.profileItem = response.data
+          })
+          .catch(e => {
+            console.log(e);
+          });
+    },
+    async saveInformationClientDialog(clientInformation) {
       if (this.editProfile) {
-        await this.updateProfile(clientsInformation);
+        await this.updateProfile(clientInformation);
       }
       else {
-        await this.createProfile(clientsInformation);
+        await this.createProfile(clientInformation);
       }
+
       this.closeClientProfileDialog();
     },
+    async saveInformationsesionClientDialog(clientInformation) {
+      if (this.editSesion) {
+        await this.updateSesion(clientInformation);
+      }
+      else {
+        await this.createSesion(clientInformation);
+      }
+      this.closeClientSesionDialog();
+    },
+    async deleteProfile(id) {
+      await ClientsApiService.delete(id)
+        .then(response => {
+          this.profileItem = response.data
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      await this.retrieveClient();
+      this.closeClientProfileDialog();
+    }
   },
    mounted() {
     this.retrieveClient();
@@ -173,8 +230,8 @@ export default {
   height: 10px;
 }
 .my-profile {
-  height: 550px;
-  width: 80%;
+  height: 800px;
+  width: 100%;
 }
 #my{
   display: flex;
@@ -188,12 +245,24 @@ export default {
   display: flex;
   justify-content: center; /*centra horizontal*/
   align-items: center;
-  height: 480px;
+  height: 500px;
+  width: 100%;
+}
+#div-sesion {
+  display: flex;
+  justify-content: center; /*centra horizontal*/
+  align-items: center;
+  height: 200px;
   width: 100%;
 }
 .profilecard {
   width: 400px;
   height: 470px;
+  border-radius: 25px;
+}
+.profilecard2 {
+  width: 400px;
+  height: 150px;
   border-radius: 25px;
 }
 #image-div {
@@ -224,7 +293,21 @@ export default {
   margin-left: 20px;
   height: 250px;
 }
+#info2 {
+  margin-left: 20px;
+  height: 250px;
+}
 .data-info {
+  margin-top: -15px;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: 0em;
+  color: black;
+}
+.data-info2 {
   margin-top: -15px;
   font-family: Roboto;
   font-size: 18px;
@@ -237,7 +320,13 @@ export default {
 .space {
   margin-top: -40px;
 }
-.btn-edit{
+
+.btn-edit1{
+  float: right;
+right: 20px;
+bottom: 60px;
+}
+.btn-edit2{
   float: right;
 right: 20px;
 bottom: 60px;

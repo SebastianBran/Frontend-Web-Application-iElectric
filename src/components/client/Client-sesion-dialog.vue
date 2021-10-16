@@ -15,20 +15,22 @@
                 
               <v-col cols="12">
                 <v-text-field
-                    label="Email*"
-                    required
-                    outlined
-                    v-model="item.email"
+                v-model="item.email"
+                :rules="[rules.required, rules.email]"
+                label="Email"
+                outlined
                 ></v-text-field>
               </v-col>
 
-            <v-col cols="12">
-                <v-text-field
-                    label="Pasword*"
-                    required
-                    outlined
-                    v-model="item.password"
-                ></v-text-field>
+             <v-col cols="12">
+               <v-text-field
+                v-model="item.password"
+                :rules="[rules.required, rules.password, rules.passwordLength]"
+                name="input-password"
+                label="Password"
+                outlined
+             ></v-text-field>
+
               </v-col>
 
             </v-row>
@@ -104,7 +106,26 @@ export default {
   data() {
     return {
       dialogDelete: false,
-      Saveprofile: false
+      Saveprofile: false,
+      showPassword: false,
+      rules: {
+        required: v => !!v || 'Required',
+        email: v => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(v) || 'Invalid e-mail.';
+        },
+        password: v => {
+          const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+          return pattern.test(v) || 'The password must have at least one capital letter and one number';
+        },
+        cellphoneNumber: v => {
+          const pattern = /^(9)([0-9]){8}$/
+          return pattern.test(v) || 'Wrong number';
+        },
+        passwordLength: v => v.length >= 8 || 'Min 8 characters',
+        maxLength30: v => v.length <= 30 || 'Max 30 characters',
+        maxLength50: v => v.length <= 50 || 'Max 50 characters'
+      }
     }
   },
   methods: {
@@ -118,10 +139,6 @@ export default {
 
       this.$emit("client-sesion-information", this.item);
     },
-    deleteProfile() {
-      this.$emit("delete-client-sesion", this.item.id);
-      this.dialogDelete = false;
-    }
   },
 }
 </script>

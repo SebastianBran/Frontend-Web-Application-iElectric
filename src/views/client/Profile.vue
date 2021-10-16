@@ -9,30 +9,28 @@
         <v-card class="profilecard" color="rgba(3,64,120,0.19)">
           
           <v-img
-          src="../../assets/img/user.png"
-          max-width="200px"
-          alt="user image"
-          class="mx-auto mt-10"
+           src="../../assets/img/user.png"
+           max-width="200px"
+           alt="user image"
+           class="mx-auto mt-10"
           ></v-img>
-          
           <div id="title-name-div">
             <v-card-title id="name"><b>{{profileItem.names +" "+ profileItem.lastNames}}</b></v-card-title>
           </div>
-
-          <div id="info">
-            <v-card-text class="data-info">Cellphone:
-              <v-card-text class="data-info">{{profileItem.cellphoneNumber}}</v-card-text>
-            </v-card-text>
+          <div id="info">              
+              <v-card-text class="data-info">Adress:
+               <v-card-text class="data-info">{{profileItem.address}}</v-card-text>
+              </v-card-text>
             <v-spacer class="space"></v-spacer>
-            <v-card-text class="data-info">Adress:
-              <v-card-text class="data-info">{{profileItem.address}}</v-card-text>
-            </v-card-text>
-           <v-btn 
-           class="btn-edit1" 
-           color="primary"
-           @click="openClientProfileDialog({})"
-           > Edit <span class="material-icons"></span> </v-btn>
-           
+              <v-card-text class="data-info">Cellphone:
+                <v-card-text class="data-info">{{profileItem.cellphoneNumber}}</v-card-text>
+              </v-card-text>
+              <v-btn 
+               class="btn-edit1" 
+               color="primary"
+               @click="openClientProfileDialog({})"
+               >Edit <span class="material-icons"></span> 
+              </v-btn>        
           </div>
 
         </v-card>
@@ -42,19 +40,18 @@
       <div id="div-sesion">
         <v-card class="profilecard2" color="rgba(3,64,120,0.19)">
           <div id="info">
-            
             <v-card-text class="data-info">Email:
-              <v-card-text class="data-info"> {{profileItem.email}}</v-card-text>
+              <v-card-text class="data-info"> {{sesionItem.email}}</v-card-text>
             </v-card-text>
-            <v-spacer class="space"></v-spacer>
+              <v-spacer class="space"></v-spacer>
             <v-card-text class="data-info">Password:
-              <v-card-text class="data-info">{{profileItem.password}}</v-card-text>
+              <v-card-text class="data-info">{{sesionItem.password}}</v-card-text>
             </v-card-text>
            <v-btn 
-           class="btn-edit2" 
-           color="primary"
-           @click="openClientSesionDialog({})"
-           > Edit <span class="material-icons"></span> </v-btn>
+             class="btn-edit2" 
+             color="primary"
+             @click="openClientSesionDialog({})"
+             > Edit <span class="material-icons"></span> </v-btn>
            
           </div>
         </v-card>
@@ -66,16 +63,14 @@
       v-bind:item="profileItem"
       v-on:close-dialog="closeClientProfileDialog"
       v-on:client-profile-information="saveInformationClientDialog"
-      v-on:delete-client-profile="deleteProfile"
       />
       <ClientSesionDialog
       v-bind:dialog="dialog2"
       v-bind:edit="editSesion"
       v-bind:title="editSesion ? 'Editar' : 'Nueva cuenta'"
-      v-bind:item="profileItem"
+      v-bind:item="sesionItem"
       v-on:close-dialog="closeClientSesionDialog"
       v-on:client-sesion-information="saveInformationsesionClientDialog"
-      v-on:delete-client-sesion="deleteSesion"
       />
     </v-container>
   </v-card>
@@ -95,6 +90,7 @@ export default {
       editProfile: false,
       editSesion: false,
       profileItem: {},
+      sesionItem: {},
     }
   },
   components: {
@@ -122,7 +118,7 @@ export default {
       this.dialog = false;
     },
     openClientSesionDialog(item) {
-      this.profileItem = Object.assign({}, item);
+      this.sesionItem = Object.assign({}, item);
       this.dialog2 = true;
       this.editSesion = !!item.id;
     },
@@ -134,82 +130,56 @@ export default {
       await ClientsApiService.getById(clientId)
         .then(response => {
          this.profileItem = response.data
+         this.sesionItem = response.data
         })
         .catch(e => {
           console.log(e);
         });   
     },
     updateProfile(clientInformation) {
-      ClientsApiService.update(clientInformation.id, clientInformation)
-        .then(response => {
-         console.log(response);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
-    updateSesion(clientInformation) {
-      const clients = {
+    const clientId = {
         id: clientInformation.id,
-        email: clientInformation.email,
-        password: clientInformation.password
+        names: clientInformation.names,
+        lastNames: clientInformation.lastNames,
+        cellphoneNumber: clientInformation.cellphoneNumber,
+        address: clientInformation.address
       }
-      ClientsApiService.update(clients.id, clients)
-        .then(response => {
-         this.sesionItem = response.data
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
-    createSesion(clientInformation) {
-      ClientsApiService.create(clientInformation)
-          .then(response => {
-            this.sesionItem = response.data
-          })
-          .catch(e => {
-            console.log(e);
-          });
-    },
-    createProfile(clientInformation) {
-      ClientsApiService.create(clientInformation)
-          .then(response => {
-            this.profileItem = response.data
-          })
-          .catch(e => {
-            console.log(e);
-          });
-    },
-    async saveInformationClientDialog(clientInformation) {
-      if (this.editProfile) {
-        await this.updateProfile(clientInformation);
-      }
-      else {
-        await this.createProfile(clientInformation);
-      }
-
-      this.closeClientProfileDialog();
-    },
-    async saveInformationsesionClientDialog(clientInformation) {
-      if (this.editSesion) {
-        await this.updateSesion(clientInformation);
-      }
-      else {
-        await this.createSesion(clientInformation);
-      }
-      this.closeClientSesionDialog();
-    },
-    async deleteProfile(id) {
-      await ClientsApiService.delete(id)
+    
+      ClientsApiService.update(clientId.id, clientId)
         .then(response => {
           this.profileItem = response.data
         })
         .catch(e => {
           console.log(e);
         });
-      await this.retrieveClient();
+    },
+    updateSesion(clientInformation) {
+    const clientId = {
+        id: clientInformation.id,
+        email: clientInformation.email,
+        password: clientInformation.password
+      }
+      console.log(clientId)
+      ClientsApiService.update(clientId.id, clientId)
+        .then(response => {
+          this.sesionItem = response.data
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    async saveInformationClientDialog(clientInformation) {
+      this.editProfile
+        await this.updateProfile(clientInformation);
+
       this.closeClientProfileDialog();
-    }
+    },
+    async saveInformationsesionClientDialog(clientInformation) {
+      this.editSesion
+        await this.updateSesion(clientInformation);
+
+      this.closeClientSesionDialog();
+    },
   },
    mounted() {
     this.retrieveClient();
@@ -293,10 +263,6 @@ export default {
   margin-left: 20px;
   height: 250px;
 }
-#info2 {
-  margin-left: 20px;
-  height: 250px;
-}
 .data-info {
   margin-top: -15px;
   font-family: Roboto;
@@ -324,11 +290,11 @@ export default {
 .btn-edit1{
   float: right;
 right: 20px;
-bottom: 60px;
+bottom: 30px;
 }
 .btn-edit2{
   float: right;
 right: 20px;
-bottom: 60px;
+bottom: 40px;
 }
 </style>

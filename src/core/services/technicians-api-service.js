@@ -20,6 +20,11 @@ class AppliancesApiService {
     getReports(id) {
         return http.get(`/technicians/${ id }/reports`);
     }
+
+    getSpareRequests(id) {
+        return http.get(`/technicians/${ id }/spareRequests`);
+    }
+
     getAppointments(id) {
         return http.get(`/technicians/${ id }/appointments`);
     }

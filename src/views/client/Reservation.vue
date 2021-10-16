@@ -27,8 +27,8 @@
     <v-item-group active-class="primary">
       <v-row>
         <v-col
-            v-for="appliance in appliances"
-            :key="appliance.id"
+            v-for="applianceReserveItem in appliances"
+            :key="applianceReserveItem.id"
             cols="12"
             xl="2"
             lg="3"
@@ -53,27 +53,27 @@
                   elevation="0"
                   >
                 <v-img
-                    v-bind:src="require(`../../../src/assets/img/appliance-models/${appliance.imagePath}`)"
+                    v-bind:src="require(`../../../src/assets/img/appliance-models/${applianceModels.imagePath}`)"
                     aspect-ratio="1.5"
                 ></v-img>
               </v-card>
               <v-card-title>
-                {{ appliance.name }}
+                {{ applianceReserveItem.name }}
               </v-card-title>
               <v-lable>
-              <n style="padding:16px; color:gray;"> {{ appliance.status }}</n><br>
+              <n style="padding:16px; color:gray;"> {{ applianceReserveItem.hour }}</n><br>
               </v-lable>
               <v-lable >
                <n style="padding:16px; color:gray;"> Reserve data :</n><br>
               </v-lable>
               <v-lable>
-              <n style="padding:16px; color:gray;"> {{ appliance.date_reserve }}</n><br>
+              <n style="padding:16px; color:gray;"> {{ applianceReserveItem.date_reserve }}</n><br>
               </v-lable>
             <v-lable>
                <n style="padding:16px; color:gray;"> Attention date :</n><br>
               </v-lable>
               <v-lable>
-              <n style="padding:16px; color:gray;"> {{ appliance.date_atention }}</n><br>
+              <n style="padding:16px; color:gray;"> {{ applianceReserveItem.date_atention }}</n><br>
               </v-lable>
             </v-card>
           </v-item>
@@ -94,7 +94,9 @@
 </template>
 
 <script>
-import ReserveApiService from "../../core/services/reserve-api-service";
+
+import ApplianceModelsService from "../../core/services/appliance-models-api-service";
+import AppointmentsApiService from "../../core/services/appointments-api-service";
 import ReserveDialog from "../../components/client/reserve-dialog";
 
 export default {
@@ -111,25 +113,41 @@ export default {
     ReserveDialog
   },
   methods: {
-    getAppliance(appliance) {
+    getAppliance(applianceModels) {
       return {
-        id: appliance.id,
-        name: appliance.name,
-        imagePath: appliance.imagePath,
-        status: appliance.status,
-        date_reserve: appliance.date_reserve,
-        date_atention: appliance.date_atention
+        id: applianceModels.id,
+        name: applianceModels.name,
+        imagePath: applianceModels.imagePath,
+        model: applianceModels.model
       }
     },
-    retrieveAppliances() {
-      ReserveApiService.getAll()
+    getAppointments(appointments) {
+      return {
+        id: appointments.id,
+        date_reserve: appointments.date_reserve,
+        date_atention: appointments.date_atention,
+        hour: appointments.hour
+      }
+    },
+    async retrieveAppliances() {
+      let AppliancesId = localStorage.getItem("userId");
+      await ApplianceModelsService.getById(AppliancesId)
         .then(response => {
-          this.appliances = response.data.map(this.getAppliance);
-          console.log(this.appliances);
+         this.applianceReserveItem = response.data
         })
         .catch(e => {
           console.log(e);
-        });
+        });   
+    },
+     async retrieveAppointments() {
+      let AppointmentsId = localStorage.getItem("userId");
+      await AppointmentsApiService.getById(AppointmentsId)
+        .then(response => {
+         this.applianceReserveItem = response.data
+        })
+        .catch(e => {
+          console.log(e);
+        });   
     },
     openAppliancesBrandDialog(item) {
       this.applianceReserveItem = Object.assign({}, item);
@@ -140,7 +158,7 @@ export default {
       this.dialog = false;
     },
     updateApplianceBrand(brandInformation) {
-      ReserveApiService.update(brandInformation.id, brandInformation)
+      ApplianceModelsService.update(brandInformation.id, brandInformation)
           .then(response => {
             console.log(response);
           })
@@ -149,7 +167,25 @@ export default {
           });
     },
     createApplianceBrand(brandInformation) {
-      ReserveApiService.create(brandInformation)
+      ApplianceModelsService.create(brandInformation)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+    },
+    updateAppointmentsBrand(brandInformation) {
+      AppointmentsApiService.update(brandInformation.id, brandInformation)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+    },
+    createAppointmentsBrand(brandInformation) {
+      AppointmentsApiService.create(brandInformation)
           .then(response => {
             console.log(response);
           })
@@ -167,8 +203,18 @@ export default {
       this.retrieveAppliances();
       this.closeAppliancesReserveDialog();
     },
+    async saveInformationAppointmentsDialog(brandInformation) {
+      if (this.editReserve) {
+        await this.updateAppointmentsBrand(brandInformation);
+      }
+      else {
+        await this.createAppointmentsBrand(brandInformation);
+      }
+      this.retrieveAppointments();
+      this.closeAppliancesReserveDialog();
+    },
     async deleteReserve(id) {
-      await ReserveApiService.delete(id)
+      await ApplianceModelsService.delete(id)
           .then(response => {
             console.log(response);
           })
@@ -177,10 +223,22 @@ export default {
           });
       this.retrieveAppliances();
       this.closeAppliancesReserveDialog();
+    },
+    async deleteAppointments(id) {
+      await AppointmentsApiService.delete(id)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      this.retrieveAppointments();
+      this.closeAppliancesReserveDialog();
     }
   },
   mounted() {
     this.retrieveAppliances();
+    this.retrieveAppointments();
   }
 }
 </script>

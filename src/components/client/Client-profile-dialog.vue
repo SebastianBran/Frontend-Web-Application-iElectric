@@ -15,12 +15,12 @@
                 
               <v-col cols="12">
                 <v-text-field
-                v-model="item.names"
-                label="Firstname*"
-                :rules="[rules.required, rules.maxLength30]"
-                counter="30"
-                outlined
-            ></v-text-field>
+                  v-model="item.names"
+                  label="Firstname*"
+                  :rules="[rules.required, rules.maxLength30]"
+                  counter="30"
+                  outlined
+                ></v-text-field>
               </v-col>
 
             <v-col cols="12">
@@ -112,13 +112,11 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "Client-profile-dialog",
   props: {
     dialog: Boolean,
-    edit: Boolean,
     title: String,
     item: Object,
   },
@@ -151,10 +149,7 @@ export default {
       this.$emit("close-dialog");
     },
     saveInformation() {
-      if (!this.edit) {
-        this.item.id = uuidv4();
-      }
-
+      console.log(this.item, "dialog");
       this.$emit("client-profile-information", this.item);
     },
   },

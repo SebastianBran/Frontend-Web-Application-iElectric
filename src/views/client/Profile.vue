@@ -28,7 +28,7 @@
               <v-btn 
                class="btn-edit1" 
                color="primary"
-               @click="openClientProfileDialog({})"
+               @click="openPersonalInformationDialog()"
                >Edit <span class="material-icons"></span> 
               </v-btn>        
           </div>
@@ -41,36 +41,33 @@
         <v-card class="profilecard2" color="rgba(3,64,120,0.19)">
           <div id="info">
             <v-card-text class="data-info">Email:
-              <v-card-text class="data-info"> {{sesionItem.email}}</v-card-text>
+              <v-card-text class="data-info"> {{profileItem.email}}</v-card-text>
             </v-card-text>
               <v-spacer class="space"></v-spacer>
             <v-card-text class="data-info">Password:
-              <v-card-text class="data-info">{{sesionItem.password}}</v-card-text>
+              <v-card-text class="data-info">{{profileItem.password}}</v-card-text>
             </v-card-text>
            <v-btn 
              class="btn-edit2" 
              color="primary"
-             @click="openClientSesionDialog({})"
+             @click="openEmailAndPasswordDialog()"
              > Edit <span class="material-icons"></span> </v-btn>
-           
           </div>
         </v-card>
       </div>
       <ClientProfileDialog
-      v-bind:dialog="dialog"
-      v-bind:edit="editProfile"
-      v-bind:title="editProfile ? 'Editar' : 'Nuevo perfil'"
-      v-bind:item="profileItem"
-      v-on:close-dialog="closeClientProfileDialog"
-      v-on:client-profile-information="saveInformationClientDialog"
+        v-bind:dialog="personalInformationDialog"
+        v-bind:title="'Edit person information'"
+        v-bind:item="profileItem"
+        v-on:close-dialog="closePersonalInformationDialog"
+        v-on:client-profile-information="updatePersonalInformation"
       />
       <ClientSesionDialog
-      v-bind:dialog="dialog2"
-      v-bind:edit="editSesion"
-      v-bind:title="editSesion ? 'Editar' : 'Nueva cuenta'"
-      v-bind:item="sesionItem"
-      v-on:close-dialog="closeClientSesionDialog"
-      v-on:client-sesion-information="saveInformationsesionClientDialog"
+        v-bind:dialog="emailAndPasswordDialog"
+        v-bind:title="'Edit email and password'"
+        v-bind:item="profileItem"
+        v-on:close-dialog="closeEmailAndPasswordDialog"
+        v-on:client-sesion-information="updateEmailAndPassword"
       />
     </v-container>
   </v-card>
@@ -85,12 +82,9 @@ export default {
   name: "Profile",
    data() {
     return {
-      dialog: false,
-      dialog2: false,
-      editProfile: false,
-      editSesion: false,
+      personalInformationDialog: false,
+      emailAndPasswordDialog: false,
       profileItem: {},
-      sesionItem: {},
     }
   },
   components: {
@@ -98,89 +92,58 @@ export default {
     ClientSesionDialog
   },
    methods: {
-    getId(clients) {
-      return {
-        id: clients.id,
-        names: clients.names,
-        lastNames: clients.lastNames,
-        cellphoneNumber: clients.cellphoneNumber,
-        address: clients.address,
-        email: clients.email,
-        password: clients.password
-      }
+    openPersonalInformationDialog() {
+      this.personalInformationDialog = true;
     },
-    openClientProfileDialog(item) {
-      this.profileItem = Object.assign({}, item);
-      this.dialog = true;
-      this.editProfile = !!item.id;
+    closePersonalInformationDialog() {
+      this.personalInformationDialog = false;
     },
-    closeClientProfileDialog() {
-      this.dialog = false;
+    openEmailAndPasswordDialog() {
+      this.emailAndPasswordDialog = true;
     },
-    openClientSesionDialog(item) {
-      this.sesionItem = Object.assign({}, item);
-      this.dialog2 = true;
-      this.editSesion = !!item.id;
-    },
-    closeClientSesionDialog() {
-      this.dialog2 = false;
+    closeEmailAndPasswordDialog() {
+      this.emailAndPasswordDialog = false;
     },
     async retrieveClient() {
       let clientId = localStorage.getItem("userId");
       await ClientsApiService.getById(clientId)
         .then(response => {
-         this.profileItem = response.data
-         this.sesionItem = response.data
+          this.profileItem = response.data
         })
         .catch(e => {
-          this.profileItem = e.data
-         this.sesionItem = e.data
-        });   
+          console.log(e);
+        });
+      console.log(this.profileItem, "retrieve");
     },
-    updateProfile(clientInformation) {
-    const clientId = {
-        id: clientInformation.id,
-        names: clientInformation.names,
-        lastNames: clientInformation.lastNames,
-        cellphoneNumber: clientInformation.cellphoneNumber,
-        address: clientInformation.address
-      }
-    
-      ClientsApiService.update(clientId.id, clientId)
+    updatePersonalInformation(profileItem) {
+      console.log(this.profileItem, "profile");
+      this.profileItem = Object.assign(profileItem, this.profileItem);
+
+      console.log(this.profileItem, "update");
+
+      ClientsApiService.update(this.profileItem.id, this.profileItem)
+        .then(response => {
+          this.profileItem = response.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+      this.closePersonalInformationDialog();
+    },
+    updateEmailAndPassword(profileItem) {
+      ClientsApiService.update(profileItem.id, profileItem)
         .then(response => {
           this.profileItem = response.data
         })
         .catch(e => {
-           this.profileItem = e.data
+          console.log(e);
         });
-    },
-    updateSesion(clientInformation) {
-      const clientId = {
-        id: clientInformation.id,
-        email: clientInformation.email,
-        password: clientInformation.password
-      }
-      ClientsApiService.update(clientId.id, clientId)
-        .then(response => {
-          this.sesionItem = response.data
-        })
-        .catch(e => {
-           this.sesionItem = e.data
-        });
- },
-    async saveInformationClientDialog(clientInformation) {
-      this.editProfile
-        await this.updateProfile(clientInformation);
-      this.closeClientProfileDialog();
-    },
-    async saveInformationsesionClientDialog(clientInformation) {
-      this.editSesion
-        await this.updateSesion(clientInformation);
 
-      this.closeClientSesionDialog();
+        this.closeEmailAndPasswordDialog();
     },
   },
-   mounted() {
+  mounted() {
     this.retrieveClient();
   }
 }

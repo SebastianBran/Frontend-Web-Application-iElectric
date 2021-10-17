@@ -133,7 +133,8 @@ export default {
          this.sesionItem = response.data
         })
         .catch(e => {
-          console.log(e);
+          this.profileItem = e.data
+         this.sesionItem = e.data
         });   
     },
     updateProfile(clientInformation) {
@@ -150,28 +151,26 @@ export default {
           this.profileItem = response.data
         })
         .catch(e => {
-          console.log(e);
+           this.profileItem = e.data
         });
     },
     updateSesion(clientInformation) {
-    const clientId = {
+      const clientId = {
         id: clientInformation.id,
         email: clientInformation.email,
         password: clientInformation.password
       }
-      console.log(clientId)
       ClientsApiService.update(clientId.id, clientId)
         .then(response => {
           this.sesionItem = response.data
         })
         .catch(e => {
-          console.log(e);
+           this.sesionItem = e.data
         });
-    },
+ },
     async saveInformationClientDialog(clientInformation) {
       this.editProfile
         await this.updateProfile(clientInformation);
-
       this.closeClientProfileDialog();
     },
     async saveInformationsesionClientDialog(clientInformation) {

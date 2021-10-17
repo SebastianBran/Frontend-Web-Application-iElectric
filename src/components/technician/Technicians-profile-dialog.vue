@@ -52,6 +52,16 @@
                 outlined
             ></v-text-field>
               </v-col>
+
+              <v-col cols="12">
+                <v-text-field
+                v-model="item.birthday"
+                label="Birthday(y/m/d)*"
+                :rules="[rules.required, rules.birthday]"
+                counter="10"
+                outlined
+            ></v-text-field>
+              </v-col>
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -112,12 +122,10 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
 export default {
   name: "Technicians-profile-dialog",
   props: {
     dialog: Boolean,
-    edit: Boolean,
     title: String,
     item: Object,
   },
@@ -139,6 +147,10 @@ export default {
           const pattern = /^(9)([0-9]){8}$/
           return pattern.test(v) || 'Wrong number';
         },
+        birthday: v => {
+          const pattern = /^(9)([0-9]){8}$/
+          return pattern.test(v) || 'Wrong number';
+        },
         passwordLength: v => v.length >= 8 || 'Min 8 characters',
         maxLength30: v => v.length <= 30 || 'Max 30 characters',
         maxLength50: v => v.length <= 50 || 'Max 50 characters'
@@ -150,9 +162,7 @@ export default {
       this.$emit("close-dialog");
     },
     saveInformation() {
-      if (!this.edit) {
-        this.item.id = uuidv4();
-      }
+      console.log(this.item, "dialog");
       this.$emit("technician-profile-information", this.item);
     },
   },

@@ -25,10 +25,14 @@
               <v-card-text class="data-info">Cellphone:
                 <v-card-text class="data-info">{{profileItem.cellphoneNumber}}</v-card-text>
               </v-card-text>
+              <v-spacer class="space"></v-spacer>
+              <v-card-text class="data-info">Birthday:
+                <v-card-text class="data-info">{{profileItem.birthday}}</v-card-text>
+              </v-card-text>
               <v-btn 
                class="btn-edit1" 
                color="primary"
-               @click="openTechnicianProfileDialog({})"
+               @click="openPersonalInformationDialog()"
                >Edit <span class="material-icons"></span> 
               </v-btn>        
           </div>
@@ -41,36 +45,33 @@
         <v-card class="profilecard2" color="rgba(3,64,120,0.19)">
           <div id="info">
             <v-card-text class="data-info">Email:
-              <v-card-text class="data-info"> {{sesionItem.email}}</v-card-text>
+              <v-card-text class="data-info"> {{profileItem.email}}</v-card-text>
             </v-card-text>
               <v-spacer class="space"></v-spacer>
             <v-card-text class="data-info">Password:
-              <v-card-text class="data-info">{{sesionItem.password}}</v-card-text>
+              <v-card-text class="data-info">{{profileItem.password}}</v-card-text>
             </v-card-text>
            <v-btn 
              class="btn-edit2" 
              color="primary"
-             @click="openTechnicianSesionDialog({})"
+             @click="openEmailAndPasswordDialog()"
              > Edit <span class="material-icons"></span> </v-btn>
-           
           </div>
         </v-card>
       </div>
       <TechnicianProfileDialog
-      v-bind:dialog="dialog"
-      v-bind:edit="editProfile"
-      v-bind:title="editProfile ? 'Editar' : 'Nuevo perfil'"
-      v-bind:item="profileItem"
-      v-on:close-dialog="closeTechnicianProfileDialog"
-      v-on:technician-profile-information="saveInformationTechnicianDialog"
+        v-bind:dialog="personalInformationDialog"
+        v-bind:title="'Edit person information'"
+        v-bind:item="profileItem"
+        v-on:close-dialog="closePersonalInformationDialog"
+        v-on:technician-profile-information="updatePersonalInformation"
       />
       <TechnicianSesionDialog
-      v-bind:dialog="dialog2"
-      v-bind:edit="editSesion"
-      v-bind:title="editSesion ? 'Editar' : 'Nueva cuenta'"
-      v-bind:item="sesionItem"
-      v-on:close-dialog="closeTechnicianSesionDialog"
-      v-on:technician-sesion-information="saveInformationsesionTechnicianDialog"
+        v-bind:dialog="emailAndPasswordDialog"
+        v-bind:title="'Edit email and password'"
+        v-bind:item="profileItem"
+        v-on:close-dialog="closeEmailAndPasswordDialog"
+        v-on:technician-sesion-information="updateEmailAndPassword"
       />
     </v-container>
   </v-card>
@@ -85,12 +86,9 @@ export default {
   name: "Profile",
    data() {
     return {
-      dialog: false,
-      dialog2: false,
-      editProfile: false,
-      editSesion: false,
+      personalInformationDialog: false,
+      emailAndPasswordDialog: false,
       profileItem: {},
-      sesionItem: {},
     }
   },
   components: {
@@ -98,91 +96,62 @@ export default {
     TechnicianSesionDialog
   },
    methods: {
-    getId(technicians) {
-      return {
-        id: technicians.id,
-        names: technicians.names,
-        lastNames: technicians.lastNames,
-        cellphoneNumber: technicians.cellphoneNumber,
-        address: technicians.address,
-        email: technicians.email,
-        password: technicians.password
-      }
+    openPersonalInformationDialog() {
+      this.personalInformationDialog = true;
     },
-    openTechnicianProfileDialog(item) {
-      this.profileItem = Object.assign({}, item);
-      this.dialog = true;
-      this.editProfile = !!item.id;
+    closePersonalInformationDialog() {
+      this.personalInformationDialog = false;
     },
-    closeTechnicianProfileDialog() {
-      this.dialog = false;
+    openEmailAndPasswordDialog() {
+      this.emailAndPasswordDialog = true;
     },
-    openTechnicianSesionDialog(item) {
-      this.sesionItem = Object.assign({}, item);
-      this.dialog2 = true;
-      this.editSesion = !!item.id;
-    },
-    closeTechnicianSesionDialog() {
-      this.dialog2 = false;
+    closeEmailAndPasswordDialog() {
+      this.emailAndPasswordDialog = false;
     },
     async retrieveTechnician() {
       let TechnicianId = localStorage.getItem("userId");
       await AppliancesApiService.getById(TechnicianId)
         .then(response => {
          this.profileItem = response.data
-         this.sesionItem = response.data
         })
         .catch(e => {
           console.log(e);
         });   
+        console.log(this.profileItem, "retrieve");
     },
-    updateProfile(TechnicianInformation) {
-    const TechnicianId = {
-        id: TechnicianInformation.id,
-        names: TechnicianInformation.names,
-        lastNames: TechnicianInformation.lastNames,
-        cellphoneNumber: TechnicianInformation.cellphoneNumber,
-        address: TechnicianInformation.address
-      }
-    
-      AppliancesApiService.update(TechnicianId.id, TechnicianId)
+    updatePersonalInformation(profileItem) {
+      console.log(this.profileItem, "profile");
+      this.profileItem = Object.assign(profileItem, this.profileItem);
+
+      console.log(this.profileItem, "update");
+
+      AppliancesApiService.update(this.profileItem.id, this.profileItem)
+        .then(response => {
+          this.profileItem = response.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      this.closePersonalInformationDialog();
+    },
+    updateEmailAndPassword(profileItem) {
+      AppliancesApiService.update(profileItem.id, profileItem)
         .then(response => {
           this.profileItem = response.data
         })
         .catch(e => {
           console.log(e);
         });
-    },
-    updateSesion(TechnicianInformation) {
-    const TechnicianId = {
-        id: TechnicianInformation.id,
-        email: TechnicianInformation.email,
-        password: TechnicianInformation.password
-      }
-      console.log(TechnicianId)
-      AppliancesApiService.update(TechnicianId.id, TechnicianId)
-        .then(response => {
-          this.sesionItem = response.data
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
-    async saveInformationTechnicianDialog(TechnicianInformation) {
-      this.editProfile
-        await this.updateProfile(TechnicianInformation);
-      this.closeTechnicianProfileDialog();
-    },
-    async saveInformationsesionTechnicianDialog(TechnicianInformation) {
-      this.editSesion
-        await this.updateSesion(TechnicianInformation);
-      this.closeTechnicianSesionDialog();
+        this.closeEmailAndPasswordDialog();
     },
   },
    mounted() {
     this.retrieveTechnician();
   }
 }
+
+
+
 </script>
 
 <style scoped>
@@ -287,7 +256,7 @@ export default {
 .btn-edit1{
   float: right;
 right: 20px;
-bottom: 30px;
+bottom: 60px;
 }
 .btn-edit2{
   float: right;

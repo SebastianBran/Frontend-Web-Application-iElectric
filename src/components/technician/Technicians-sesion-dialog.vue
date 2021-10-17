@@ -93,12 +93,10 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
 export default {
   name: "Technicians-sesion-dialog",
   props: {
     dialog: Boolean,
-    edit: Boolean,
     title: String,
     item: Object,
   },
@@ -132,14 +130,11 @@ export default {
       this.$emit("close-dialog");
     },
     saveInformation2() {
-      if (!this.edit) {
-        this.item.id = uuidv4();
-      }
+      console.log(this.item, "dialog");
       this.$emit("technician-sesion-information", this.item);
     },
   },
 }
 </script>
-
 <style scoped>
 </style>

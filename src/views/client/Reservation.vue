@@ -10,7 +10,7 @@
         height="90px"
     >
     <v-card-title>
-               <n>Repair reserves</n>
+               Repair reserves
               </v-card-title>
       <v-col cols="12" sm="6" class="ml-auto">
         <v-text-field
@@ -25,16 +25,14 @@
     </v-app-bar>
 
     <v-item-group active-class="primary">
-      <v-row>
+      <v-row> 
         <v-col
-            v-for="applianceReserveItem in appliances"
-            :key="applianceReserveItem.id"
             cols="12"
             xl="2"
             lg="3"
             md="4"
             sm="6"
-        >
+        >     
           <v-item>
             <v-card>
               <v-app-bar flat dense class="white">
@@ -42,7 +40,7 @@
                     color="black"
                     icon
                     class="ml-auto"
-                    @click="openAppliancesBrandDialog(appliance)"
+                    @click="openReserveDialog()"
                 >
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
@@ -52,29 +50,30 @@
                   flat
                   elevation="0"
                   >
-                <v-img
-                    v-bind:src="require(`../../../src/assets/img/appliance-models/${applianceModels.imagePath}`)"
+               <v-img
+                    v-bind:src="require(`../../../src/assets/img/appliance-models/${applianceReserveItem.imagePath}`)"
                     aspect-ratio="1.5"
                 ></v-img>
               </v-card>
               <v-card-title>
                 {{ applianceReserveItem.name }}
-              </v-card-title>
-              <v-lable>
-              <n style="padding:16px; color:gray;"> {{ applianceReserveItem.hour }}</n><br>
-              </v-lable>
-              <v-lable >
-               <n style="padding:16px; color:gray;"> Reserve data :</n><br>
-              </v-lable>
-              <v-lable>
-              <n style="padding:16px; color:gray;"> {{ applianceReserveItem.date_reserve }}</n><br>
-              </v-lable>
-            <v-lable>
-               <n style="padding:16px; color:gray;"> Attention date :</n><br>
-              </v-lable>
-              <v-lable>
-              <n style="padding:16px; color:gray;"> {{ applianceReserveItem.date_atention }}</n><br>
-              </v-lable>
+                </v-card-title>
+                <v-spacer class="space"></v-spacer>
+              <v-card-text class="data-info">Model:
+               <v-card-text class="data-info">{{applianceReserveItem.model}}</v-card-text>
+              </v-card-text>
+              <v-spacer class="space"></v-spacer>
+              <v-card-text class="data-info">Hour:
+               <v-card-text class="data-info">{{applianceReserveItem.hour}}</v-card-text>
+              </v-card-text>
+              <v-spacer class="space"></v-spacer>
+              <v-card-text class="data-info">Reserve date:
+               <v-card-text class="data-info">{{applianceReserveItem.dateReserve}}</v-card-text>
+              </v-card-text>
+              <v-spacer class="space"></v-spacer>
+            <v-card-text class="data-info">Attention date:
+               <v-card-text class="data-info">{{applianceReserveItem.dateAttention}}</v-card-text>
+              </v-card-text>
             </v-card>
           </v-item>
         </v-col>
@@ -83,12 +82,11 @@
 
     <ReserveDialog
         v-bind:dialog="dialog"
-        v-bind:edit="editReserve"
-        v-bind:title="editReserve ? 'Reserve' : 'New Brand'"
+        v-bind:title="'Edit Reserve'"
         v-bind:item="applianceReserveItem"
-        v-on:close-dialog="closeAppliancesReserveDialog"
-        v-on:brand-information="saveInformationReserveDialog"
-        v-on:delete-brand="deleteReserve"
+        v-on:close-dialog="closeReserveDialog"
+        v-on:reserve-information="updateApplianceBrand"
+        v-on:delete-reserve="deleteReserve"
     />
   </v-container>
 </template>
@@ -103,33 +101,29 @@ export default {
   name: "Reservation",
   data() {
     return {
-      appliances: [],
       dialog: false,
-      editReserve: false,
-      applianceReserveItem: {}
+      applianceReserveItem: {},
     }
   },
   components: {
     ReserveDialog
   },
   methods: {
-    getAppliance(applianceModels) {
+    getAppointments(applianceReserveItem){
       return {
-        id: applianceModels.id,
-        name: applianceModels.name,
-        imagePath: applianceModels.imagePath,
-        model: applianceModels.model
-      }
+        id: applianceReserveItem.id,
+        hour: applianceReserveItem.hour,
+        dateAttention: applianceReserveItem.dateAttention,
+        dateReserve: applianceReserveItem.dateReserve
+      };
     },
-    getAppointments(appointments) {
-      return {
-        id: appointments.id,
-        date_reserve: appointments.date_reserve,
-        date_atention: appointments.date_atention,
-        hour: appointments.hour
-      }
+    openReserveDialog() {
+      this.dialog = true;
     },
-    async retrieveAppliances() {
+    closeReserveDialog() {  
+      this.dialog = false;
+    },
+     async retrieveAppliances() {
       let AppliancesId = localStorage.getItem("userId");
       await ApplianceModelsService.getById(AppliancesId)
         .then(response => {
@@ -137,106 +131,47 @@ export default {
         })
         .catch(e => {
           console.log(e);
-        });   
+        }); 
     },
      async retrieveAppointments() {
+      await this.retrieveAppliances();
       let AppointmentsId = localStorage.getItem("userId");
       await AppointmentsApiService.getById(AppointmentsId)
         .then(response => {
-         this.applianceReserveItem = response.data
+         this.applianceReserveItem = response.data(this.getAppointments);
         })
         .catch(e => {
           console.log(e);
         });   
-    },
-    openAppliancesBrandDialog(item) {
-      this.applianceReserveItem = Object.assign({}, item);
-      this.dialog = true;
-      this.editReserve = !!item.id;
-    },
-    closeAppliancesReserveDialog() {
-      this.dialog = false;
-    },
-    updateApplianceBrand(brandInformation) {
-      ApplianceModelsService.update(brandInformation.id, brandInformation)
+    },    
+     
+    updateApplianceBrand(applianceReserveItem) {
+      console.log(this.applianceReserveItem, "reserve");
+      this.applianceReserveItem = Object.assign(applianceReserveItem, this.applianceReserveItem);
+      AppointmentsApiService.update(applianceReserveItem.id, applianceReserveItem)
           .then(response => {
-            console.log(response);
+             this.applianceReserveItem = response.data;
           })
           .catch(e => {
             console.log(e);
           });
     },
-    createApplianceBrand(brandInformation) {
-      ApplianceModelsService.create(brandInformation)
+    async deleteReserve(applianceReserveItem) {
+      console.log(this.applianceReserveItem, "reserve");
+      this.applianceReserveItem = Object.assign(applianceReserveItem, this.applianceReserveItem);
+      AppointmentsApiService.delete(applianceReserveItem.id, applianceReserveItem)
           .then(response => {
-            console.log(response);
+            this.applianceReserveItem = response.data;
           })
           .catch(e => {
             console.log(e);
           });
-    },
-    updateAppointmentsBrand(brandInformation) {
-      AppointmentsApiService.update(brandInformation.id, brandInformation)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-    },
-    createAppointmentsBrand(brandInformation) {
-      AppointmentsApiService.create(brandInformation)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-    },
-    async saveInformationReserveDialog(brandInformation) {
-      if (this.editReserve) {
-        await this.updateApplianceBrand(brandInformation);
-      }
-      else {
-        await this.createApplianceBrand(brandInformation);
-      }
-      this.retrieveAppliances();
-      this.closeAppliancesReserveDialog();
-    },
-    async saveInformationAppointmentsDialog(brandInformation) {
-      if (this.editReserve) {
-        await this.updateAppointmentsBrand(brandInformation);
-      }
-      else {
-        await this.createAppointmentsBrand(brandInformation);
-      }
+          
       this.retrieveAppointments();
-      this.closeAppliancesReserveDialog();
+      this.closeReserveDialog();
     },
-    async deleteReserve(id) {
-      await ApplianceModelsService.delete(id)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      this.retrieveAppliances();
-      this.closeAppliancesReserveDialog();
-    },
-    async deleteAppointments(id) {
-      await AppointmentsApiService.delete(id)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      this.retrieveAppointments();
-      this.closeAppliancesReserveDialog();
-    }
   },
-  mounted() {
+  async mounted() {
     this.retrieveAppliances();
     this.retrieveAppointments();
   }
@@ -244,5 +179,17 @@ export default {
 </script>
 
 <style scoped>
-
+.space {
+  margin-top: -20px;
+}
+.data-info {
+  margin-top: -15px;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 21px;
+  letter-spacing: 0em;
+  color: black;
+}
 </style>

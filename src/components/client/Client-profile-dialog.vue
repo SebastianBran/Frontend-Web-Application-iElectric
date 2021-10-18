@@ -68,7 +68,7 @@
           <v-btn
               color="blue darken-1"
               text
-              @click="Saveprofile= true"
+              @click="saveProfile= true"
           >
             Save
           </v-btn>
@@ -78,7 +78,7 @@
 
     <v-row>
       <v-dialog
-          v-model="Saveprofile"
+          v-model="saveProfile"
           persistent
           max-width="290"
       >
@@ -92,7 +92,7 @@
             <v-btn
                 color="blue darken-1"
                 text
-                @click="Saveprofile = false"
+                @click="saveProfile = false"
             >
               Close
             </v-btn>
@@ -123,7 +123,7 @@ export default {
   data() {
     return {
       dialogDelete: false,
-      Saveprofile: false,
+      saveProfile: false,
       rules: {
         required: v => !!v || 'Required',
         cellphoneNumber: v => {
@@ -140,7 +140,7 @@ export default {
       this.$emit("close-dialog");
     },
     saveInformation() {
-      console.log(this.item, "dialog");
+      this.saveProfile = false;
       this.$emit("client-profile-information", this.item);
     },
   },

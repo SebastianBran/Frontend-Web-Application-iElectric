@@ -10,7 +10,7 @@
       >
         <v-row justify="space-between">
           <v-col>
-           {{appointment.address}}
+           {{getAddressClient(appointment)}}
           </v-col>
           <v-col
           class="text-right"
@@ -37,22 +37,22 @@
     >
       <v-card>
         <v-card-title>
-          <span class="text-h5"> Date </span>
+          <span class="text-h5"> Appointment </span>
         </v-card-title>
 
         <v-card-text>
           <v-container>
             <v-row>
-              <span class="text-h6">Direction</span>
+              <span class="text-h6">Address</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.address}}</span>
+              <span> {{ editItem.clientAddress}}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Date</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.date }}</span>
+              <span> {{ editItem.dateAttention }}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Hour</span>
@@ -82,6 +82,7 @@
 
 <script>
 import TechnicianApiService from "../../core/services/technicians-api-service";
+import ClientApiService from "../../core/services/clients-api-service";
 
 export default {
   name: "Routes",
@@ -92,9 +93,8 @@ export default {
       search: '',
       openReport: false,
       editItem: {
-        address: "",
         applianceModelsId: "",
-        date: "",
+        dateAttention: "",
         clientId: "",
         hour: "",
         id: "",
@@ -111,7 +111,7 @@ export default {
         cellphoneNumber: technician.cellphoneNumber,
         address: technician.address,
         email: technician.email,
-        birthday: technician.birthday
+        birthday: technician.birthday,
       }
     },
     async retrieveReports() {
@@ -139,11 +139,25 @@ export default {
               console.log(e);
             });
       }
-      this.appointments.sortArray("hour");
     },
     seeReport(item) {
       this.editItem = Object.assign({}, item);
       this.openReport = true;
+    },
+    async getAddressClient(editItem){
+      let client={
+        address:"",
+      }
+      return await ClientApiService.getById(editItem.clientId)
+          .then((response)=>{
+            console.log(client.address);
+            client= response.data;
+            console.log(client.address);
+            return client.address;
+          })
+          .catch(e => {
+            console.log(e);
+          });
     }
   },
   mounted() {

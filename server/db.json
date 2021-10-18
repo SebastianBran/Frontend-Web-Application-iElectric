@@ -86,8 +86,10 @@
       "lastnames": "Ramirez Rojas",
       "cellphoneNumber": "999123456",
       "address": "Urb. Thiago Terán # 452",
-      "email": "jmanzanares@aguilera.com",
-      "birthday": "11/9/1990"
+      "email": "jmanzanares@gmail.com",
+      "birthday": "1990-09-11",
+      "password": "juanfer",
+      "lastTimeConnected": "2021-10-11"
     },
     {
       "id": "2",
@@ -96,7 +98,9 @@
       "cellphoneNumber": "958870344",
       "address": "Jr. Alonso Gallegos # 05 Piso 0",
       "email": "maya.mario@gmail.com",
-      "birthday": "22/4/1994"
+      "password": "mayamar",
+      "birthday": "1994-04-22",
+      "lastTimeConnected": "2021-10-01"
     },
     {
       "id": "3",
@@ -104,8 +108,10 @@
       "lastnames": "Águilar Guzmán",
       "cellphoneNumber": "937506140",
       "address": "Av. Mario Vallejo # 65591 Piso 43",
-      "email": "cortes.valentino@toledo.com",
-      "birthday": "18/10/1987"
+      "email": "cortes.valentino@gmail.com",
+      "password": "alveragui",
+      "birthday": "1987-10-18",
+      "lastTimeConnected": "2021-10-05"
     }
   ],
   "reports": [
@@ -138,26 +144,6 @@
       "imagePath": "image.png",
       "appointmentId": "3",
       "technicianId": "2"
-    },
-    {
-      "id": "4",
-      "observation": "Blender motor did not work",
-      "diagnosis": "The blender motor stopped working due to wear",
-      "repairDescription": "Need replacement",
-      "date": "25/9/2021",
-      "imagePath": "image.png",
-      "appointmentId": "4",
-      "technicianId": "2"
-    },
-    {
-      "id": "5",
-      "observation": "Rice cooker did not heat",
-      "diagnosis": "The internal resistance of the rice cooker has burned out",
-      "repairDescription": "Need replacement",
-      "date": "25/9/2021",
-      "imagePath": "image.png",
-      "appointmentId": "5",
-      "technicianId": "3"
     }
   ],
   "spareRequests": [
@@ -231,7 +217,8 @@
       "names": "Jhon Juan",
       "lastNames": "Doe Marcial",
       "address": "av. Los manzanos 123",
-      "email": "jhon.doe@mail.com"
+      "email": "jhon.doe@gmail.com",
+      "password": "jhonjuan"
     },
     {
       "id": "2",
@@ -239,15 +226,17 @@
       "names": "Juan Pedro",
       "lastNames": "Lopez Gonzales",
       "address": "av. Brazil 1055",
-      "email": "juanloe@mail.com"
+      "email": "juanloe@gmail.com",
+      "password": "juanloe"
     },
     {
       "id": "3",
       "cellphoneNumber": "987743212",
-      "name": "Jose Fernando",
+      "names": "Jose Fernando",
       "lastName": "Sanchez Cerro",
       "address": "av. Palomas 345",
-      "email": "josesan@mail.com"
+      "email": "josesan@gmail.com",
+      "password": "josefernan"
     }
   ],
   "appliances": [
@@ -276,79 +265,78 @@
       "purchaseDate": 2019
     }
   ],
-  "reserveModels": [
+  "appointments": [
     {
       "id": "1",
-      "name": "Refrigerator French Door IBACI Inox Look, 547 L (110 V)",
-      "imagePath": "refrigerator-samsung.jpg",
-      "status": "Status: Pending",
-      "date_reserve": "5/09/2021",
-      "date_atention": "6/10/2021"
-    },
-    {
-      "id": "4",
-      "name": "28 Liter Microwave Oven",
-      "imagePath": "microwave-daewoo.jpg",
-      "status": "Status: Pending",
-      "date_reserve": "5/09/2021",
-      "date_atention": "6/10/2021"
-    },
-    {
-      "id": "6",
-      "name": "Dust and Water Vacuum",
-      "model": "GT30N",
-      "imagePath": "vaccum-electrolux.jpg",
-      "applianceBrandsId": "3",
-      "status": "Status: Pending",
-      "date_reserve": "21/09/2021",
-      "date_atention": "27/09/2021"
-    }
-  ],
-  "appointments":[
-    {
-      "id": "1",
-      "address": "3201 Maple Lane",
-      "date": "26/09/21",
+      "dateReserve": "19/10/2021",
+      "dateAttention": "20/10/2021",
       "hour": "02:19",
-      "clientId": "4",
+      "clientId": "1",
       "technicianId": "1",
-      "applianceId": "5"
+      "applianceId": "1",
+      "done": false
     },
     {
       "id": "2",
-      "address": "9247 E. Manor Station Dr.Amqui",
-      "date": "26/09/21",
+      "dateReserve": "19/10/2021",
+      "dateAttention": "20/10/2021",
       "hour": "09:42",
-      "clientId": "2",
+      "clientId": "1",
       "technicianId": "1",
-      "applianceId": "8"
+      "applianceId": "2",
+      "done": false
     },
     {
       "id": "3",
-      "address": "Riverview StreetRiverview",
-      "date": "26/09/21",
+      "dateReserve": "19/10/2021",
+      "dateAttention": "20/10/2021",
       "hour": "11:59",
-      "clientId": "1",
-      "technicianId": "1",
-      "applianceModelId": "2"
+      "clientId": "2",
+      "technicianId": "2",
+      "applianceModelId": "3",
+      "done": false
+    }
+  ],
+  "administrators": [
+    {
+      "id": "1",
+      "cellphoneNumber": "999888777",
+      "name": "Andres Pedro",
+      "lastName": "Bayona Fernandez",
+      "address": "av. Zarumilla 555",
+      "email": "andresbay@gmail.com",
+      "password": "andresbayo"
     },
     {
-      "id": "4",
-      "address": "843 Mayflower Ave.Meadow Lake",
-      "date": "26/09/21",
-      "hour": "14:39",
-      "clientId": "6",
-      "technicianId": "1",
-      "applianceModelId": ""
+      "id": "2",
+      "cellphoneNumber": "978565421",
+      "name": "Mariana Kelly",
+      "lastName": "Soto Aponte",
+      "address": "av. Faucet 214",
+      "email": "marianakey@gmail.com",
+      "password": "marianakey"
+    }
+  ],
+  "announcements": [
+    {
+      "id": "1",
+      "title": "New Models",
+      "description": "The latest models arrives to iElectric",
+      "content": "The last couple of weeks, we were waiting for the latest models in iElectric...",
+      "urlToImage": "https://images.thdstatic.com/productImages/43d40bec-538f-4a58-9dfa-708f94e35561/svn/printproof-black-stainless-steel-lg-electronics-french-door-refrigerators-lrmvs3006d-64_600.jpg",
+      "type": "Informative",
+      "section": "Home",
+      "visible": true
     },
     {
-      "id": "5",
-      "address": "7396 Cedar Ave.Ladysmith",
-      "date": "26/09/21",
-      "hour": "17:09",
-      "clientId": "5",
-      "technicianId": "1",
-      "applianceModelId": "4"
+      "id": "2",
+      "title": "LG - Power never seem before",
+      "description": "The newest models arriving in iElectric",
+      "content": "This year LG surprise to us with the newest models arriving in iElectric, we was expecting for a long time, but now, the wait is over",
+      "urlToImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzbkxRpDweJ1oMpx5Jx7DxcIZ7DX4J-EVq3w&usqp=CAU",
+      "type": "Advertisement",
+      "section": "Home",
+      "visible": false
     }
   ]
 }

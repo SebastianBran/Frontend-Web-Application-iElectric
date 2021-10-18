@@ -31,7 +31,11 @@
 
     <template v-slot:append>
       <div class="pa-2">
-        <v-btn block class="accent" to="/">
+        <v-btn
+            block
+            class="accent"
+            @click="logout"
+        >
           Logout
         </v-btn>
       </div>
@@ -44,6 +48,12 @@ export default {
   name: "Navigation-drawer",
   props: {
     items: Array
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('userId');
+      this.$router.push('/');
+    }
   }
 }
 </script>

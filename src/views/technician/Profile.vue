@@ -1,64 +1,57 @@
 <template>
-  <v-card class="profile">
+  <v-card height="910px" class="pa-2">
+    <h1 class="text-center mb-2">Profile</h1>
 
-    <v-container class="my-profile">
-      <nav id="my">Profile</nav>
-      <v-spacer class="divide"></v-spacer>
+    <v-card class="mx-auto pa-2" max-width="500px" color="rgba(3,64,120,0.19)">
+      <v-img
+          src="../../assets/img/user.png"
+          max-width="200px"
+          alt="user image"
+          class="mx-auto mt-3"
+      ></v-img>
 
-      <div id="div-profile">
-        <v-card class="profilecard" color="rgba(3,64,120,0.19)">
-          
-          <v-img
-           src="../../assets/img/user.png"
-           max-width="200px"
-           alt="user image"
-           class="mx-auto mt-10"
-          ></v-img>
-          <div id="title-name-div">
-            <v-card-title id="name"><b>{{profileItem.names +" "+ profileItem.lastnames}}</b></v-card-title>
-          </div>
-          <div id="info">              
-              <v-card-text class="data-info">Adress:
-               <v-card-text class="data-info">{{profileItem.address}}</v-card-text>
-              </v-card-text>
-            <v-spacer class="space"></v-spacer>
-              <v-card-text class="data-info">Cellphone:
-                <v-card-text class="data-info">{{profileItem.cellphoneNumber}}</v-card-text>
-              </v-card-text>
-              <v-spacer class="space"></v-spacer>
-              <v-card-text class="data-info">Birthday:
-                <v-card-text class="data-info">{{profileItem.birthday}}</v-card-text>
-              </v-card-text>
-              <v-btn 
-               class="btn-edit1" 
-               color="primary"
-               @click="openPersonalInformationDialog()"
-               >Edit <span class="material-icons"></span> 
-              </v-btn>        
-          </div>
+      <v-card-title><b>{{profileItem.names +" "+ profileItem.lastnames}}</b></v-card-title>
 
-        </v-card>
-      </div>
-      
-      <nav id="my">Account</nav>
-      <div id="div-sesion">
-        <v-card class="profilecard2" color="rgba(3,64,120,0.19)">
-          <div id="info">
-            <v-card-text class="data-info">Email:
-              <v-card-text class="data-info"> {{profileItem.email}}</v-card-text>
-            </v-card-text>
-              <v-spacer class="space"></v-spacer>
-            <v-card-text class="data-info">Password:
-              <v-card-text class="data-info">{{profileItem.password}}</v-card-text>
-            </v-card-text>
-           <v-btn 
-             class="btn-edit2" 
-             color="primary"
-             @click="openEmailAndPasswordDialog()"
-             > Edit <span class="material-icons"></span> </v-btn>
-          </div>
-        </v-card>
-      </div>
+      <v-card-text>
+        <h3>Address</h3>
+        <p>{{profileItem.address}}</p>
+
+        <h3>Cellphone</h3>
+        <p>{{profileItem.cellphoneNumber}}</p>
+
+        <h3>Birthday</h3>
+        <p>{{profileItem.birthday}}</p>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+            color="primary"
+            @click="openPersonalInformationDialog()"
+        >Edit</v-btn>
+      </v-card-actions>
+    </v-card>
+
+    <h1 class="text-center my-2">Account</h1>
+
+    <v-card class="mx-auto pa-2" max-width="500px"  color="rgba(3,64,120,0.19)">
+      <v-card-text>
+        <h3>Email</h3>
+        <p>{{profileItem.email}}</p>
+
+        <h3>Password</h3>
+        <p>{{profileItem.password}}</p>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+            color="primary"
+            @click="openEmailAndPasswordDialog()"
+        >Edit</v-btn>
+      </v-card-actions>
+    </v-card>
+
       <TechnicianProfileDialog
         v-bind:dialog="personalInformationDialog"
         v-bind:title="'Edit person information'"
@@ -73,7 +66,6 @@
         v-on:close-dialog="closeEmailAndPasswordDialog"
         v-on:technician-sesion-information="updateEmailAndPassword"
       />
-    </v-container>
   </v-card>
 </template>
 
@@ -117,14 +109,9 @@ export default {
         .catch(e => {
           console.log(e);
         });   
-        console.log(this.profileItem, "retrieve");
     },
     updatePersonalInformation(profileItem) {
-      console.log(this.profileItem, "profile");
       this.profileItem = Object.assign(profileItem, this.profileItem);
-
-      console.log(this.profileItem, "update");
-
       AppliancesApiService.update(this.profileItem.id, this.profileItem)
         .then(response => {
           this.profileItem = response.data;
@@ -155,112 +142,4 @@ export default {
 </script>
 
 <style scoped>
-* {
-  font-family: "Roboto", sans-serif;
-}
-.profile {
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
-.divide {
-  height: 10px;
-}
-.my-profile {
-  height: 800px;
-  width: 100%;
-}
-#my{
-  display: flex;
-  justify-content: center; /*centra horizontal*/
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 25px;
-}
-#div-profile {
-  display: flex;
-  justify-content: center; /*centra horizontal*/
-  align-items: center;
-  height: 500px;
-  width: 100%;
-}
-#div-sesion {
-  display: flex;
-  justify-content: center; /*centra horizontal*/
-  align-items: center;
-  height: 200px;
-  width: 100%;
-}
-.profilecard {
-  width: 400px;
-  height: 470px;
-  border-radius: 25px;
-}
-.profilecard2 {
-  width: 400px;
-  height: 150px;
-  border-radius: 25px;
-}
-#image-div {
-  margin-top: 30px;
-  width: 100%;
-  height: 150px;
-  border-radius: 0px;
-  display: flex;
-  justify-content: center; /*centra horizontal*/
-  align-items: center;
-}
-.img {
-  max-height: 150px;
-  max-width: 150px;
-}
-#title-name-div {
-  display: flex;
-}
-#name {
-  font-family: Roboto;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  text-align: left;
-  margin-left: 20px;
-}
-#info {
-  margin-left: 20px;
-  height: 250px;
-}
-.data-info {
-  margin-top: -15px;
-  font-family: Roboto;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: 21px;
-  letter-spacing: 0em;
-  color: black;
-}
-.data-info2 {
-  margin-top: -15px;
-  font-family: Roboto;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: 21px;
-  letter-spacing: 0em;
-  color: black;
-}
-.space {
-  margin-top: -40px;
-}
-.btn-edit1{
-  float: right;
-right: 20px;
-bottom: 60px;
-}
-.btn-edit2{
-  float: right;
-right: 20px;
-bottom: 40px;
-}
 </style>

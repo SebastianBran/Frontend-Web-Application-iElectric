@@ -10,12 +10,12 @@
       >
         <v-row justify="space-between">
           <v-col>
-           {{getAddressClient(appointment)}}
+            {{appointment.hour}}
           </v-col>
           <v-col
           class="text-right"
           >
-            {{appointment.hour}}
+            {{appointment.date}}
           </v-col>
           <v-col cols="1">
             <template>
@@ -46,7 +46,7 @@
               <span class="text-h6">Address</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.clientAddress}}</span>
+              <span ref="address"> {{getAddressClient(editItem)}}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Date</span>
@@ -147,13 +147,13 @@ export default {
     async getAddressClient(editItem){
       let client={
         address:"",
-      }
-      return await ClientApiService.getById(editItem.clientId)
+      };
+      await ClientApiService.getById(editItem.clientId)
           .then((response)=>{
-            console.log(client.address);
-            client= response.data;
-            console.log(client.address);
-            return client.address;
+            client=response.data;
+            if(client.address){
+            this.$refs.address.textContent=client.address;
+            }
           })
           .catch(e => {
             console.log(e);

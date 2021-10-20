@@ -160,6 +160,10 @@ import ClientsApiService from '../../core/services/clients-api-service';
 import TechniciansApiService from '../../core/services/technicians-api-service';
 import AdministratorsApiService from '../../core/services/administrators-api-service';
 import { v4 as uuidv4 } from "uuid";
+require('dotenv').config();
+const sgMail=require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 
 export default {
   name: "Register",
@@ -259,12 +263,26 @@ export default {
         email: this.formEmailAndPassword.email,
         password: this.formEmailAndPassword.password
       }
+      const message={
+        to:'u201720793@upc.edu.pe',
+        from:'u201720793@upc.edu.pe',
+        subject:'IElectric Register',
+        text: `Hello ${this.formPersonalInformation.names}, welcome to IElectric `
+      };
 
       await ClientsApiService.create(newClient)
         .then(response => {
           console.log(response);
           this.step = 3;
-        })
+          console.log(response);
+          sgMail.send(message)
+              .then(response=>{
+                console.log('Email sent',response);
+              })
+              .catch(e=>{
+                console.log(e);
+              });
+          })
         .catch(e => {
           console.log(e);
         });

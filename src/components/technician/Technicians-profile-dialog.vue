@@ -1,0 +1,173 @@
+<template>
+  <v-row>
+    <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="text-h5">{{ title }}</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row>
+                
+              <v-col cols="12">
+                <v-text-field
+                v-model="item.names"
+                label="Firstname*"
+                :rules="[rules.required, rules.maxLength30]"
+                counter="30"
+                outlined
+            ></v-text-field>
+              </v-col>
+
+            <v-col cols="12">
+                <v-text-field
+                v-model="item.lastnames"
+                label="Lastnames*"
+                :rules="[rules.required, rules.maxLength30]"
+                counter="30"
+                outlined
+               ></v-text-field>
+              </v-col>
+
+              <v-col cols="12">
+                <v-text-field
+                v-model="item.address"
+                label="Address"
+                :rules="[rules.required, rules.maxLength50]"
+                counter="50"
+                outlined
+            ></v-text-field>
+              </v-col>
+
+              <v-col cols="12">
+                <v-text-field
+                v-model="item.cellphoneNumber"
+                label="Cellphone number*"
+                :rules="[rules.required, rules.cellphoneNumber]"
+                counter="9"
+                outlined
+            ></v-text-field>
+              </v-col>
+
+              <v-col cols="12">
+                <v-text-field
+                v-model="item.birthday"
+                label="Birthday(y/m/d)*"
+                :rules="[rules.required, rules.birthday]"
+                counter="10"
+                outlined
+            ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+          <small>*indicates required field</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="blue darken-1"
+              text
+              @click="closeDialog"
+          >
+            Close
+          </v-btn>
+          <v-btn
+              color="blue darken-1"
+              text
+              @click="Saveprofile= true"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-row>
+      <v-dialog
+          v-model="Saveprofile"
+          persistent
+          max-width="290"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            Edit profile
+          </v-card-title>
+          <v-card-text>Are you sure to change the user information?</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                color="blue darken-1"
+                text
+                @click="Saveprofile = false"
+            >
+              Close
+            </v-btn>
+            <v-btn
+                color="red darken-1"
+                text
+                @click="saveInformation"
+            >
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+
+  </v-row>
+</template>
+
+<script>
+export default {
+  name: "Technicians-profile-dialog",
+  props: {
+    dialog: Boolean,
+    title: String,
+    item: Object,
+  },
+  data() {
+    return {
+      dialogDelete: false,
+      Saveprofile: false,
+      rules: {
+        required: v => !!v || 'Required',
+        email: v => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(v) || 'Invalid e-mail.';
+        },
+        password: v => {
+          const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+          return pattern.test(v) || 'The password must have at least one capital letter and one number';
+        },
+        cellphoneNumber: v => {
+          const pattern = /^(9)([0-9]){8}$/
+          return pattern.test(v) || 'Wrong number';
+        },
+        birthday: v => {
+          const pattern = /^(9)([0-9]){8}$/
+          return pattern.test(v) || 'Wrong number';
+        },
+        passwordLength: v => v.length >= 8 || 'Min 8 characters',
+        maxLength30: v => v.length <= 30 || 'Max 30 characters',
+        maxLength50: v => v.length <= 50 || 'Max 50 characters'
+      }
+    }
+  },
+  methods: {
+    closeDialog() {
+      this.$emit("close-dialog");
+    },
+    saveInformation() {
+      console.log(this.item, "dialog");
+      this.$emit("technician-profile-information", this.item);
+    },
+  },
+}
+</script>
+
+<style scoped>
+</style>

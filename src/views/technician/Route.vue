@@ -10,17 +10,22 @@
       >
         <v-row justify="space-between">
           <v-col>
-           {{appointment.address}}
+            {{appointment.hour}}
           </v-col>
           <v-col
-          class="text-right"
+          class="text-center"
           >
-            {{appointment.hour}}
+            {{appointment.address}}
+          </v-col>
+          <v-col
+              class="text-right"
+          >
+            {{appointment.dateAttention}}
           </v-col>
           <v-col cols="1">
             <template>
               <v-icon
-                  @click="seeReport(appointment)"
+                  @click="seeAppointment(appointment)"
               >
                 mdi-eye
               </v-icon>
@@ -37,22 +42,22 @@
     >
       <v-card>
         <v-card-title>
-          <span class="text-h5"> Date </span>
+          <span class="text-h5"> Appointment </span>
         </v-card-title>
 
         <v-card-text>
           <v-container>
             <v-row>
-              <span class="text-h6">Direction</span>
+              <span class="text-h6">Address</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.address}}</span>
+              <span ref="address"> {{ editItem.address }}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Date</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.date }}</span>
+              <span> {{ editItem.dateAttention }}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Hour</span>
@@ -82,72 +87,76 @@
 
 <script>
 import TechnicianApiService from "../../core/services/technicians-api-service";
+import ClientApiService from "../../core/services/clients-api-service";
 
 export default {
   name: "Routes",
   data() {
     return {
-      technicians: [],
       appointments: [],
       search: '',
       openReport: false,
       editItem: {
-        address: "",
-        applianceModelsId: "",
-        date: "",
-        clientId: "",
-        hour: "",
         id: "",
-        technicianId: ""
+        dateReserve: "",
+        dateAttention: "",
+        hour: "",
+        clientId: "",
+        technicianId: "",
+        applianceId: "",
+        done: Boolean,
+        address: ""
       },
     }
   },
   methods: {
-    getTechnician(technician) {
+    getAppointments(appointment) {
       return {
-        id: technician.id,
-        names: technician.names,
-        lastnames: technician.lastnames,
-        cellphoneNumber: technician.cellphoneNumber,
-        address: technician.address,
-        email: technician.email,
-        birthday: technician.birthday
+        id: appointment.id,
+        dateReserve: appointment.dateReserve,
+        dateAttention: appointment.dateAttention,
+        hour: appointment.hour,
+        clientId: appointment.clientId,
+        technicianId: appointment.technicianId,
+        applianceId: appointment.applianceId,
+        done: appointment.done
       }
     },
-    async retrieveReports() {
-      await TechnicianApiService.getAll()
-          .then(response => {
-            this.technicians = response.data.map(this.getTechnician);
-          })
-          .catch(e => {
-            console.log(e);
-          });
+    async retrieveAppointments() {
+      let technicianId = localStorage.getItem("userId");
 
-      for (let technician of this.technicians) {
-        await TechnicianApiService.getAppointments(technician.id)
+      let newAppointments = [];
+
+      await TechnicianApiService.getAppointments(technicianId)
+        .then(response => {
+          newAppointments = response.data.map(this.getAppointments);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+
+      for (let i = 0; i < newAppointments.length; i++) {
+        await ClientApiService.getById(newAppointments[i].clientId)
             .then(response => {
-              const newAppointments = response.data.map(appointment => {
-                const technicianFullName = {
-                  fullName: `${technician.names} ${technician.lastnames}`,
-                }
-                return Object.assign(appointment, technicianFullName);
-              });
-
-              this.appointments = this.appointments.concat(newAppointments);
+              newAppointments[i] = Object.assign(
+                  { address: response.data.address },
+                  newAppointments[i]
+              );
             })
             .catch(e => {
               console.log(e);
             });
       }
-      this.appointments.sortArray("hour");
+
+      this.appointments = newAppointments;
     },
-    seeReport(item) {
+    seeAppointment(item) {
       this.editItem = Object.assign({}, item);
       this.openReport = true;
     }
   },
   mounted() {
-    this.retrieveReports();
+    this.retrieveAppointments();
   }
 }
 </script>

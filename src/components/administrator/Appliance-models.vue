@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import AppliancesApiService from "../../core/services/appliances-api-service";
+import ApplianceBrandsApiService from "../../core/services/appliance-brands-api-service";
 import ApplianceModelsApiService from "../../core/services/appliance-models-api-service";
 import ApplianceModelsDialog from "../../components/administrator/Appliance-models-dialog";
 
@@ -118,7 +118,7 @@ export default {
       }
     },
     retrieveApplianceModels() {
-      AppliancesApiService.getModels(this.productId)
+      ApplianceBrandsApiService.getModels(this.productId)
         .then(response => {
           this.applianceModels = response.data;
         })
@@ -126,7 +126,7 @@ export default {
           console.log(e);
         });
 
-      AppliancesApiService.getById(this.productId)
+      ApplianceBrandsApiService.getById(this.productId)
         .then(response => {
           this.brandName = response.data.name;
         })

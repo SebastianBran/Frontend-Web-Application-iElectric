@@ -1,16 +1,12 @@
-import http from './http-common'
+import axios from "axios";
+import autHeader from "./auth-header.json";
+
+const API_URL = "https://ielectric-api.azurewebsites.net/api/v1/users";
 
 class UserApiService {
-    signIn(data) {
-        return http.post('/users/auth/sign-in', data);
-    }
-
-    signUp(data) {
-        return http.post('/users/auth/sign-un', data);
-    }
-
     getAll() {
-        return http.get('/users');
+        console.log(autHeader())
+        return axios.get(API_URL, { headers: autHeader() });
     }
 }
 

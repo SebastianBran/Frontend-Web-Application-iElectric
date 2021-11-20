@@ -88,13 +88,13 @@
         v-bind:item="applianceReserveItem"
         v-on:close-dialog="closeAppliancesReserveDialog"
         v-on:brand-information="saveInformationReserveDialog"
-        v-on:delete-brand="deleteReserve"
+        v-on:delete-brand="/*deleteReserve*/"
     />
   </v-container>
 </template>
 
 <script>
-import ReserveApiService from "../../core/services/reserve-api-service";
+//import ReserveApiService from "../../core/services/reserve-api-service";
 import ReserveDialog from "../../components/client/reserve-dialog";
 
 export default {
@@ -122,14 +122,14 @@ export default {
       }
     },
     retrieveAppliances() {
-      ReserveApiService.getAll()
+      /*ReserveApiService.getAll()
         .then(response => {
           this.appliances = response.data.map(this.getAppliance);
           console.log(this.appliances);
         })
         .catch(e => {
           console.log(e);
-        });
+        });*/
     },
     openAppliancesBrandDialog(item) {
       this.applianceReserveItem = Object.assign({}, item);
@@ -139,7 +139,7 @@ export default {
     closeAppliancesReserveDialog() {
       this.dialog = false;
     },
-    updateApplianceBrand(brandInformation) {
+    /*updateApplianceBrand(brandInformation) {
       ReserveApiService.update(brandInformation.id, brandInformation)
           .then(response => {
             console.log(response);
@@ -156,7 +156,7 @@ export default {
           .catch(e => {
             console.log(e);
           });
-    },
+    },*/
     async saveInformationReserveDialog(brandInformation) {
       if (this.editReserve) {
         await this.updateApplianceBrand(brandInformation);
@@ -167,7 +167,7 @@ export default {
       this.retrieveAppliances();
       this.closeAppliancesReserveDialog();
     },
-    async deleteReserve(id) {
+    /*async deleteReserve(id) {
       await ReserveApiService.delete(id)
           .then(response => {
             console.log(response);
@@ -177,7 +177,7 @@ export default {
           });
       this.retrieveAppliances();
       this.closeAppliancesReserveDialog();
-    }
+    }*/
   },
   mounted() {
     this.retrieveAppliances();

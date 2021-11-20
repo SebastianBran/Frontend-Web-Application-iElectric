@@ -2,23 +2,23 @@ import http from './http-common'
 
 class PlansApiService {
     getAll() {
-        return http.get('/Plans');
+        return http.get('/plans');
     }
 
     getById(id) {
-        return http.get(`/Plans/${ id }`);
+        return http.get(`/plans/${ id }`);
     }
 
     create(data) {
-        return http.post('/Plans', data);
+        return http.post('/plans', data);
     }
 
     update(id, data) {
-        return http.put(`/Plans/${ id }`, data);
+        return http.put(`/plans/${ id }`, data);
     }
 
     delete(id) {
-        return http.delete(`/Plans/${ id }`);
+        return http.delete(`/plans/${ id }`);
     }
 }
 

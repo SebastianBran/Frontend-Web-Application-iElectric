@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import AppliancesApiService from "../../core/services/technicians-api-service";
+import ApplianceBrandsApiService from "../../core/services/technicians-api-service";
 import TechnicianProfileDialog from "../../components/technician/Technicians-profile-dialog";
 import TechnicianSesionDialog from "../../components/technician/Technicians-sesion-dialog";
 
@@ -102,7 +102,7 @@ export default {
     },
     async retrieveTechnician() {
       let TechnicianId = localStorage.getItem("userId");
-      await AppliancesApiService.getById(TechnicianId)
+      await ApplianceBrandsApiService.getById(TechnicianId)
         .then(response => {
          this.profileItem = response.data
         })
@@ -112,7 +112,7 @@ export default {
     },
     updatePersonalInformation(profileItem) {
       this.profileItem = Object.assign(profileItem, this.profileItem);
-      AppliancesApiService.update(this.profileItem.id, this.profileItem)
+      ApplianceBrandsApiService.update(this.profileItem.id, this.profileItem)
         .then(response => {
           this.profileItem = response.data;
         })
@@ -122,7 +122,7 @@ export default {
       this.closePersonalInformationDialog();
     },
     updateEmailAndPassword(profileItem) {
-      AppliancesApiService.update(profileItem.id, profileItem)
+      ApplianceBrandsApiService.update(profileItem.id, profileItem)
         .then(response => {
           this.profileItem = response.data
         })

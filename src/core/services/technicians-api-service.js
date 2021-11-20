@@ -1,6 +1,6 @@
 import http from './http-common'
 
-class AppliancesApiService {
+class TechniciansApiService {
     getAll() {
         return http.get('/technicians');
     }
@@ -22,4 +22,4 @@ class AppliancesApiService {
     }
 }
 
-export default new AppliancesApiService();
+export default new TechniciansApiService();

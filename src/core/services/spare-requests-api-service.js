@@ -8,6 +8,9 @@ class SpareRequestApiService {
     getById(id) {
         return http.get(`/sparerequests/${ id }`);
     }
+    getAllByTechnicianId(technicianId) {
+        return http.get(`/technicians/${ technicianId }/sparerequests`);
+    }
 
     create(data) {
         return http.post('/sparerequests', data);

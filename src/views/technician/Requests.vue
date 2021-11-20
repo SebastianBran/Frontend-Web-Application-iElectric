@@ -1,26 +1,22 @@
 <template>
   <v-card flat>
     <v-card-title class="mb-6">
-      My reports
+      My requests
     </v-card-title>
     <v-card
-        v-for="(report,index) in reports"
+        v-for="(request,index) in requests"
         :key="index"
-        @click="seeReport(report)"
+        @click="seeRequest(request)"
     >
       <v-container fluid>
-
         <v-row dense>
           <v-col>
             <v-row class="text-h6">
-              {{report.observation}}
-            </v-row>
-            <v-row >
-              {{report.diagnosis}}
+              {{request.description}}
             </v-row>
           </v-col>
           <v-col cols="1">
-            {{report.date}}
+            {{request.date}}
           </v-col>
         </v-row>
       </v-container>
@@ -30,7 +26,7 @@
           class="primary"
           fab
           dark
-          @click="addNewReport()"
+          @click="addNewRequest()"
       >
         <v-icon dark>
           mdi-plus
@@ -39,44 +35,30 @@
     </div>
     <!-- New Report -->
     <v-dialog
-        v-model="newReport"
+        v-model="newRequest"
         max-width="600px"
     >
       <v-card>
         <v-card-title>
-          <span class="text-h5"> New Report</span>
+          <span class="text-h5"> New Request</span>
         </v-card-title>
         <v-card-text>
           <v-form
-            ref="form"
+              ref="form"
           >
             <v-text-field
-                v-model="formNewReport.observation"
+                v-model="formNewSpareRequest.description"
                 ref="textField"
-                label="Observation"
+                label="Description"
                 clearable
             ></v-text-field>
 
             <v-text-field
-                v-model="formNewReport.diagnosis"
+                v-model="formNewSpareRequest.date"
                 ref="textField"
-                label="Diagnosis"
+                label="Date"
                 clearable
             ></v-text-field>
-
-            <v-text-field
-                v-model="formNewReport.repairDescription"
-                ref="textField"
-                clearable
-                label="Repair Description"
-            ></v-text-field>
-            <v-text-field
-            v-model="formNewReport.date"
-            ref="textField"
-            clearable
-            label="Date"
-            >
-            </v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -84,14 +66,14 @@
           <v-btn
               text
               color="primary"
-              @click="registerReport"
+              @click="registerRequest"
           >
             Submit
           </v-btn>
           <v-btn
               text
               color="primary"
-              @click="newReport = false"
+              @click="newRequest = false"
           >
             Close
           </v-btn>
@@ -162,34 +144,32 @@
 
 <script>
 import TechnicianApiService from "../../core/services/technicians-api-service";
-import ReportsApiService from "../../core/services/reports-api-service";
+import SpareRequestsApiService from "../../core/services/spare-requests-api-service";
 import {v4 as uuidv4} from "uuid";
 export default {
-  name: "Reports",
+  name: "Requests",
   data() {
     return {
       technicians: [],
-      reports: [],
+      requests: [],
       search: '',
-      openReport: false,
-      newReport:false,
+      openRequest: false,
+      newRequest:false,
       e6:1,
       editItem: {
-        appointmentId: "",
-        date: "",
-        diagnosis: "",
-        fullName: "",
-        id: "",
-        imagePath: "",
-        observation: "",
-        repairDescription: "",
-        technicianId: ""
+        id:"",
+        description:"",
+        technicianId: "",
+        date:"",
+        imagePath:"",
+        appointmentId: ""
       },
-      formNewReport:{
-        observation:"",
-        diagnosis:"",
-        repairDescription: "",
-        date:""
+      formNewSpareRequest:{
+        description:"",
+        technicianId: "",
+        date:"",
+        imagePath:"",
+        appointmentId: ""
       }
     }
   },
@@ -205,7 +185,7 @@ export default {
         birthday: technician.birthday
       }
     },
-    async retrieveReports() {
+    async retrieveRequests() {
       await TechnicianApiService.getAll()
           .then(response => {
             this.technicians = response.data.map(this.getTechnician);
@@ -215,53 +195,51 @@ export default {
           });
 
       for (let technician of this.technicians) {
-        await ReportsApiService.getAllByTechnicianId(technician.id)
+        await SpareRequestsApiService.getAllByTechnicianId(technician.id)
             .then(response => {
-              const newReports = response.data.map(report => {
+              const newRequests = response.data.map(request => {
                 const technicianFullName = {
                   fullName: `${technician.names} ${technician.lastnames}`
                 }
-                return Object.assign(report, technicianFullName);
+                return Object.assign(request, technicianFullName);
               });
 
-              this.reports = this.reports.concat(newReports);
+              this.requests = this.requests.concat(newRequests);
             })
             .catch(e => {
               console.log(e);
             });
       }
     },
-    seeReport(item) {
+    seeRequest(item) {
       this.editItem = Object.assign({}, item);
-      this.openReport = true;
+      this.openRequest = true;
     },
-    addNewReport(){
-      this.newReport=true;
+    addNewRequest(){
+      this.newRequest=true;
     },
-    async registerReport(){
-      const newReport={
+    async registerRequest(){
+      const newRequest={
         id:uuidv4(),
-        observation:this.formNewReport.observation,
-        diagnosis:this.formNewReport.diagnosis,
-        repairDescription:this.formNewReport.repairDescription,
-        date:this.formNewReport.date,
+        description:this.formNewSpareRequest.description,
+        date:this.formNewSpareRequest.date,
         imagePath: "image.png",
         appointmentId: "1",
         technicianId: "1"
       }
-      await ReportsApiService.create(newReport)
+      await SpareRequestsApiService.create(newRequest)
           .then(response=>{
             console.log(response);
-            this.newReport=false;
+            this.newRequest=false;
             this.$refs.form.reset();
           })
           .catch(e=>{
-          console.log(e);
+            console.log(e);
           });
     },
   },
   mounted() {
-    this.retrieveReports();
+    this.retrieveRequests();
   }
 }
 </script>

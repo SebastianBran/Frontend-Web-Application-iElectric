@@ -66,7 +66,7 @@
     <ClientApplianceDialog
       v-bind:dialog="dialog"
       v-bind:edit="editAppliance"
-      v-bind:title="editAppliance ? 'Editar' : 'Nuevo electrodoméstico'"
+      v-bind:title="editAppliance ? 'Edit' : 'New appliance'"
       v-bind:item="applianceItem"
       v-bind:brandsWithModels="brandsWithModels"
       v-on:close-dialog="closeClientApplianceDialog"

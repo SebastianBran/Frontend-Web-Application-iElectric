@@ -9,21 +9,6 @@ class AppliancesApiService {
         return http.get(`/technicians/${ id }`);
     }
 
-    getByEmailAndPassword(email, password) {
-        return http.get(`/technicians?email=${ email }&password=${ password }`);
-    }
-
-    getByEmail(email) {
-        return http.get(`/technicians?email=${ email }`);
-    }
-
-    getReports(id) {
-        return http.get(`/technicians/${ id }/reports`);
-    }
-    getAppointments(id) {
-        return http.get(`/technicians/${ id }/appointments`);
-    }
-
     create(data) {
         return http.post('/technicians', data);
     }

@@ -4,19 +4,19 @@
             <CardPlan 
                 v-bind:item="plans[0]" 
                 v-bind:subscription="subscriptionModelItem"
-                v-on:model-choose-plan="saveInformationPlan"
+                v-on:model-choose-plan="/*saveInformationPlan*/"
                 v-bind:clientId="clientId"
             />
             <CardPlan 
                 v-bind:item="plans[1]" 
                 v-bind:subscription="subscriptionModelItem"
-                v-on:model-choose-plan="saveInformationPlan"
+                v-on:model-choose-plan="/*saveInformationPlan*/"
                 v-bind:clientId="clientId"
             />
             <CardPlan 
                 v-bind:item="plans[2]" 
                 v-bind:subscription="subscriptionModelItem"
-                v-on:model-choose-plan="saveInformationPlan"
+                v-on:model-choose-plan="/*saveInformationPlan*/"
                 v-bind:clientId="clientId"
             /> 
         </v-row>
@@ -25,7 +25,7 @@
 
 <script>
 import PlansApiService from "../../core/services/plans-api-service";
-import MyPlansApiService from "../../core/services/myplans-api-service";
+//import MyPlansApiService from "../../core/services/myplans-api-service";
 import CardPlan from "./CardPlan-model"
 
 export default{
@@ -59,7 +59,7 @@ export default{
                 console.log(this.plans)
             })
         },
-        saveInformationPlan(modelPlan){
+        /*saveInformationPlan(modelPlan){
             //console.log(modelPlan)
             MyPlansApiService.create(modelPlan)
             .then(response => {
@@ -70,7 +70,7 @@ export default{
             .catch(e => {
                 console.log(e)
             })
-        }
+        }*/
     },
     mounted() {
         this.getPlans();

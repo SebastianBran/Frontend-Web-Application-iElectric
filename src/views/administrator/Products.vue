@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import AppliancesApiService from "../../core/services/appliances-api-service";
+import ApplianceBrandsApiService from "../../core/services/appliance-brands-api-service";
 import ApplianceDialog from "../../components/administrator/Appliance-dialog";
 
 export default {
@@ -105,7 +105,7 @@ export default {
       }
     },
     retrieveAppliances() {
-      AppliancesApiService.getAll()
+      ApplianceBrandsApiService.getAll()
         .then(response => {
           this.appliances = response.data.map(this.getAppliance);
           console.log(this.appliances);
@@ -123,7 +123,7 @@ export default {
       this.dialog = false;
     },
     updateApplianceBrand(brandInformation) {
-      AppliancesApiService.update(brandInformation.id, brandInformation)
+      ApplianceBrandsApiService.update(brandInformation.id, brandInformation)
           .then(response => {
             console.log(response);
           })
@@ -132,7 +132,7 @@ export default {
           });
     },
     createApplianceBrand(brandInformation) {
-      AppliancesApiService.create(brandInformation)
+      ApplianceBrandsApiService.create(brandInformation)
           .then(response => {
             console.log(response);
           })
@@ -151,7 +151,7 @@ export default {
       this.closeAppliancesBrandDialog();
     },
     async deleteBrand(id) {
-      await AppliancesApiService.delete(id)
+      await ApplianceBrandsApiService.delete(id)
           .then(response => {
             console.log(response);
           })

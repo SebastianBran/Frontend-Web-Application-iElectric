@@ -9,6 +9,10 @@ class AppliancesApiService {
         return http.get(`/technicians/${ id }`);
     }
 
+    getByUserId(userId) {
+        return http.get(`/technicians/user/${ userId }`);
+    }
+
     create(data) {
         return http.post('/technicians', data);
     }

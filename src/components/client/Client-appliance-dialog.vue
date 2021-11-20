@@ -16,7 +16,7 @@
                 <v-overflow-btn
                     :items="statesBrands"
                     item-text="name"
-                    label="Marca"
+                    label="Mark"
                     outlined
                     v-model="item.brandName"
                 ></v-overflow-btn>
@@ -25,7 +25,7 @@
                 <v-overflow-btn
                     :items="statesModels"
                     item-text="model"
-                    label="Modelo"
+                    label="Model"
                     outlined
                     return-object
                     v-model="item.model"
@@ -33,7 +33,7 @@
               </v-col>
               <v-col>
                 <v-text-field
-                    label="Año de compra*"
+                    label="Year of purchase*"
                     required
                     outlined
                     v-model="item.purchaseDate"
@@ -58,7 +58,7 @@
               text
               @click="closeDialog"
           >
-            Cerrar
+            Close
           </v-btn>
           <v-btn
               v-if="edit"
@@ -66,14 +66,14 @@
               text
               @click="dialogDelete = true"
           >
-            Eliminar
+            Delete
           </v-btn>
           <v-btn
               color="blue darken-1"
               text
               @click="saveInformation"
           >
-            Guardar
+            Save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -88,9 +88,9 @@
       >
         <v-card>
           <v-card-title class="text-h5">
-            Eliminar electrodoméstico
+            Delete appliance
           </v-card-title>
-          <v-card-text>¿Está seguro de eliminar su electrodoméstico?</v-card-text>
+          <v-card-text>¿You are sure to dispose of your appliance?</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
@@ -98,14 +98,14 @@
                 text
                 @click="dialogDelete = false"
             >
-              Cancelar
+              Cancel
             </v-btn>
             <v-btn
                 color="red darken-1"
                 text
                 @click="deleteAppliance"
             >
-              Eliminar
+              Delete
             </v-btn>
           </v-card-actions>
         </v-card>

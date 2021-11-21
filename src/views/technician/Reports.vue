@@ -53,28 +53,40 @@
             <v-text-field
                 v-model="formNewReport.observation"
                 ref="textField"
-                label="Observation"
+                label="Observation*"
                 clearable
+                outlined
             ></v-text-field>
 
             <v-text-field
                 v-model="formNewReport.diagnosis"
                 ref="textField"
-                label="Diagnosis"
+                label="Diagnosis*"
                 clearable
+                outlined
             ></v-text-field>
 
             <v-text-field
                 v-model="formNewReport.repairDescription"
                 ref="textField"
                 clearable
-                label="Repair Description"
+                outlined
+                label="Repair Description*"
             ></v-text-field>
+            <v-text-field
+                v-model="formNewReport.imagePath"
+                ref="textField"
+                outlined
+                clearable
+                label="Image Path*"
+            >
+            </v-text-field>
             <v-text-field
             v-model="formNewReport.date"
             ref="textField"
+            outlined
             clearable
-            label="Date"
+            label="Date*"
             >
             </v-text-field>
           </v-form>
@@ -163,7 +175,6 @@
 <script>
 import TechnicianApiService from "../../core/services/technicians-api-service";
 import ReportsApiService from "../../core/services/reports-api-service";
-import {v4 as uuidv4} from "uuid";
 export default {
   name: "Reports",
   data() {
@@ -189,7 +200,10 @@ export default {
         observation:"",
         diagnosis:"",
         repairDescription: "",
-        date:""
+        date:"",
+        imagePath:"",
+        appointmentId: 0,
+        technicianId: 0
       }
     }
   },
@@ -238,17 +252,7 @@ export default {
     addNewReport(){
       this.newReport=true;
     },
-    async registerReport(){
-      const newReport={
-        id:uuidv4(),
-        observation:this.formNewReport.observation,
-        diagnosis:this.formNewReport.diagnosis,
-        repairDescription:this.formNewReport.repairDescription,
-        date:this.formNewReport.date,
-        imagePath: "image.png",
-        appointmentId: "1",
-        technicianId: "1"
-      }
+    async registerReport(newReport){
       await ReportsApiService.create(newReport)
           .then(response=>{
             console.log(response);

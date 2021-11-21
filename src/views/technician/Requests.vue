@@ -49,14 +49,22 @@
             <v-text-field
                 v-model="formNewSpareRequest.description"
                 ref="textField"
-                label="Description"
+                outlined
+                label="Description*"
                 clearable
             ></v-text-field>
-
+            <v-text-field
+                v-model="formNewSpareRequest.imagePath"
+                ref="textField"
+                outlined
+                label="Image Path*"
+                clearable
+            ></v-text-field>
             <v-text-field
                 v-model="formNewSpareRequest.date"
                 ref="textField"
-                label="Date"
+                outlined
+                label="Date*"
                 clearable
             ></v-text-field>
           </v-form>

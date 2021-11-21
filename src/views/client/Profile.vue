@@ -36,20 +36,12 @@
         v-on:close-dialog="closePersonalInformationDialog"
         v-on:client-profile-information="updatePersonalInformation"
     />
-    <ClientSesionDialog
-        v-bind:dialog="emailAndPasswordDialog"
-        v-bind:title="'Edit email and password'"
-        v-bind:item="profileItem"
-        v-on:close-dialog="closeEmailAndPasswordDialog"
-        v-on:client-sesion-information="updateEmailAndPassword"
-    />
   </v-card>
 </template>
 
 <script>
 import ClientsApiService from "../../core/services/clients-api-service";
 import ClientProfileDialog from "../../components/client/Client-profile-dialog";
-import ClientSesionDialog from "../../components/client/Client-sesion-dialog";
 
 export default {
   name: "Profile",
@@ -62,7 +54,6 @@ export default {
   },
   components: {
     ClientProfileDialog,
-    ClientSesionDialog
   },
    methods: {
     openPersonalInformationDialog() {
@@ -70,12 +61,6 @@ export default {
     },
     closePersonalInformationDialog() {
       this.personalInformationDialog = false;
-    },
-    openEmailAndPasswordDialog() {
-      this.emailAndPasswordDialog = true;
-    },
-    closeEmailAndPasswordDialog() {
-      this.emailAndPasswordDialog = false;
     },
     async retrieveClient() {
       let clientId = localStorage.getItem("userId");
@@ -100,17 +85,6 @@ export default {
         });
 
       this.closePersonalInformationDialog();
-    },
-    updateEmailAndPassword(profileItem) {
-      ClientsApiService.update(profileItem.id, profileItem)
-        .then(response => {
-          this.profileItem = response.data
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-      this.closeEmailAndPasswordDialog();
     },
   },
   mounted() {

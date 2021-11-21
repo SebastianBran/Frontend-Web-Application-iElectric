@@ -7,19 +7,23 @@
         v-for="(report,index) in reports"
         :key="index"
         @click="seeReport(report)"
+        class="pa-2"
     >
       <v-container fluid>
 
         <v-row dense>
           <v-col>
             <v-row class="text-h6">
-              {{report.observation}}
+              {{ report.observation }}
             </v-row>
             <v-row >
-              {{report.diagnosis}}
+              {{ report.diagnosis }}
+            </v-row>
+            <v-row>
+              {{ report.repairDescription }}
             </v-row>
           </v-col>
-          <v-col cols="1">
+          <v-col cols="2">
             {{report.date}}
           </v-col>
         </v-row>
@@ -37,6 +41,7 @@
         </v-icon>
       </v-btn>
     </div>
+
     <!-- New Report -->
     <v-dialog
         v-model="newReport"
@@ -82,11 +87,11 @@
             >
             </v-text-field>
             <v-text-field
-            v-model="formNewReport.date"
-            ref="textField"
-            outlined
-            clearable
-            label="Date*"
+              v-model="formNewReport.date"
+              ref="textField"
+              outlined
+              clearable
+              label="Date*"
             >
             </v-text-field>
           </v-form>
@@ -112,7 +117,7 @@
     </v-dialog>
 
 
-    <!-- Dialgo see report -->
+    <!-- Dialog see report -->
     <v-dialog
         v-model="openReport"
         max-width="600px"
@@ -196,8 +201,8 @@
 </template>
 
 <script>
-import TechnicianApiService from "../../core/services/technicians-api-service";
 import ReportsApiService from "../../core/services/reports-api-service";
+
 export default {
   name: "Reports",
   data() {
@@ -208,58 +213,52 @@ export default {
       openReport: false,
       newReport:false,
       e6:1,
+      technicianId: JSON.parse(localStorage.getItem("technician")).id,
       editItem: {
-        appointmentId: "",
         date: "",
         diagnosis: "",
-        fullName: "",
         id: "",
         imagePath: "",
         observation: "",
         repairDescription: "",
         technicianId: ""
       },
-      formNewReport:{
+      formNewReport: {
         observation:"",
         diagnosis:"",
         repairDescription: "",
         date:"",
         imagePath:"",
         appointmentId: 4,
-        technicianId: 2
+        technicianId: JSON.parse(localStorage.getItem("technician")).id
       }
     }
   },
   methods: {
-    getTechnician(technician) {
-      return {
-        id: technician.id,
-        names: technician.names,
-        lastnames: technician.lastnames,
-        cellphoneNumber: technician.cellphoneNumber,
-        address: technician.address,
-        email: technician.email,
-        birthday: technician.birthday
+    getReport(report) {
+      if (this.technicianId === report.technicianId) {
+        return {
+          id: report.id,
+          observation: report.observation,
+          diagnosis: report.diagnosis,
+          repairDescription: report.repairDescription,
+          date: report.date,
+          imagePath: report.imagePath,
+          appointmentId: report.appointmentId,
+          technicianId: JSON.parse(localStorage.getItem("technician"))
+        }
       }
     },
     async retrieveReports() {
-      await TechnicianApiService.getAll()
-          .then(response => {
-            this.technicians = response.data.map(this.getTechnician);
-          })
-          .catch(e => {
-            console.log(e);
-          });
+      await ReportsApiService.getAll()
+        .then(response => {
+          this.reports = response.data.map(this.getReport);
+        })
+        .catch(e => {
+          console.log(e);
+        });
 
-      for (let technician of this.technicians) {
-        await ReportsApiService.getAllByTechnicianId(technician.id)
-            .then(response => {
-                this.reports=response.data;
-            })
-            .catch(e => {
-              console.log(e);
-            });
-      }
+      console.log(this.reports);
     },
     seeReport(item) {
       this.editItem = Object.assign({}, item);
@@ -291,8 +290,8 @@ export default {
           });
       await this.retrieveReports();
     },
-    async updateReport(reportId,data){
-      await ReportsApiService.update(reportId,data)
+    async updateReport(reportId, data){
+      await ReportsApiService.update(reportId, data)
           .then(response=>{
             console.log(response);
             this.openReport=false;

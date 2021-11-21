@@ -10,14 +10,14 @@
           class="mx-auto mt-3"
       ></v-img>
 
-      <v-card-title><b>{{profileItem.names +" "+ profileItem.lastNames}}</b></v-card-title>
+      <v-card-title><b>{{client.names +" "+ client.lastNames}}</b></v-card-title>
 
       <v-card-text>
         <h3>Address</h3>
-        <p>{{profileItem.address}}</p>
+        <p>{{client.address}}</p>
 
         <h3>Cellphone</h3>
-        <p>{{profileItem.cellphoneNumber}}</p>
+        <p>{{client.cellphoneNumber}}</p>
       </v-card-text>
 
       <v-card-actions>
@@ -32,16 +32,9 @@
     <ClientProfileDialog
         v-bind:dialog="personalInformationDialog"
         v-bind:title="'Edit person information'"
-        v-bind:item="profileItem"
+        v-bind:item="client"
         v-on:close-dialog="closePersonalInformationDialog"
         v-on:client-profile-information="updatePersonalInformation"
-    />
-    <ClientSesionDialog
-        v-bind:dialog="emailAndPasswordDialog"
-        v-bind:title="'Edit email and password'"
-        v-bind:item="profileItem"
-        v-on:close-dialog="closeEmailAndPasswordDialog"
-        v-on:client-sesion-information="updateEmailAndPassword"
     />
   </v-card>
 </template>
@@ -49,72 +42,39 @@
 <script>
 import ClientsApiService from "../../core/services/clients-api-service";
 import ClientProfileDialog from "../../components/client/Client-profile-dialog";
-import ClientSesionDialog from "../../components/client/Client-sesion-dialog";
 
 export default {
   name: "Profile",
    data() {
     return {
+      client: JSON.parse(localStorage.getItem("client")),
       personalInformationDialog: false,
       emailAndPasswordDialog: false,
-      profileItem: {},
     }
   },
   components: {
     ClientProfileDialog,
-    ClientSesionDialog
   },
-   methods: {
+  methods: {
     openPersonalInformationDialog() {
       this.personalInformationDialog = true;
     },
     closePersonalInformationDialog() {
       this.personalInformationDialog = false;
     },
-    openEmailAndPasswordDialog() {
-      this.emailAndPasswordDialog = true;
-    },
-    closeEmailAndPasswordDialog() {
-      this.emailAndPasswordDialog = false;
-    },
-    async retrieveClient() {
-      let clientId = localStorage.getItem("userId");
-
-      await ClientsApiService.getById(clientId)
+    async updatePersonalInformation(profileItem) {
+      await ClientsApiService.update(profileItem.id, profileItem)
         .then(response => {
-          this.profileItem = response.data
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    },
-    updatePersonalInformation(profileItem) {
-      this.profileItem = Object.assign(profileItem, this.profileItem);
-
-      ClientsApiService.update(this.profileItem.id, this.profileItem)
-        .then(response => {
-          this.profileItem = response.data;
+          localStorage.setItem("client", JSON.stringify(response.data));
+          this.client = JSON.parse(localStorage.getItem("client"));
         })
         .catch(e => {
           console.log(e);
         });
 
       this.closePersonalInformationDialog();
+      this.$forceUpdate();
     },
-    updateEmailAndPassword(profileItem) {
-      ClientsApiService.update(profileItem.id, profileItem)
-        .then(response => {
-          this.profileItem = response.data
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-      this.closeEmailAndPasswordDialog();
-    },
-  },
-  mounted() {
-    this.retrieveClient();
   }
 }
 </script>

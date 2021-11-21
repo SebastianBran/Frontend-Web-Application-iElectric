@@ -17,7 +17,7 @@
 </template>
 
 <script>  
-import MyPlansApiService from "../../core/services/myplans-api-service";
+//import MyPlansApiService from "../../core/services/myplans-api-service";
 import ChoosePlan from "../../components/client/ChoosePlan-models";
 import MyPlan from "../../components/client/MyPlan-models";
 
@@ -44,13 +44,13 @@ export default {
       }
     },
     getPlanId(){
-      MyPlansApiService.getByClientId(this.clientId)
+      /*MyPlansApiService.getByClientId(this.clientId)
       .then(response => {
         this.planClient = response.data
       })
       .catch(e =>{
         console.log(e)
-      })
+      })*/
     },
     updateRendering(){
       this.getPlanId();

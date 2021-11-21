@@ -6,7 +6,7 @@
             v-bind:item="item"
             v-bind:clientId="clientId"
             v-on:close-dialog="closeDialog"
-            v-on:edit-plan="editPlan"
+            v-on:edit-plan="/*editPlan*/"
         />
         <v-card
         class="mx-auto"
@@ -53,7 +53,7 @@
 
 <script>
 import PlansApiService from "../../core/services/plans-api-service";
-import MyPlansApiService from "../../core/services/myplans-api-service";
+//import MyPlansApiService from "../../core/services/myplans-api-service";
 import ChangePlan from "./Plan-change-dialog";
 
 export default{
@@ -81,7 +81,7 @@ export default{
                 console.log(response.data)
             })
         },
-        editPlan(modelPlan) {
+        /*editPlan(modelPlan) {
             MyPlansApiService.update(modelPlan.id, modelPlan)
             .then(response => {
             console.log(response);
@@ -89,16 +89,16 @@ export default{
             .catch(e => {
             console.log(e);
             });
-        },
+        },*/
         async deletePlan() {
-            await MyPlansApiService.delete(this.item.id)
+            /*await MyPlansApiService.delete(this.item.id)
             .then(response => {
                 console.log(response);
                 this.$emit("update-render")
             })
             .catch(e => {
                 console.log(e);
-            });
+            });*/
         },
         closeDialog(){
             this.dialog = !this.dialog

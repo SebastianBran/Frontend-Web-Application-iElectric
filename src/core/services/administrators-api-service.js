@@ -9,12 +9,8 @@ class AdministratorsApiService {
         return http.get(`/administrators/${ id }`);
     }
 
-    getByEmailAndPassword(email, password) {
-        return http.get(`/administrators?email=${ email }&password=${ password }`);
-    }
-
-    getByEmail(email) {
-        return http.get(`/administrators?email=${ email }`);
+    getByUserId(userId) {
+        return http.get(`/administrators/user/${ userId }`);
     }
 
     create(data) {

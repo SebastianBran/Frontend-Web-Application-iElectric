@@ -28,8 +28,8 @@
     <v-item-group active-class="primary">
       <v-row>
         <v-col
-            v-for="appliance in appliances"
-            :key="appliance.id"
+            v-for="brand in applianceBrands"
+            :key="brand.id"
             cols="12"
             xl="2"
             lg="3"
@@ -43,7 +43,7 @@
                     color="black"
                     icon
                     class="ml-auto"
-                    @click="openAppliancesBrandDialog(appliance)"
+                    @click="openAppliancesBrandDialog(brand)"
                 >
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
@@ -52,14 +52,14 @@
                   fluid
                   flat
                   elevation="0"
-                  :to="`products/${appliance.id}/models`">
+                  :to="`products/${brand.id}/models`">
                 <v-img
-                    v-bind:src="require(`../../../src/assets/img/appliance-logos/${appliance.imagePath}`)"
+                    :src="brand.imgPath"
                     aspect-ratio="1.5"
                 ></v-img>
               </v-card>
               <v-card-title>
-                {{ appliance.name }}
+                {{ brand.name }}
               </v-card-title>
             </v-card>
           </v-item>
@@ -80,14 +80,14 @@
 </template>
 
 <script>
-import AppliancesApiService from "../../core/services/appliances-api-service";
+import ApplianceBrandsApiService from "../../core/services/appliance-brands-api-service";
 import ApplianceDialog from "../../components/administrator/Appliance-dialog";
 
 export default {
   name: "Products",
   data() {
     return {
-      appliances: [],
+      applianceBrands: [],
       dialog: false,
       editBrand: false,
       applianceBrandItem: {}
@@ -101,14 +101,14 @@ export default {
       return {
         id: appliance.id,
         name: appliance.name,
-        imagePath: appliance.imagePath
+        imgPath: appliance.imgPath
       }
     },
-    retrieveAppliances() {
-      AppliancesApiService.getAll()
+    async retrieveAppliancesBrands() {
+      await ApplianceBrandsApiService.getAll()
         .then(response => {
-          this.appliances = response.data.map(this.getAppliance);
-          console.log(this.appliances);
+          this.applianceBrands = response.data.map(this.getAppliance);
+          console.log(this.applianceBrands);
         })
         .catch(e => {
           console.log(e);
@@ -122,8 +122,8 @@ export default {
     closeAppliancesBrandDialog() {
       this.dialog = false;
     },
-    updateApplianceBrand(brandInformation) {
-      AppliancesApiService.update(brandInformation.id, brandInformation)
+    async updateApplianceBrand(brandInformation) {
+      await ApplianceBrandsApiService.update(brandInformation.id, brandInformation)
           .then(response => {
             console.log(response);
           })
@@ -131,8 +131,8 @@ export default {
             console.log(e);
           });
     },
-    createApplianceBrand(brandInformation) {
-      AppliancesApiService.create(brandInformation)
+    async createApplianceBrand(brandInformation) {
+      await ApplianceBrandsApiService.create(brandInformation)
           .then(response => {
             console.log(response);
           })
@@ -147,23 +147,23 @@ export default {
       else {
         await this.createApplianceBrand(brandInformation);
       }
-      this.retrieveAppliances();
+      await this.retrieveAppliancesBrands();
       this.closeAppliancesBrandDialog();
     },
     async deleteBrand(id) {
-      await AppliancesApiService.delete(id)
+      await ApplianceBrandsApiService.delete(id)
           .then(response => {
             console.log(response);
           })
           .catch(e => {
             console.log(e);
           });
-      this.retrieveAppliances();
+      await this.retrieveAppliancesBrands();
       this.closeAppliancesBrandDialog();
     }
   },
   mounted() {
-    this.retrieveAppliances();
+    this.retrieveAppliancesBrands();
   }
 }
 </script>

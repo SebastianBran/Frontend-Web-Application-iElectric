@@ -9,18 +9,6 @@ class AnnouncementsApiService {
         return http.get(`/announcements/${ id }`);
     }
 
-    getByType(type) {
-        return http.get(`/announcements?type=${ type }`);
-    }
-
-    getBySection(section) {
-        return http.get(`/announcements?section=${ section }`);
-    }
-
-    getByTitle(title) {
-        return http.get(`/announcements?title_like=${ title }`);
-    }
-
     create(data) {
         return http.post('/announcements', data);
     }

@@ -32,26 +32,6 @@
       </v-card-actions>
     </v-card>
 
-    <h1 class="text-center my-2">Account</h1>
-
-    <v-card class="mx-auto pa-2" max-width="500px"  color="rgba(3,64,120,0.19)">
-      <v-card-text>
-        <h3>Email</h3>
-        <p>{{profileItem.email}}</p>
-
-        <h3>Password</h3>
-        <p>{{profileItem.password}}</p>
-      </v-card-text>
-
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-            color="primary"
-            @click="openEmailAndPasswordDialog()"
-        >Edit</v-btn>
-      </v-card-actions>
-    </v-card>
-
       <TechnicianProfileDialog
         v-bind:dialog="personalInformationDialog"
         v-bind:title="'Edit person information'"
@@ -70,7 +50,7 @@
 </template>
 
 <script>
-import AppliancesApiService from "../../core/services/technicians-api-service";
+import ApplianceBrandsApiService from "../../core/services/technicians-api-service";
 import TechnicianProfileDialog from "../../components/technician/Technicians-profile-dialog";
 import TechnicianSesionDialog from "../../components/technician/Technicians-sesion-dialog";
 
@@ -102,7 +82,7 @@ export default {
     },
     async retrieveTechnician() {
       let TechnicianId = localStorage.getItem("userId");
-      await AppliancesApiService.getById(TechnicianId)
+      await ApplianceBrandsApiService.getById(TechnicianId)
         .then(response => {
          this.profileItem = response.data
         })
@@ -112,7 +92,7 @@ export default {
     },
     updatePersonalInformation(profileItem) {
       this.profileItem = Object.assign(profileItem, this.profileItem);
-      AppliancesApiService.update(this.profileItem.id, this.profileItem)
+      ApplianceBrandsApiService.update(this.profileItem.id, this.profileItem)
         .then(response => {
           this.profileItem = response.data;
         })
@@ -122,7 +102,7 @@ export default {
       this.closePersonalInformationDialog();
     },
     updateEmailAndPassword(profileItem) {
-      AppliancesApiService.update(profileItem.id, profileItem)
+      ApplianceBrandsApiService.update(profileItem.id, profileItem)
         .then(response => {
           this.profileItem = response.data
         })

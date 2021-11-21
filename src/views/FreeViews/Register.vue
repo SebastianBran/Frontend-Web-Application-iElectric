@@ -59,7 +59,7 @@
 
             <v-btn
                 color="primary"
-                @click="validateEmail"
+                @click="registerUser"
                 :disabled="!this.formEmailAndPassword.isValid"
             >
               Continue
@@ -157,15 +157,13 @@
 
 <script>
 import ClientsApiService from '../../core/services/clients-api-service';
-import TechniciansApiService from '../../core/services/technicians-api-service';
-import AdministratorsApiService from '../../core/services/administrators-api-service';
-import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "Register",
   data() {
     return {
       step: 1,
+      userId: Number,
       formEmailAndPassword: {
         isValid: false,
         email: "",
@@ -200,74 +198,38 @@ export default {
     }
   },
   methods: {
-    async emailExitsInClients() {
-      let exits = false;
-      await ClientsApiService.getByEmail(this.formEmailAndPassword.email)
-        .then((response) => {
-          if (response.data.length > 0)
-            exits = true;
-        })
-        .catch(e => {
-          console.log(e);
-        });
-      return exits;
-    },
-    async emailExitsInTechnicians() {
-      let exits = false;
-      await TechniciansApiService.getByEmail(this.formEmailAndPassword.email)
-          .then((response) => {
-            if (response.data.length > 0)
-              exits = true;
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      return exits;
-    },
-    async emailExitsInAdministrators() {
-      let exits = false;
-      await AdministratorsApiService.getByEmail(this.formEmailAndPassword.email)
-          .then((response) => {
-            if (response.data.length > 0)
-              exits = true;
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      return exits;
-    },
-    async exitsEmail() {
-      return await this.emailExitsInAdministrators() ||
-          await this.emailExitsInClients() ||
-          await this.emailExitsInTechnicians();
-    },
-    async validateEmail() {
-      if (!await this.exitsEmail()) {
-        this.step = 2;
-      }
-      else {
-        alert("The email already exists");
-      }
-    },
-    async registerClient() {
-      const newClient = {
-        id: uuidv4(),
-        cellphoneNumber: this.formPersonalInformation.cellphoneNumber,
-        names: this.formPersonalInformation.names,
-        lastNames: this.formPersonalInformation.lastNames,
-        address: this.formPersonalInformation.address,
+    registerUser() {
+      const newUser = {
         email: this.formEmailAndPassword.email,
         password: this.formEmailAndPassword.password
       }
-
+      this.$store.dispatch("auth/register", newUser)
+          .then((response) => {
+            console.log(response);
+            this.userId = response.id;
+            this.step = 2;
+          })
+          .catch(e => {
+            console.log(e);
+            alert("The email already exists");
+          });
+    },
+    async registerClient() {
+      const newClient = {
+        names: this.formPersonalInformation.names,
+        lastNames: this.formPersonalInformation.lastNames,
+        cellphoneNumber: this.formPersonalInformation.cellphoneNumber,
+        address: this.formPersonalInformation.address,
+        userId: this.userId
+      }
       await ClientsApiService.create(newClient)
-        .then(response => {
-          console.log(response);
-          this.step = 3;
-        })
-        .catch(e => {
-          console.log(e);
-        });
+          .then(response => {
+            console.log(response);
+            this.step = 3;
+          })
+          .catch(e => {
+            console.log(e);
+          });
     }
   }
 }

@@ -1,6 +1,6 @@
 import http from './http-common'
 
-class AppliancesApiService {
+class TechniciansApiService {
     getAll() {
         return http.get('/technicians');
     }
@@ -9,24 +9,8 @@ class AppliancesApiService {
         return http.get(`/technicians/${ id }`);
     }
 
-    getByEmailAndPassword(email, password) {
-        return http.get(`/technicians?email=${ email }&password=${ password }`);
-    }
-
-    getByEmail(email) {
-        return http.get(`/technicians?email=${ email }`);
-    }
-
-    getReports(id) {
-        return http.get(`/technicians/${ id }/reports`);
-    }
-
-    getSpareRequests(id) {
-        return http.get(`/technicians/${ id }/spareRequests`);
-    }
-
-    getAppointments(id) {
-        return http.get(`/technicians/${ id }/appointments`);
+    getByUserId(userId) {
+        return http.get(`/technicians/user/${ userId }`);
     }
 
     create(data) {
@@ -42,4 +26,4 @@ class AppliancesApiService {
     }
 }
 
-export default new AppliancesApiService();
+export default new TechniciansApiService();

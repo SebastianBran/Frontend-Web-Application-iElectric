@@ -51,7 +51,10 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem('userId');
+      localStorage.removeItem('user');
+      localStorage.removeItem('client');
+      localStorage.removeItem('technician');
+      localStorage.removeItem('administrator');
       this.$router.push('/');
     }
   }

@@ -19,9 +19,8 @@ export default {
     itemsNavigation: [
       { title: 'My route', icon: 'mdi-map-legend', path: '/technician' },
       { title: 'Reports', icon: 'mdi-clipboard-list-outline', path: '/technician/reports' },
-      { title: 'Notifications', icon: 'mdi-email-outline', path: '/technician/notifications' },
-      { title: 'Profile', icon: 'mdi-account-hard-hat', path: '/technician/profile' },
-      { title: 'Configuration', icon: 'mdi-screwdriver', path: '/' }
+      { title: 'Requests', icon: 'mdi-wrench', path: '/technician/requests' },
+      { title: 'Profile', icon: 'mdi-account-hard-hat', path: '/technician/profile' }
     ]
   }),
   components: {

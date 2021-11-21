@@ -82,6 +82,11 @@ const routes = [
         component: () => import('../views/technician/Reports')
       },
       {
+        path: 'Requests',
+        name: 'Requests-technician',
+        component: () => import('../views/technician/Requests')
+      },
+      {
         path: 'notifications',
         name: 'Notifications-technician',
         component: () => import('../views/technician/Notifications')

@@ -9,16 +9,8 @@ class ClientsApiService {
         return http.get(`/clients/${ id }`);
     }
 
-    getByEmailAndPassword(email, password) {
-        return http.get(`/clients?email=${ email }&password=${ password }`);
-    }
-
-    getByEmail(email) {
-        return http.get(`/clients?email=${ email }`);
-    }
-
-    getAppliances(id) {
-        return http.get(`/clients/${ id }/appliances`);
+    getByUserId(userId) {
+        return http.get(`/clients/user/${ userId }`);
     }
 
     create(data) {
@@ -27,6 +19,10 @@ class ClientsApiService {
 
     update(id, data) {
         return http.put(`/clients/${ id }`, data);
+    }
+
+    updatePlan(id, planId) {
+        return http.put(`/clients/${ id }/plans/${ planId }`);
     }
 
     delete(id) {

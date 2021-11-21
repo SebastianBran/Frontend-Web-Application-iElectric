@@ -21,4 +21,5 @@ class AppointmentsApiService {
         return http.delete(`/appointments/${ id }`);
     }
 }
+
 export default  new AppointmentsApiService();

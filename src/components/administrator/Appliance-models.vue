@@ -59,7 +59,7 @@
               </v-app-bar>
 
               <v-img
-                  v-bind:src="require(`../../../src/assets/img/appliance-models/${model.imagePath}`)"
+                  :src="model.imgPath"
                   aspect-ratio="1.5"
               ></v-img>
 
@@ -90,9 +90,10 @@
 </template>
 
 <script>
-import AppliancesApiService from "../../core/services/appliances-api-service";
+import ApplianceBrandsApiService from "../../core/services/appliance-brands-api-service";
 import ApplianceModelsApiService from "../../core/services/appliance-models-api-service";
 import ApplianceModelsDialog from "../../components/administrator/Appliance-models-dialog";
+import ApplianceBrandModelsApiService from "../../core/services/appliance-brand-models-api-service";
 
 export default {
   name: "Appliance-models",
@@ -113,26 +114,27 @@ export default {
         id: model.id,
         name: model.name,
         model: model.model,
-        imagePath: model.imagePath,
+        imgPath: model.imgPath,
         applianceBrandId: model.applianceBrandId
       }
     },
-    retrieveApplianceModels() {
-      AppliancesApiService.getModels(this.productId)
+    async retrieveApplianceBrand() {
+      await ApplianceBrandsApiService.getById(this.productId)
+          .then(response => {
+            this.brandName = response.data.name;
+          })
+          .catch(e => {
+            console.log(e);
+          });
+    },
+    async retrieveApplianceModels() {
+      await ApplianceBrandModelsApiService.getApplianceModelsByBrandId(this.productId)
         .then(response => {
           this.applianceModels = response.data;
         })
         .catch(e => {
           console.log(e);
         });
-
-      AppliancesApiService.getById(this.productId)
-        .then(response => {
-          this.brandName = response.data.name;
-        })
-        .catch(e => {
-          console.log(e);
-        })
     },
     openApplianceModelsDialog(item) {
       this.applianceModelItem = Object.assign({}, item);
@@ -142,8 +144,8 @@ export default {
     closeAppliancesModelsDialog() {
       this.dialog = false;
     },
-    updateApplianceModel(modelInformation) {
-      ApplianceModelsApiService.update(modelInformation.id, modelInformation)
+    async updateApplianceModel(modelInformation) {
+      await ApplianceModelsApiService.update(modelInformation.id, modelInformation)
         .then(response => {
           console.log(response);
         })
@@ -151,8 +153,8 @@ export default {
           console.log(e);
         });
     },
-    createApplianceModel(modelInformation) {
-      ApplianceModelsApiService.create(modelInformation)
+    async createApplianceModel(modelInformation) {
+      await ApplianceModelsApiService.create(modelInformation)
         .then(response => {
           console.log(response);
         })
@@ -167,7 +169,7 @@ export default {
       else {
         await this.createApplianceModel(modelInformation);
       }
-      this.retrieveApplianceModels();
+      await this.retrieveApplianceModels();
       this.closeAppliancesModelsDialog();
     },
     async deleteModel(id) {
@@ -178,12 +180,13 @@ export default {
         .catch(e => {
           console.log(e);
         });
-      this.retrieveApplianceModels();
+      await this.retrieveApplianceModels();
       this.closeAppliancesModelsDialog();
     }
   },
   mounted() {
     this.retrieveApplianceModels();
+    this.retrieveApplianceBrand();
   }
 }
 </script>

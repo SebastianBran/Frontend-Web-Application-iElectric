@@ -80,8 +80,8 @@
 import ClientApplianceDialog from "../../components/client/Client-appliance-dialog";
 import ClientsApiService from "../../core/services/clients-api-service";
 import ApplianceModelsApiService from "../../core/services/appliance-models-api-service";
-import AppliancesApiService from "../../core/services/appliances-api-service";
-import ApplianceClientsApiService from "../../core/services/appliance-clients-api-service";
+import ApplianceBrandsApiService from "../../core/services/appliance-brands-api-service";
+import ApplianceApiService from "../../core/services/appliance-api-service";
 
 export default {
   name: "Appliances",
@@ -109,7 +109,7 @@ export default {
     async retrieveBrandWithModel() {
       let brands = [];
 
-      await AppliancesApiService.getAll()
+      await ApplianceBrandsApiService.getAll()
           .then(response => {
             brands = response.data;
           })
@@ -118,7 +118,7 @@ export default {
           });
 
       for (let brand of brands) {
-        await AppliancesApiService.getModels(brand.id)
+        await ApplianceBrandsApiService.getModels(brand.id)
             .then(response => {
               brand.models = response.data;
             });
@@ -175,7 +175,7 @@ export default {
         purchaseDate: parseInt(applianceInformation.purchaseDate)
       }
 
-      ApplianceClientsApiService.update(appliance.id, appliance)
+      ApplianceApiService.update(appliance.id, appliance)
         .then(response => {
           console.log(response);
         })
@@ -191,7 +191,7 @@ export default {
         purchaseDate: parseInt(applianceInformation.purchaseDate)
       }
 
-      ApplianceClientsApiService.create(appliance)
+      ApplianceApiService.create(appliance)
           .then(response => {
             console.log(response);
           })
@@ -211,7 +211,7 @@ export default {
       this.closeClientApplianceDialog();
     },
     async deleteAppliance(id) {
-      await ApplianceClientsApiService.delete(id)
+      await ApplianceApiService.delete(id)
         .then(response => {
           console.log(response);
         })

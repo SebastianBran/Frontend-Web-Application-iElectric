@@ -24,8 +24,7 @@ export default {
         {title: 'Announcements', icon: 'mdi-new-box', path: '/administrator/announcements'},
         {title: 'Technicians', icon: 'mdi-account-hard-hat', path: '/administrator/technicians'},
         {title: 'Reports', icon: 'mdi-clipboard-list-outline', path: '/administrator/reports'},
-        {title: 'Products', icon: 'mdi-television', path: '/administrator/products'},
-        {title: 'Configuration', icon: 'mdi-screwdriver', path: '/'}
+        {title: 'Products', icon: 'mdi-television', path: '/administrator/products'}
       ]
     }
   },

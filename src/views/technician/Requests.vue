@@ -74,7 +74,7 @@
           <v-btn
               text
               color="primary"
-              @click="registerRequest"
+              @click="registerRequest(formNewSpareRequest)"
           >
             Submit
           </v-btn>
@@ -92,7 +92,7 @@
 
     <!-- Dialgo see report -->
     <v-dialog
-        v-model="openReport"
+        v-model="openRequest"
         max-width="600px"
     >
       <v-card>
@@ -109,22 +109,10 @@
               <span> {{ editItem.fullName }}</span>
             </v-row>
             <v-row>
-              <span class="text-h6">Observation</span>
+              <span class="text-h6">Description</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.observation }}</span>
-            </v-row>
-            <v-row>
-              <span class="text-h6">Diagnostic</span>
-            </v-row>
-            <v-row class="mb-3">
-              <span> {{ editItem.diagnosis }}</span>
-            </v-row>
-            <v-row>
-              <span class="text-h6">Description of reparation</span>
-            </v-row>
-            <v-row class="mb-3">
-              <span> {{ editItem.repairDescription }}</span>
+              <span> {{ editItem.description}}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Date</span>
@@ -138,9 +126,16 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+              color="red darken-1"
+              text
+              @click="deleteRequest(editItem.id)"
+          >
+            Delete
+          </v-btn>
+          <v-btn
               text
               color="primary"
-              @click="openReport = false"
+              @click="openRequest = false"
           >
             Close
           </v-btn>
@@ -153,7 +148,6 @@
 <script>
 import TechnicianApiService from "../../core/services/technicians-api-service";
 import SpareRequestsApiService from "../../core/services/spare-requests-api-service";
-import {v4 as uuidv4} from "uuid";
 export default {
   name: "Requests",
   data() {
@@ -174,10 +168,10 @@ export default {
       },
       formNewSpareRequest:{
         description:"",
-        technicianId: "",
+        technicianId: 2,
         date:"",
         imagePath:"",
-        appointmentId: ""
+        appointmentId: 4
       }
     }
   },
@@ -203,7 +197,7 @@ export default {
           });
 
       for (let technician of this.technicians) {
-        await SpareRequestsApiService.getAllByTechnicianId(technician.id)
+        await SpareRequestsApiService.getAll()
             .then(response => {
               const newRequests = response.data.map(request => {
                 const technicianFullName = {
@@ -226,15 +220,7 @@ export default {
     addNewRequest(){
       this.newRequest=true;
     },
-    async registerRequest(){
-      const newRequest={
-        id:uuidv4(),
-        description:this.formNewSpareRequest.description,
-        date:this.formNewSpareRequest.date,
-        imagePath: "image.png",
-        appointmentId: "1",
-        technicianId: "1"
-      }
+    async registerRequest(newRequest){
       await SpareRequestsApiService.create(newRequest)
           .then(response=>{
             console.log(response);
@@ -244,7 +230,19 @@ export default {
           .catch(e=>{
             console.log(e);
           });
+      await this.retrieveRequests();
     },
+    async deleteRequest(requestId){
+      await SpareRequestsApiService.delete(requestId)
+          .then(response=>{
+            console.log(response);
+            this.openRequest=false;
+          })
+          .catch(e=>{
+            console.log(e);
+          });
+      await this.retrieveRequests();
+    }
   },
   mounted() {
     this.retrieveRequests();

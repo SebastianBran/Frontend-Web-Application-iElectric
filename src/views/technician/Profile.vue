@@ -10,14 +10,14 @@
           class="mx-auto mt-3"
       ></v-img>
 
-      <v-card-title><b>{{profileItem.names +" "+ profileItem.lastnames}}</b></v-card-title>
+      <v-card-title><b>{{technician.names +" "+ technician.lastNames}}</b></v-card-title>
 
       <v-card-text>
         <h3>Address</h3>
-        <p>{{profileItem.address}}</p>
+        <p>{{technician.address}}</p>
 
         <h3>Cellphone</h3>
-        <p>{{profileItem.cellphoneNumber}}</p>
+        <p>{{technician.cellphoneNumber}}</p>
 
       </v-card-text>
 
@@ -33,7 +33,7 @@
       <TechnicianProfileDialog
         v-bind:dialog="personalInformationDialog"
         v-bind:title="'Edit person information'"
-        v-bind:item="profileItem"
+        v-bind:item="technician"
         v-on:close-dialog="closePersonalInformationDialog"
         v-on:technician-profile-information="updatePersonalInformation"
       />
@@ -48,8 +48,8 @@ export default {
   name: "Profile",
    data() {
     return {
+      technician: JSON.parse(localStorage.getItem("technician")),
       personalInformationDialog: false,
-      profileItem: {},
     }
   },
   components: {
@@ -62,33 +62,20 @@ export default {
     closePersonalInformationDialog() {
       this.personalInformationDialog = false;
     },
-    async retrieveTechnician() {
-      let technicianId = localStorage.getItem("userId");
-
-      await TechniciansApiService.getById(technicianId)
+    async updatePersonalInformation(profileItem) {
+      await TechniciansApiService.update(profileItem.id, profileItem)
         .then(response => {
-         this.profileItem = response.data
-        })
-        .catch(e => {
-          console.log(e);
-        });   
-    },
-    updatePersonalInformation(profileItem) {
-      this.profileItem = Object.assign(profileItem, this.profileItem);
-      TechniciansApiService.update(this.profileItem.id, this.profileItem)
-        .then(response => {
-          this.profileItem = response.data;
+          localStorage.setItem("technician", JSON.stringify(response.data));
+          this.technician = JSON.parse(localStorage.getItem("technician"));
         })
         .catch(e => {
           console.log(e);
         });
       this.closePersonalInformationDialog();
+      this.$forceUpdate();
     },
     
   },
-   mounted() {
-    this.retrieveTechnician();
-  }
 }
 </script>
 

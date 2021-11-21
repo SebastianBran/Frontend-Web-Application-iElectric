@@ -49,7 +49,6 @@ export default {
     return {
       client: JSON.parse(localStorage.getItem("client")),
       personalInformationDialog: false,
-      emailAndPasswordDialog: false,
     }
   },
   components: {

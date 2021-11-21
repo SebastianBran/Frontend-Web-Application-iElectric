@@ -1,32 +1,32 @@
 <template>
   <v-container>
-    <div v-if="planClient.length === 0">      
+    <div v-if="plan === null">
       <ChoosePlan 
-        v-bind:clientId="clientId"
+        v-bind:client-id="currentClient.id"
         v-on:update-render="updateRendering"
       />
     </div>
     <div v-else>      
       <MyPlan
-        v-bind:item="planClient[0]"
-        v-bind:clientId="clientId"
+        v-bind:item="plan"
+        v-bind:clientId="currentClient.id"
         v-on:update-render="updateRendering"
       />
     </div>
   </v-container>  
 </template>
 
-<script>  
-//import MyPlansApiService from "../../core/services/myplans-api-service";
+<script>
 import ChoosePlan from "../../components/client/ChoosePlan-models";
 import MyPlan from "../../components/client/MyPlan-models";
+import PlanApiService from "../../core/services/plans-api-service";
 
 export default {
   name: "Plan",
   data(){
     return{
-      clientId: "5",
-      planClient: []
+      currentClient: JSON.parse(localStorage.getItem("client")),
+      plan: null
     }
   },
   components:{
@@ -34,8 +34,8 @@ export default {
     MyPlan
   },
   methods:{    
-    getPlan(plan){
-      return{
+    getPlan(plan) {
+      return {
         id: plan.id,
         categoryPlan: plan.categoryPlan,
         clientId: plan.clientId,
@@ -43,21 +43,24 @@ export default {
         subscriptionDate: plan.subscriptionDate
       }
     },
-    getPlanId(){
-      /*MyPlansApiService.getByClientId(this.clientId)
-      .then(response => {
-        this.planClient = response.data
-      })
-      .catch(e =>{
-        console.log(e)
-      })*/
+    async getPlanClient() {
+      await PlanApiService.getById(this.currentClient.planId)
+        .then(response => {
+          this.plan = response.data;
+        })
+        .catch(e => {
+          this.plan = null;
+          console.log(e);
+        });
+      this.$forceUpdate();
     },
-    updateRendering(){
-      this.getPlanId();
+    async updateRendering() {
+      this.currentClient = JSON.parse(localStorage.getItem("client"));
+      await this.getPlanClient();
     }
   },
   mounted() {
-    this.getPlanId();
+    this.getPlanClient();
   }
 }
 

@@ -40,12 +40,12 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-file-input
-                    accept="image/*"
-                    label="File input"
-                    prepend-icon="mdi-camera"
+                <v-text-field
+                    label="Image Path*"
+                    required
                     outlined
-                ></v-file-input>
+                    v-model="item.imgPath"
+                ></v-text-field>
               </v-col>
             </v-row>
           </v-container>

@@ -22,8 +22,8 @@
     <v-item-group active-class="primary">
       <v-row>
         <v-col
-            v-for="appliance in appliances"
-            :key="appliance.id"
+            v-for="brand in appliances"
+            :key="brand.id"
             cols="12"
             xl="2"
             lg="3"
@@ -37,25 +37,31 @@
                     color="black"
                     icon
                     class="ml-auto"
-                    @click="openClientApplianceDialog(appliance)"
+                    @click="openClientApplianceDialog(brand)"
                 >
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </v-app-bar>
 
-              <v-img
-                  v-bind:src="require(`../../../src/assets/img/appliance-models/${appliance.imagePath}`)"
-                  aspect-ratio="1.5"
-              ></v-img>
+              <v-card
+                  fluid
+                  flat
+                  elevation="0"
+                  :to="`appliances/${brand.id}/models`">
+                <v-img
+                    :src="brand.imgPath"
+                    aspect-ratio="1.5"
+                ></v-img>
+              </v-card>
 
               <v-card-title>
-                {{ appliance.name }}
+                {{ brand.name }}
               </v-card-title>
 
               <v-card-subtitle>
-                {{ appliance.model }}
+                {{ brand.model }}
                 <v-spacer></v-spacer>
-                {{ appliance.brandName }}
+                {{ brand.brandName }}
               </v-card-subtitle>
             </v-card>
           </v-item>
@@ -77,105 +83,52 @@
 </template>
 
 <script>
-import ClientApplianceDialog from "../../components/client/Client-appliance-dialog";
-import ClientsApiService from "../../core/services/clients-api-service";
-import ApplianceModelsApiService from "../../core/services/appliance-models-api-service";
 import ApplianceBrandsApiService from "../../core/services/appliance-brands-api-service";
-import ApplianceApiService from "../../core/services/appliance-api-service";
+import ClientApplianceDialog from "../../components/client/Client-appliance-dialog";
 
 export default {
-  name: "Appliances",
+  name: "Appliance-models",
+  components: {ClientApplianceDialog},
   data() {
     return {
-      appliances: [],
-      brandsWithModels: [],
+      applianceId: this.$route.params.applianceId,
+      applianceModels: [],
+      brandName: '',
       dialog: false,
-      editAppliance: false,
-      applianceItem: {},
-      currentClientId: "1",
+      editModel: false,
+      applianceModelItem: {}
     }
   },
-  components: {
-    ClientApplianceDialog
-  },
   methods: {
-    getApplianceModelId(appliance) {
+    getAppliance(appliance) {
       return {
         id: appliance.id,
-        applianceModelId: appliance.applianceModelId,
-        purchaseDate: appliance.purchaseDate
+        name: appliance.name,
+        model: appliance.model,
+        imgPath: appliance.imgPath,
+        applianceBrandId: appliance.applianceBrandId
       }
     },
-    async retrieveBrandWithModel() {
-      let brands = [];
-
+    async retrieveAppliancesBrands() {
       await ApplianceBrandsApiService.getAll()
-          .then(response => {
-            brands = response.data;
-          })
-          .catch(e => {
-            console.log(e);
-          });
-
-      for (let brand of brands) {
-        await ApplianceBrandsApiService.getModels(brand.id)
-            .then(response => {
-              brand.models = response.data;
-            });
-      }
-
-      this.brandsWithModels = brands;
-    },
-    async retrieveAppliances() {
-      await this.retrieveBrandWithModel();
-
-      let appliancesIds = [];
-      await ClientsApiService.getAppliances(this.currentClientId)
         .then(response => {
-          appliancesIds = response.data.map(this.getApplianceModelId);
+          this.applianceBrands = response.data.map(this.getAppliance);
+          console.log(this.applianceBrands);
         })
         .catch(e => {
           console.log(e);
         });
-
-      this.appliances = [];
-      for (let id of appliancesIds) {
-        await ApplianceModelsApiService.getById(id.applianceModelId)
-          .then(response => {
-            let brandN = "";
-            for (let model of this.brandsWithModels) {
-              if ((response.data).applianceBrandId === model.id) {
-                brandN = model.name;
-                break
-              }
-            }
-
-            response.data.id = id.id;
-            this.appliances = this.appliances
-                .concat(Object.assign({ brandName: brandN, purchaseDate: id.purchaseDate, applianceModelId: id.applianceModelId }, response.data));
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      }
     },
-    openClientApplianceDialog(item) {
-      this.applianceItem = Object.assign({}, item);
+    openApplianceModelsDialog(item) {
+      this.applianceModelItem = Object.assign({}, item);
       this.dialog = true;
-      this.editAppliance = !!item.id;
+      this.editModel = !!item.id;
     },
-    closeClientApplianceDialog() {
+    closeAppliancesModelsDialog() {
       this.dialog = false;
     },
-    updateAppliance(applianceInformation) {
-      const appliance = {
-        id: applianceInformation.id,
-        applianceModelId: applianceInformation.applianceModelId,
-        clientId: this.currentClientId,
-        purchaseDate: parseInt(applianceInformation.purchaseDate)
-      }
-
-      ApplianceApiService.update(appliance.id, appliance)
+    async updateApplianceModel(modelInformation) {
+      await ApplianceBrandsApiService.update(modelInformation.id, modelInformation)
         .then(response => {
           console.log(response);
         })
@@ -183,48 +136,39 @@ export default {
           console.log(e);
         });
     },
-    createAppliance(applianceInformation) {
-      const appliance = {
-        id: applianceInformation.id,
-        applianceModelId: applianceInformation.model.id,
-        clientId: this.currentClientId,
-        purchaseDate: parseInt(applianceInformation.purchaseDate)
-      }
-
-      ApplianceApiService.create(appliance)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(e => {
-            console.log(e);
-          });
+    async createApplianceModel(modelInformation) {
+      await ApplianceBrandsApiService.create(modelInformation)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
-    async saveInformationApplianceDialog(applianceInformation) {
-      if (this.editAppliance) {
-        await this.updateAppliance(applianceInformation);
+    async saveInformationModelDialog(modelInformation) {
+      if (this.editModel) {
+        await this.updateApplianceModel(modelInformation);
       }
       else {
-        await this.createAppliance(applianceInformation);
+        await this.createApplianceModel(modelInformation);
       }
-
-      await this.retrieveAppliances();
-      this.closeClientApplianceDialog();
+      await this.retrieveApplianceModels();
+      this.closeAppliancesModelsDialog();
     },
-    async deleteAppliance(id) {
-      await ApplianceApiService.delete(id)
+    async deleteModel(id) {
+      await ApplianceBrandsApiService.delete(id)
         .then(response => {
           console.log(response);
         })
         .catch(e => {
           console.log(e);
         });
-
-      await this.retrieveAppliances();
-      this.closeClientApplianceDialog();
+      await this.retrieveAppliancesBrands();
+      this.closeAppliancesModelsDialog();
     }
   },
   mounted() {
-    this.retrieveAppliances();
+    this.retrieveAppliancesBrands();
   }
 }
 </script>

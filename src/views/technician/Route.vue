@@ -80,13 +80,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-
   </v-card>
 </template>
 
 <script>
-//import TechnicianApiService from "../../core/services/technicians-api-service";
 import AppointmentApiService from "../../core/services/appointments-api-service";
 import ClientApiService from "../../core/services/clients-api-service";
 
@@ -97,14 +94,14 @@ export default {
       appointments: [],
       search: '',
       openReport: false,
+      technicianId: JSON.parse(localStorage.getItem("technician")).id,
       editItem: {
-        id: "",
+        id: Number,
         dateReserve: "",
         dateAttention: "",
         hour: "",
-        clientId: "",
-        technicianId: "",
-        applianceId: "",
+        clientId: Number,
+        technicianId: Number,
         done: Boolean,
         address: ""
       },
@@ -112,44 +109,42 @@ export default {
   },
   methods: {
     getAppointments(appointment) {
-      return {
-        id: appointment.id,
-        dateReserve: appointment.dateReserve,
-        dateAttention: appointment.dateAttention,
-        hour: appointment.hour,
-        clientId: appointment.clientId,
-        technicianId: appointment.technicianId,
-        applianceId: appointment.applianceId,
-        done: appointment.done
+      if (this.technicianId === appointment.technicianId) {
+        return {
+          id: appointment.id,
+          dateReserve: appointment.dateReserve,
+          dateAttention: appointment.dateAttention,
+          hour: appointment.hour,
+          clientId: appointment.clientId,
+          technicianId: appointment.technicianId,
+          done: appointment.done,
+        }
       }
     },
     async retrieveAppointments() {
-      //let technicianId = localStorage.getItem("userId");
-
-      let newAppointments = [];
-
       await AppointmentApiService.getAll()
         .then(response => {
-          newAppointments = response.data.map(this.getAppointments);
+          this.appointments = response.data.map(this.getAppointments);
         })
         .catch(e => {
           console.log(e);
         });
 
-      for (let i = 0; i < newAppointments.length; i++) {
-        await ClientApiService.getById(newAppointments[i].clientId)
+      for (let i = 0; i < this.appointments.length; i++) {
+        await ClientApiService.getById(this.appointments[i].clientId)
             .then(response => {
-              newAppointments[i] = Object.assign(
+              this.appointments[i] =
+                  Object.assign(
                   { address: response.data.address },
-                  newAppointments[i]
-              );
+                  this.appointments[i]
+                  );
             })
             .catch(e => {
               console.log(e);
             });
       }
 
-      this.appointments = newAppointments;
+      this.$forceUpdate();
     },
     seeAppointment(item) {
       this.editItem = Object.assign({}, item);

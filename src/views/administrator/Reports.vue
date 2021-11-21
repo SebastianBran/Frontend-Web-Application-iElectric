@@ -105,15 +105,15 @@ export default {
       search: '',
       openReport: false,
       report: {
-        appointmentId: "",
-        date: "",
-        diagnosis: "",
-        fullName: "",
-        id: "",
-        imagePath: "",
+        id: Number,
         observation: "",
+        diagnosis: "",
         repairDescription: "",
-        technicianId: ""
+        date: "",
+        imagePath: "",
+        appointmentId: "",
+        technicianId: "",
+        fullName: "",
       },
     }
   },
@@ -127,24 +127,22 @@ export default {
         date: report.date,
         imagePath: report.imagePath,
         appointmentId: report.appointmentId,
-        technicianId: report.technicianId
+        technicianId: report.technicianId,
+        fullName: "",
       }
     },
     async retrieveTechnicianInformation() {
       for (let i = 0; i < this.reports.length; i++) {
         await TechnicianApiService.getById(this.reports[i].technicianId)
             .then(response => {
-              const technicianInfo = {
-                technicianId: response.data.id,
-                fullName: `${response.data.name} ${response.data.lastnames}`
-              }
-
-              this.reports[i] = Object.assign(technicianInfo, this.reports[i]);
+              this.reports[i].fullName = `${response.data.names} ${response.data.lastNames}`;
             })
             .catch(e => {
               console.log(e);
             });
       }
+
+      this.$forceUpdate();
     },
     async retrieveReports() {
       await ReportsApiService.getAll()

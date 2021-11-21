@@ -120,7 +120,6 @@ export default {
         await TechnicianApiService.getById(this.spareRequests[i].technicianId)
             .then(response => {
               this.spareRequests[i].fullName = `${response.data.names} ${response.data.lastNames}`;
-              console.log(response);
             })
             .catch(e => {
               console.log(e);

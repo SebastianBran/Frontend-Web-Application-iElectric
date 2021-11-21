@@ -86,7 +86,8 @@
 </template>
 
 <script>
-import TechnicianApiService from "../../core/services/technicians-api-service";
+//import TechnicianApiService from "../../core/services/technicians-api-service";
+import AppointmentApiService from "../../core/services/appointments-api-service";
 import ClientApiService from "../../core/services/clients-api-service";
 
 export default {
@@ -123,11 +124,11 @@ export default {
       }
     },
     async retrieveAppointments() {
-      let technicianId = localStorage.getItem("userId");
+      //let technicianId = localStorage.getItem("userId");
 
       let newAppointments = [];
 
-      await TechnicianApiService.getAppointments(technicianId)
+      await AppointmentApiService.getAll()
         .then(response => {
           newAppointments = response.data.map(this.getAppointments);
         })

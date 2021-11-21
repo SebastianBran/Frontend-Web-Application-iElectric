@@ -47,13 +47,6 @@
         </v-card-title>
 
         <v-card-text>
-          <span v-if="isCreate === false">
-            Last Time Connected:
-            {{new Date(editItem.lastTimeConnected).getDate()}} -
-            {{new Date(editItem.lastTimeConnected).getMonth()}} -
-            {{new Date(editItem.lastTimeConnected).getFullYear()}}
-
-          </span>
           <v-container>
             <v-form ref="form" v-model="valid">
               <v-text-field
@@ -66,35 +59,18 @@
                   aria-labelledby="names"
               ></v-text-field>
               <v-text-field
-                  v-model="editItem.lastnames"
+                  v-model="editItem.lastNames"
                   label="Lastname"
                   :counter="20"
                   required
                   :rules="lastNameRules"
-                  id="lastnames"
-                  aria-labelledby="lastnames"
-              ></v-text-field>
-              <v-text-field
-                  v-model="editItem.email"
-                  label="Email"
-                  required
-                  :rules="emailRules"
-                  id="email"
-                  aria-labelledby="email"
-              ></v-text-field>
-              <v-text-field
-                  v-model="editItem.password"
-                  label="Password"
-                  :counter="15"
-                  :rules="passwordRules"
-                  required
-                  id="password"
-                  aria-labelledby="password"
+                  id="lastNames"
+                  aria-labelledby="lastNames"
               ></v-text-field>
               <v-text-field
                   v-model="editItem.cellphoneNumber"
                   label="Cellphone"
-                  :counter="15"
+                  :counter="9"
                   required
                   :rules="phoneRules"
                   id="cellphoneNumber"
@@ -110,7 +86,7 @@
                   aria-labelledby="address"
               ></v-text-field>
 
-              <v-menu
+              <!--<v-menu
                   v-model="menu"
                   :close-on-content-click="false"
                   :nudge-right="40"
@@ -134,7 +110,7 @@
                     v-model="editItem.birthday"
                     @input="menu = false"
                 ></v-date-picker>
-              </v-menu>
+              </v-menu>-->
             </v-form>
           </v-container>
         </v-card-text>
@@ -152,7 +128,7 @@
               text
               color="primary"
               :disabled="!valid"
-              @click="AddTechnician()"
+              @click="AddTechnician"
           >
             Add
           </v-btn>
@@ -216,8 +192,8 @@ export default {
       search: '',
       headers: [
         {text: 'Name', sortable: true, value: 'names'},
-        {text: 'Last Name', sortable: true, value: 'lastnames'},
-        {text: 'Email', sortable: true, value: 'email'},
+        {text: 'Last Name', sortable: true, value: 'lastNames'},
+        {text: 'Cellphone Number', sortable: true, value: 'cellphoneNumber'},
         {text: 'Actions', sortable: false, value: 'actions'}
       ],
       openTechnician: false,
@@ -226,17 +202,12 @@ export default {
       editItem: {
         names: '',
         lastnames: '',
-        cellphoneNumber: '',
+        cellphoneNumber: Number,
         address: '',
         email: '',
-        birthday: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
         password: '',
       },
       valid: true,
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      ],
       nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 20) || 'Name must be less than 20 characters',
@@ -245,18 +216,14 @@ export default {
         v => !!v || 'Lastname is required',
         v => (v && v.length <= 20) || 'Lastname must be less than 20 characters',
       ],
-      passwordRules: [
-        v => !!v || 'Password is required',
-        v => (v && v.length <= 15) || 'Password must be less than 15 characters',
-      ],
       addressRules: [
         v => !!v || 'Address is required',
         v => (v && v.length <= 50) || 'Address must be less than 50 characters',
       ],
       phoneRules: [
         v => !!v || 'Cellphone is required',
-        v => Number.isInteger(Number(v)) || 'Cellphone value must be an integer number',
-        v => (v && v.length <= 15) || 'Cellphone must be less than 15 characters',
+        v => Number.isInteger(v) || 'Cellphone value must be an integer number',
+        v => (v && v >= 900000000 && v <= 999999999) || 'Cellphone must be less than 9 characters',
       ],
       menu: false,
     }
@@ -266,13 +233,10 @@ export default {
       return {
         id: technician.id,
         names: technician.names,
-        lastnames: technician.lastnames,
+        lastNames: technician.lastNames,
         cellphoneNumber: technician.cellphoneNumber,
         address: technician.address,
-        email: technician.email,
-        birthday: technician.birthday,
-        password: technician.password,
-        lastTimeConnected: technician.lastTimeConnected
+        userId: technician.userId
       }
     },
     async retrieveTechnicians() {
@@ -303,7 +267,6 @@ export default {
     seeEditDialog(item){
       this.editItem = Object.assign({}, item);
       this.isCreate = false;
-      this.editItem.birthday = (new Date(this.editItem.birthday)).toISOString().substr(0, 10),
       this.openTechnician = true;
     },
     async updateTechnician(id, item) {

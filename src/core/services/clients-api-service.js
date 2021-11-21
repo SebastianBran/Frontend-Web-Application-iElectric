@@ -9,6 +9,10 @@ class ClientsApiService {
         return http.get(`/clients/${ id }`);
     }
 
+    getByUserId(userId) {
+        return http.get(`/clients/user/${ userId }`);
+    }
+
     create(data) {
         return http.post('/clients', data);
     }

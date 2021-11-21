@@ -3,7 +3,7 @@
     <h1 class="mb-2">Announcements</h1>
 
     <!-- Search - START -->
-    <v-app-bar
+    <!--<v-app-bar
         class="mb-6"
         color="white"
         flat
@@ -32,7 +32,7 @@
         small
     >
       Clear
-    </v-chip>
+    </v-chip>-->
     <!-- Search - END -->
 
     <!-- List - START -->
@@ -98,6 +98,7 @@
                 label="Title"
                 :counter="40"
                 required
+                outlined
                 :rules="titleRules"
                 id="title"
                 aria-labelledby="title"
@@ -107,27 +108,20 @@
                 label="Description"
                 :counter="70"
                 required
+                outlined
                 :rules="descriptionRules"
                 id="description"
                 aria-labelledby="description"
             ></v-text-field>
             <v-text-field
-                v-model="editItem.type"
+                v-model="editItem.typeOfAnnouncement"
                 label="Type"
                 :counter="15"
                 required
+                outlined
                 :rules="typeRules"
                 id="type"
                 aria-labelledby="type"
-            ></v-text-field>
-            <v-text-field
-                v-model="editItem.section"
-                label="Section"
-                :counter="15"
-                required
-                :rules="sectionRules"
-                id="section"
-                aria-labelledby="section"
             ></v-text-field>
             <v-textarea
                 v-model="editItem.content"
@@ -136,6 +130,7 @@
                 auto-grow
                 :counter="150"
                 required
+                outlined
                 :rules="contentRules"
                 id="content"
                 aria-labelledby="content"
@@ -144,6 +139,7 @@
                 v-model="editItem.urlToImage"
                 label="Image Url"
                 required
+                outlined
                 id="urlToImage"
                 aria-labelledby="urlToImage"
             ></v-text-field>
@@ -189,8 +185,7 @@ export default {
         description: '',
         content: '',
         urlToImage: '',
-        type: '',
-        section: ''
+        typeOfAnnouncement: '',
       },
       valid: true,
       titleRules: [
@@ -223,8 +218,7 @@ export default {
         description: announcement.description,
         content: announcement.content,
         urlToImage: announcement.urlToImage,
-        type: announcement.type,
-        section: announcement.section,
+        typeOfAnnouncement: announcement.typeOfAnnouncement,
         visible: announcement.visible
       }
     },
@@ -242,35 +236,31 @@ export default {
       this.openEdit = true;
     },
     async updateAnnouncement(id, item) {
+      switch (item.typeOfAnnouncement) {
+        case "Informative": {
+          item.typeOfAnnouncement = 1;
+          break;
+        }
+        case "Advertisement": {
+          item.typeOfAnnouncement = 2;
+          break;
+        }
+      }
+
       await AnnouncementsApiService.update(id, item)
-      .then(() =>{
-        this.retrieveAnnouncements();
-        this.openEdit = false;
-      })
-      .catch(e => {
-        console.log(e);
-      });
+        .then(() =>{
+          this.retrieveAnnouncements();
+          this.openEdit = false;
+        })
+        .catch(e => {
+          console.log(e);
+        });
     },
     handleVisibleItem(item) {
       this.editItem = Object.assign({}, item);
       this.editItem.visible = !this.editItem.visible
       this.updateAnnouncement(this.editItem.id, this.editItem)
     },
-    async searchAnnouncement(title) {
-      await AnnouncementsApiService.getByTitle(title)
-      .then(response => {
-        this.announcements = response.data.map(this.getAnnouncement);
-        this.bySearch = true
-      })
-      .catch(e => {
-        console.log(e);
-      });
-    },
-    clearSearch() {
-      this.retrieveAnnouncements()
-      this.search = ''
-      this.bySearch = false
-    }
   },
   mounted() {
     this.retrieveAnnouncements()

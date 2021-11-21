@@ -21,12 +21,12 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-file-input
-                    accept="image/*"
-                    label="File input"
-                    prepend-icon="mdi-camera"
+                <v-text-field
+                    label="Image Path*"
+                    required
                     outlined
-                ></v-file-input>
+                    v-model="item.imgPath"
+                ></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -98,7 +98,6 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
 
 export default {
   name: "Appliance-dialog",
@@ -118,11 +117,6 @@ export default {
       this.$emit("close-dialog");
     },
     saveInformation() {
-      if (!this.edit) {
-        this.item.id = uuidv4();
-        this.item.imagePath = "image.png";
-      }
-
       this.$emit("brand-information", this.item);
     },
     deleteBrand() {

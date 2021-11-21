@@ -1,12 +1,16 @@
 import http from './http-common'
 
-class AppliancesApiService {
+class TechniciansApiService {
     getAll() {
         return http.get('/technicians');
     }
 
     getById(id) {
         return http.get(`/technicians/${ id }`);
+    }
+
+    getByUserId(userId) {
+        return http.get(`/technicians/user/${ userId }`);
     }
 
     create(data) {
@@ -22,4 +26,4 @@ class AppliancesApiService {
     }
 }
 
-export default new AppliancesApiService();
+export default new TechniciansApiService();

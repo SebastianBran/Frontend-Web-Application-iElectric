@@ -10,7 +10,6 @@
         class="pa-2"
     >
       <v-container fluid>
-
         <v-row dense>
           <v-col>
             <v-row class="text-h6">
@@ -245,7 +244,7 @@ export default {
           date: report.date,
           imagePath: report.imagePath,
           appointmentId: report.appointmentId,
-          technicianId: JSON.parse(localStorage.getItem("technician"))
+          technicianId: JSON.parse(localStorage.getItem("technician")).id
         }
       }
     },
@@ -257,8 +256,6 @@ export default {
         .catch(e => {
           console.log(e);
         });
-
-      console.log(this.reports);
     },
     seeReport(item) {
       this.editItem = Object.assign({}, item);
@@ -275,7 +272,7 @@ export default {
             this.$refs.form.reset();
           })
           .catch(e=>{
-          console.log(e);
+            console.log(e);
           });
       await this.retrieveReports();
     },

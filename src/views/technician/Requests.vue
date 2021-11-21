@@ -7,6 +7,7 @@
         v-for="(request,index) in requests"
         :key="index"
         @click="seeRequest(request)"
+        class="pa-3"
     >
       <v-container fluid>
         <v-row dense>
@@ -15,10 +16,11 @@
               {{request.description}}
             </v-row>
           </v-col>
-          <v-col cols="1">
+          <v-col cols="2">
             {{request.date}}
           </v-col>
         </v-row>
+        <v-img :src="request.imagePath" aspect-ratio="1.5"></v-img>
       </v-container>
     </v-card>
     <div class="btn-add" >
@@ -156,8 +158,8 @@
 </template>
 
 <script>
-import TechnicianApiService from "../../core/services/technicians-api-service";
 import SpareRequestsApiService from "../../core/services/spare-requests-api-service";
+
 export default {
   name: "Requests",
   data() {
@@ -167,7 +169,8 @@ export default {
       search: '',
       openRequest: false,
       newRequest:false,
-      e6:1,
+      e6: 1,
+      technicianId: JSON.parse(localStorage.getItem("technician")).id,
       editItem: {
         id:"",
         description:"",
@@ -178,7 +181,7 @@ export default {
       },
       formNewSpareRequest:{
         description:"",
-        technicianId: 2,
+        technicianId: JSON.parse(localStorage.getItem("technician")).id,
         date:"",
         imagePath:"",
         appointmentId: 4
@@ -186,33 +189,28 @@ export default {
     }
   },
   methods: {
-    getTechnician(technician) {
-      return {
-        id: technician.id,
-        names: technician.names,
-        lastnames: technician.lastnames,
-        cellphoneNumber: technician.cellphoneNumber,
-        address: technician.address,
-        email: technician.email,
-        birthday: technician.birthday
+    getSpareRequest(spareRequest) {
+      if (this.technicianId === spareRequest.technicianId) {
+        return {
+          id: spareRequest.id,
+          description: spareRequest.description,
+          date: spareRequest.date,
+          imagePath: spareRequest.imagePath,
+          technicianId: JSON.parse(localStorage.getItem("technician")).id,
+          appointmentId: spareRequest.appointmentId,
+        }
       }
     },
     async retrieveRequests() {
-      await TechnicianApiService.getAll()
-          .then(response => {
-            this.technicians = response.data.map(this.getTechnician);
-          })
-          .catch(e => {
-            console.log(e);
-          });
       await SpareRequestsApiService.getAll()
           .then(response => {
-            this.requests=response.data;
+            this.requests = response.data.map(this.getSpareRequest);
           })
           .catch(e => {
             console.log(e);
           });
 
+      console.log(this.requests);
     },
     seeRequest(item) {
       this.editItem = Object.assign({}, item);

@@ -16,7 +16,7 @@
                 <v-overflow-btn
                     :items="statesBrands"
                     item-text="name"
-                    label="Mark"
+                    label="Brand"
                     outlined
                     v-model="item.brandName"
                 ></v-overflow-btn>
@@ -39,14 +39,14 @@
                     v-model="item.purchaseDate"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
+              <!--<v-col cols="12">
                 <v-text-field
                     label="Image Path*"
                     required
                     outlined
                     v-model="item.imgPath"
                 ></v-text-field>
-              </v-col>
+              </v-col>-->
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -115,8 +115,6 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
-
 export default {
   name: "Client-appliance-dialog",
   props: {
@@ -137,10 +135,6 @@ export default {
       this.$emit("close-dialog");
     },
     saveInformation() {
-      if (!this.edit) {
-        this.item.id = uuidv4();
-      }
-
       this.$emit("client-appliance-information", this.item);
     },
     deleteAppliance() {
@@ -151,6 +145,7 @@ export default {
   computed: {
     statesBrands: function() {
       let brands = [];
+
       for (let brand of this.brandsWithModels) {
         brands.push(brand.name);
       }
@@ -159,6 +154,7 @@ export default {
     },
     statesModels: function () {
       let models = [];
+
       for (let brand of this.brandsWithModels) {
         if ((this.item).brandName === brand.name) {
           for (let model of brand.models) {
@@ -167,6 +163,7 @@ export default {
           break;
         }
       }
+
       return models;
     }
   }

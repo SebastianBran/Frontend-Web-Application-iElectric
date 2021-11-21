@@ -48,7 +48,7 @@
           <v-btn
               color="primary"
               :disabled="!this.form.isValid"
-              @click="login()"
+              @click="handleLogin"
           >
             Login
           </v-btn>
@@ -138,50 +138,58 @@ export default {
     submit() {
       this.form = { email: "", password: "" };
     },
-    async login() {
-      let noLogin = true;
+    handleLogin() {
+      const user = {
+        email: this.form.email,
+        password: this.form.password
+      }
 
-      //check if the user is a client
-      await ClientsApiService.getByEmailAndPassword(this.form.email, this.form.password)
-        .then(response => {
-          if (response.data.length !== 0) {
-            localStorage.setItem('userId', response.data[0].id.toString());
-            noLogin = false;
-            this.$router.push("/client");
-          }
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-      //check if the user is a technician
-      if (noLogin) {
-        await TechniciansApiService.getByEmailAndPassword(this.form.email, this.form.password)
-          .then(response => {
-            if (response.data.length !== 0) {
-              localStorage.setItem('userId', response.data[0].id.toString());
-              noLogin = false;
-              this.$router.push("/technician");
-            }
+      this.$store.dispatch("auth/login", user)
+          .then((response) => {
+            this.goToView(response.id);
           })
           .catch(e => {
             console.log(e);
           });
+    },
+    async goToView(userId) {
+      let noLogin = true;
+
+      //check if the user is a client
+      await ClientsApiService.getByUserId(userId)
+          .then(response => {
+            localStorage.setItem('client', JSON.stringify(response.data));
+            noLogin = false;
+            this.$router.push("/client");
+          })
+          .catch(e => {
+            console.log(e);
+          });
+
+      //check if the user is a technician
+      if (noLogin) {
+        await TechniciansApiService.getByUserId(userId)
+            .then(response => {
+              localStorage.setItem('technician', JSON.stringify(response.data));
+              noLogin = false;
+              this.$router.push("/technician");
+            })
+            .catch(e => {
+              console.log(e);
+            });
       }
 
       //check if the user is a administrator
       if (noLogin) {
-        await AdministratorsApiService.getByEmailAndPassword(this.form.email, this.form.password)
-          .then(response => {
-            if (response.data.length !== 0) {
-              localStorage.setItem('userId', response.data[0].id.toString());
+        await AdministratorsApiService.getByUserId(userId)
+            .then(response => {
+              localStorage.setItem('administrator', JSON.stringify(response.data));
               noLogin = false;
               this.$router.push("/administrator");
-            }
-          })
-          .catch(e => {
-            console.log(e);
-          });
+            })
+            .catch(e => {
+              console.log(e);
+            });
       }
 
       if (noLogin) {

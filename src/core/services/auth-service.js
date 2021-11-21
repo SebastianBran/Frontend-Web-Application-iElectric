@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://ielectric-api.azurewebsites.net/api/v1/auth/";
+const API_URL = "https://ielectric-api.azurewebsites.net/api/v1/users/auth/";
 
 class AuthService {
     login(user) {

@@ -9,6 +9,10 @@ class AdministratorsApiService {
         return http.get(`/administrators/${ id }`);
     }
 
+    getByUserId(userId) {
+        return http.get(`/administrators/user/${ userId }`);
+    }
+
     create(data) {
         return http.post('/administrators', data);
     }

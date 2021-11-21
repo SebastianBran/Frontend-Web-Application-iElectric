@@ -27,12 +27,6 @@
                     outlined
                     v-model="item.imgPath"
                 ></v-text-field>
-                <!--<v-file-input
-                    accept="image/*"
-                    label="File input"
-                    prepend-icon="mdi-camera"
-                    outlined
-                ></v-file-input>-->
               </v-col>
             </v-row>
           </v-container>

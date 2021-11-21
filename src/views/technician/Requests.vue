@@ -97,29 +97,32 @@
     >
       <v-card>
         <v-card-title>
-          <span class="text-h5"> Report </span>
+          <span class="text-h5"> Request </span>
         </v-card-title>
 
         <v-card-text>
           <v-container>
-            <v-row>
-              <span class="text-h6">Name of technician</span>
-            </v-row>
-            <v-row class="mb-3">
-              <span> {{ editItem.fullName }}</span>
-            </v-row>
-            <v-row>
-              <span class="text-h6">Description</span>
-            </v-row>
-            <v-row class="mb-3">
-              <span> {{ editItem.description}}</span>
-            </v-row>
-            <v-row>
-              <span class="text-h6">Date</span>
-            </v-row>
-            <v-row class="mb-3">
-              <span> {{ editItem.date }}</span>
-            </v-row>
+            <v-text-field
+                v-model="editItem.description"
+                ref="textField"
+                outlined
+                label="Description*"
+                clearable
+            ></v-text-field>
+            <v-text-field
+                v-model="editItem.imagePath"
+                ref="textField"
+                outlined
+                label="Image Path*"
+                clearable
+            ></v-text-field>
+            <v-text-field
+                v-model="editItem.date"
+                ref="textField"
+                outlined
+                label="Date*"
+                clearable
+            ></v-text-field>
           </v-container>
         </v-card-text>
 
@@ -131,6 +134,13 @@
               @click="deleteRequest(editItem.id)"
           >
             Delete
+          </v-btn>
+          <v-btn
+              color="blue darken-1"
+              text
+              @click="updateRequest(editItem.id,editItem)"
+          >
+            Save
           </v-btn>
           <v-btn
               text
@@ -195,23 +205,14 @@ export default {
           .catch(e => {
             console.log(e);
           });
+      await SpareRequestsApiService.getAll()
+          .then(response => {
+            this.requests=response.data;
+          })
+          .catch(e => {
+            console.log(e);
+          });
 
-      for (let technician of this.technicians) {
-        await SpareRequestsApiService.getAll()
-            .then(response => {
-              const newRequests = response.data.map(request => {
-                const technicianFullName = {
-                  fullName: `${technician.names} ${technician.lastnames}`
-                }
-                return Object.assign(request, technicianFullName);
-              });
-
-              this.requests = this.requests.concat(newRequests);
-            })
-            .catch(e => {
-              console.log(e);
-            });
-      }
     },
     seeRequest(item) {
       this.editItem = Object.assign({}, item);
@@ -234,6 +235,17 @@ export default {
     },
     async deleteRequest(requestId){
       await SpareRequestsApiService.delete(requestId)
+          .then(response=>{
+            console.log(response);
+            this.openRequest=false;
+          })
+          .catch(e=>{
+            console.log(e);
+          });
+      await this.retrieveRequests();
+    },
+    async updateRequest(requestId,data){
+      await SpareRequestsApiService.update(requestId,data)
           .then(response=>{
             console.log(response);
             this.openRequest=false;

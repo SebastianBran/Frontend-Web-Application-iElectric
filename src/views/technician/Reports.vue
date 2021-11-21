@@ -160,6 +160,13 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+              color="red darken-1"
+              text
+              @click="deleteReport(editItem.id)"
+          >
+            Delete
+          </v-btn>
+          <v-btn
               text
               color="primary"
               @click="openReport = false"
@@ -258,12 +265,23 @@ export default {
             console.log(response);
             this.newReport=false;
             this.$refs.form.reset();
-            this.retrieveReports();
           })
           .catch(e=>{
           console.log(e);
           });
+      await this.retrieveReports();
     },
+    async deleteReport(reportId){
+      await ReportsApiService.delete(reportId)
+          .then(response=>{
+            console.log(response);
+            this.openReport=false;
+          })
+          .catch(e=>{
+            console.log(e);
+          });
+      await this.retrieveReports();
+    }
   },
   mounted() {
     this.retrieveReports();

@@ -96,7 +96,7 @@
           <v-btn
               text
               color="primary"
-              @click="registerReport"
+              @click="registerReport(formNewReport)"
           >
             Submit
           </v-btn>
@@ -202,8 +202,8 @@ export default {
         repairDescription: "",
         date:"",
         imagePath:"",
-        appointmentId: 0,
-        technicianId: 0
+        appointmentId: 4,
+        technicianId: 2
       }
     }
   },
@@ -258,6 +258,7 @@ export default {
             console.log(response);
             this.newReport=false;
             this.$refs.form.reset();
+            this.retrieveReports();
           })
           .catch(e=>{
           console.log(e);

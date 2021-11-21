@@ -43,31 +43,31 @@
               <span class="text-h6">Name of technician</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.fullName }}</span>
+              <span> {{ report.fullName }}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Observation</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.observation }}</span>
+              <span> {{ report.observation }}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Diagnostic</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.diagnosis }}</span>
+              <span> {{ report.diagnosis }}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Description of reparation</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.repairDescription }}</span>
+              <span> {{ report.repairDescription }}</span>
             </v-row>
             <v-row>
               <span class="text-h6">Date</span>
             </v-row>
             <v-row class="mb-3">
-              <span> {{ editItem.date }}</span>
+              <span> {{ report.date }}</span>
             </v-row>
           </v-container>
         </v-card-text>
@@ -89,6 +89,7 @@
 
 <script>
 import TechnicianApiService from "../../core/services/technicians-api-service";
+import ReportsApiService from "../../core/services/reports-api-service";
 
 export default {
   name: "Reports",
@@ -100,11 +101,10 @@ export default {
         { text: 'Date', value: 'date' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
-      technicians: [],
       reports: [],
       search: '',
       openReport: false,
-      editItem: {
+      report: {
         appointmentId: "",
         date: "",
         diagnosis: "",
@@ -118,45 +118,47 @@ export default {
     }
   },
   methods: {
-    getTechnician(technician) {
+    getReport(report) {
       return {
-        id: technician.id,
-        names: technician.names,
-        lastnames: technician.lastnames,
-        cellphoneNumber: technician.cellphoneNumber,
-        address: technician.address,
-        email: technician.email,
-        birthday: technician.birthday
+        id: report.id,
+        observation: report.observation,
+        diagnosis: report.diagnosis,
+        repairDescription: report.repairDescription,
+        date: report.date,
+        imagePath: report.imagePath,
+        appointmentId: report.appointmentId,
+        technicianId: report.technicianId
+      }
+    },
+    async retrieveTechnicianInformation() {
+      for (let i = 0; i < this.reports.length; i++) {
+        await TechnicianApiService.getById(this.reports[i].technicianId)
+            .then(response => {
+              const technicianInfo = {
+                technicianId: response.data.id,
+                fullName: `${response.data.name} ${response.data.lastnames}`
+              }
+
+              this.reports[i] = Object.assign(technicianInfo, this.reports[i]);
+            })
+            .catch(e => {
+              console.log(e);
+            });
       }
     },
     async retrieveReports() {
-      await TechnicianApiService.getAll()
+      await ReportsApiService.getAll()
         .then(response => {
-          this.technicians = response.data.map(this.getTechnician);
+          this.reports = response.data.map(this.getReport);
         })
         .catch(e => {
           console.log(e);
         });
 
-      for (let technician of this.technicians) {
-        await TechnicianApiService.getReports(technician.id)
-          .then(response => {
-            const newReports = response.data.map(report => {
-                const technicianFullName = {
-                  fullName: `${technician.names} ${technician.lastnames}`
-                }
-                return Object.assign(report, technicianFullName);
-              });
-
-            this.reports = this.reports.concat(newReports);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      }
+      await this.retrieveTechnicianInformation();
     },
     seeReport(item) {
-      this.editItem = Object.assign({}, item);
+      this.report = Object.assign({}, item);
       this.openReport = true;
     }
   },

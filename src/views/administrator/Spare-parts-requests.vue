@@ -77,6 +77,7 @@
 
 <script>
 import TechnicianApiService from "../../core/services/technicians-api-service";
+import SpareRequestApiService from "../../core/services/spare-requests-api-service";
 
 export default {
   name: "Spare-parts-requests",
@@ -100,49 +101,42 @@ export default {
     }
   },
   methods: {
-    getTechnician(technician) {
+    getSpareRequest(spareRequest) {
       return {
-        id: technician.id,
-        names: technician.names,
-        lastnames: technician.lastnames,
-        cellphoneNumber: technician.cellphoneNumber,
-        address: technician.address,
-        email: technician.email,
-        birthday: technician.birthday
+        id: spareRequest.id,
+        description: spareRequest.description,
+        date: spareRequest.date,
+        imagePath: spareRequest.imagePath,
+        technicianId: spareRequest.technicianId,
+        appointmentId: spareRequest.appointmentId
       }
     },
-    async retrieveTechnicians() {
-      let technicians = [];
-      await TechnicianApiService.getAll()
+    async retrieveTechnicianInformation() {
+      for (let i = 0; i < this.spareRequests.length; i++) {
+        await TechnicianApiService.getById(this.spareRequests[i].technicianId)
           .then(response => {
-            technicians = response.data.map(this.getTechnician);
+            const technicianInfo = {
+              technicianId: response.data.id,
+              fullName: `${response.data.name} ${response.data.lastnames}`
+            }
+
+            this.spareRequests[i] = Object.assign(technicianInfo, this.spareRequests[i]);
           })
           .catch(e => {
             console.log(e);
           });
-      return technicians;
+      }
     },
     async retrieveSpareRequests() {
-      let technicians = await this.retrieveTechnicians();
+      await SpareRequestApiService.getAll()
+        .then(response => {
+          this.spareRequest = response.data.map(this.getSpareRequest);
+        })
+        .catch(e => {
+          console.log(e);
+        });
 
-      for (let technician of technicians) {
-        await TechnicianApiService.getSpareRequests(technician.id)
-          .then(response => {
-            const spareRequestsOfTechnician = response.data.map(spareRequest => {
-              const technicianFullName = {
-                fullName: `${technician.names} ${technician.lastnames}`
-              }
-              return Object.assign(spareRequest, technicianFullName);
-            })
-
-            this.spareRequests = this.spareRequests.concat(spareRequestsOfTechnician);
-          })
-          .catch(e => {
-            console.log(e);
-          });
-      }
-
-      console.log(this.spareRequests);
+      await this.retrieveTechnicianInformation();
     },
     seeSpareRequest(item) {
       this.spareRequest = Object.assign({}, item);

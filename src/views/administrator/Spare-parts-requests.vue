@@ -93,10 +93,13 @@ export default {
       search: '',
       openSpareRequest: false,
       spareRequest: {
-        fullName: "",
+        id: Number,
         description: "",
-        technicianId: "",
-        date: ""
+        date: "",
+        imagePath: "",
+        technicianId: Number,
+        appointmentId: Number,
+        fullName: "",
       }
     }
   },
@@ -108,29 +111,28 @@ export default {
         date: spareRequest.date,
         imagePath: spareRequest.imagePath,
         technicianId: spareRequest.technicianId,
-        appointmentId: spareRequest.appointmentId
+        appointmentId: spareRequest.appointmentId,
+        fullName: "",
       }
     },
     async retrieveTechnicianInformation() {
       for (let i = 0; i < this.spareRequests.length; i++) {
         await TechnicianApiService.getById(this.spareRequests[i].technicianId)
-          .then(response => {
-            const technicianInfo = {
-              technicianId: response.data.id,
-              fullName: `${response.data.name} ${response.data.lastnames}`
-            }
-
-            this.spareRequests[i] = Object.assign(technicianInfo, this.spareRequests[i]);
-          })
-          .catch(e => {
-            console.log(e);
-          });
+            .then(response => {
+              this.spareRequests[i].fullName = `${response.data.names} ${response.data.lastNames}`;
+              console.log(response);
+            })
+            .catch(e => {
+              console.log(e);
+            });
       }
+
+      this.$forceUpdate();
     },
     async retrieveSpareRequests() {
       await SpareRequestApiService.getAll()
         .then(response => {
-          this.spareRequest = response.data.map(this.getSpareRequest);
+          this.spareRequests = response.data.map(this.getSpareRequest);
         })
         .catch(e => {
           console.log(e);

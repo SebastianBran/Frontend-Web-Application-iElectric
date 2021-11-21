@@ -11,12 +11,18 @@
           <span class="text-h5">{{ title }}</span>
         </v-card-title>
         <v-col cols="12">
+          <v-text-field
+                    label="Hour*"
+                    required
+                    outlined
+                    v-model="item.hour"
+                ></v-text-field>
                 <v-text-field
                     label="Date of attention*"
                     required
                     outlined
-                    v-model="item.date_atention"
-                ></v-text-field>
+                    v-model="item.dateAttention"
+                ></v-text-field>             
               </v-col>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -35,7 +41,7 @@
             Postpone
           </v-btn>
           <v-btn
-              v-if="edit"
+            
               color="red darken-1"
               text
               @click="dialogDelete = true"
@@ -113,15 +119,12 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
-
 export default {
   name: "Reserve-dialog",
   props: {
     dialog: Boolean,
-    edit: Boolean,
     title: String,
-    item: Object
+    item: Object,
   },
   data() {
     return {
@@ -134,15 +137,11 @@ export default {
       this.$emit("close-dialog");
     },
     postreserve() {
-      if (!this.edit) {
-        this.item.id = uuidv4();
-        this.item.date_atention = "date_atention";
-      }
-
-      this.$emit("brand-information", this.item);
+      console.log(this.item, "dialog");
+      this.$emit("reserve-information", this.item);
     },
     deleteReserve() {
-      this.$emit("delete-brand", this.item.id);
+      this.$emit("delete-reserve", this.item.id);
       this.dialogDelete = false;
     },
   }

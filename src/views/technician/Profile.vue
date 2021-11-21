@@ -19,8 +19,6 @@
         <h3>Cellphone</h3>
         <p>{{profileItem.cellphoneNumber}}</p>
 
-        <h3>Birthday</h3>
-        <p>{{profileItem.birthday}}</p>
       </v-card-text>
 
       <v-card-actions>
@@ -39,33 +37,23 @@
         v-on:close-dialog="closePersonalInformationDialog"
         v-on:technician-profile-information="updatePersonalInformation"
       />
-      <TechnicianSesionDialog
-        v-bind:dialog="emailAndPasswordDialog"
-        v-bind:title="'Edit email and password'"
-        v-bind:item="profileItem"
-        v-on:close-dialog="closeEmailAndPasswordDialog"
-        v-on:technician-sesion-information="updateEmailAndPassword"
-      />
   </v-card>
 </template>
 
 <script>
-import ApplianceBrandsApiService from "../../core/services/technicians-api-service";
+import TechniciansApiService from "../../core/services/technicians-api-service";
 import TechnicianProfileDialog from "../../components/technician/Technicians-profile-dialog";
-import TechnicianSesionDialog from "../../components/technician/Technicians-sesion-dialog";
 
 export default {
   name: "Profile",
    data() {
     return {
       personalInformationDialog: false,
-      emailAndPasswordDialog: false,
       profileItem: {},
     }
   },
   components: {
     TechnicianProfileDialog,
-    TechnicianSesionDialog
   },
    methods: {
     openPersonalInformationDialog() {
@@ -74,15 +62,10 @@ export default {
     closePersonalInformationDialog() {
       this.personalInformationDialog = false;
     },
-    openEmailAndPasswordDialog() {
-      this.emailAndPasswordDialog = true;
-    },
-    closeEmailAndPasswordDialog() {
-      this.emailAndPasswordDialog = false;
-    },
     async retrieveTechnician() {
-      let TechnicianId = localStorage.getItem("userId");
-      await ApplianceBrandsApiService.getById(TechnicianId)
+      let technicianId = localStorage.getItem("userId");
+
+      await TechniciansApiService.getById(technicianId)
         .then(response => {
          this.profileItem = response.data
         })
@@ -92,7 +75,7 @@ export default {
     },
     updatePersonalInformation(profileItem) {
       this.profileItem = Object.assign(profileItem, this.profileItem);
-      ApplianceBrandsApiService.update(this.profileItem.id, this.profileItem)
+      TechniciansApiService.update(this.profileItem.id, this.profileItem)
         .then(response => {
           this.profileItem = response.data;
         })
@@ -101,24 +84,12 @@ export default {
         });
       this.closePersonalInformationDialog();
     },
-    updateEmailAndPassword(profileItem) {
-      ApplianceBrandsApiService.update(profileItem.id, profileItem)
-        .then(response => {
-          this.profileItem = response.data
-        })
-        .catch(e => {
-          console.log(e);
-        });
-        this.closeEmailAndPasswordDialog();
-    },
+    
   },
    mounted() {
     this.retrieveTechnician();
   }
 }
-
-
-
 </script>
 
 <style scoped>

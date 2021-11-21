@@ -52,16 +52,6 @@
                 outlined
             ></v-text-field>
               </v-col>
-
-              <v-col cols="12">
-                <v-text-field
-                v-model="item.birthday"
-                label="Birthday(y/m/d)*"
-                :rules="[rules.required, rules.birthday]"
-                counter="10"
-                outlined
-            ></v-text-field>
-              </v-col>
             </v-row>
           </v-container>
           <small>*indicates required field</small>

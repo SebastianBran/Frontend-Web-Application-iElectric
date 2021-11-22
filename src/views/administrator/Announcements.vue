@@ -2,39 +2,6 @@
   <v-container>
     <h1 class="mb-2">Announcements</h1>
 
-    <!-- Search - START -->
-    <!--<v-app-bar
-        class="mb-6"
-        color="white"
-        flat
-        height="90px"
-    >
-      <v-col cols="12" sm="6" class="ml-auto">
-        <v-text-field
-            v-model="search"
-            outlined
-            dense
-            class="mt-4"
-            append-icon="mdi-magnify"
-            label="Search"
-            @click:append="searchAnnouncement(search)"
-        ></v-text-field>
-      </v-col>
-    </v-app-bar>
-
-    <v-chip
-        v-if="bySearch"
-        class="ma-2"
-        close
-        color="red"
-        text-color="white"
-        @click:close="clearSearch"
-        small
-    >
-      Clear
-    </v-chip>-->
-    <!-- Search - END -->
-
     <!-- List - START -->
     <v-list>
       <template v-for="(announcement, index) in announcements">

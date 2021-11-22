@@ -15,17 +15,10 @@
       <v-spacer></v-spacer>
 
       <v-btn
-          to="/"
+          href="https://ielectric-es3b.github.io/Landing-Page-iElectric/"
           plain
       >
         Home
-      </v-btn>
-      <v-btn
-          to="/about"
-          class="ml-2"
-          plain
-      >
-        About
       </v-btn>
       <v-btn
           to="/login"
@@ -35,7 +28,7 @@
         Login
       </v-btn>
       <v-btn
-          to="/register"
+          to="/"
           class="ml-2"
           color="accent"
       >

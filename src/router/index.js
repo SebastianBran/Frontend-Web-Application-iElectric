@@ -10,22 +10,12 @@ const routes = [
     component: FreeViews,
     children: [
       {
-        path: '',
-        name: 'Home',
-        component: () => import('../views/FreeViews/Home.vue')
-      },
-      {
-        path: '/about',
-        name: 'About',
-        component: () => import('../views/FreeViews/About.vue')
-      },
-      {
         path: '/login',
         name: 'Login',
         component: () => import('../views/FreeViews/Login.vue')
       },
       {
-        path: '/register',
+        path: '',
         name: 'Register',
         component: () => import('../views/FreeViews/Register.vue')
       }
